@@ -34,4 +34,4 @@ function peco-cdr() {
   fi
 }
 zle -N peco-cdr
-bindkey '^' peco-cdr
+bindkey '^U' peco-cdr
