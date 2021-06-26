@@ -1,2 +1,2 @@
 export ZDOTDIR=$HOME
-export ZSHRC_DIR=$ZDOTDIR/.config/.zsh/rc
+export ZSHRC_DIR=$ZDOTDIR/.dotconfig/.zsh/rc
