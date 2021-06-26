@@ -23,3 +23,12 @@ source $ZSHRC_DIR/xxenv.zsh
 if [ -e $ZDOTDIR/.zlocal ]; then
     source $ZDOTDIR/.zlocal
 fi
+
+# ------------------------------------------------------------------------
+# スピード測定用
+# .zshenv先頭のコマンドと共に使う
+# ------------------------------------------------------------------------
+
+# if (which zprof > /dev/null 2>&1) ;then
+#   zprof
+# fi
