@@ -19,14 +19,28 @@
 # /.dotconfig
 # ------------------------------------------------------------------------
 !/.dotconfig
+
 !/.dotconfig/.homebrew
 !/.dotconfig/.homebrew/Brewfile
+
+!/.dotconfig/.vscode
+!/.dotconfig/.vscode/keybindings.json
+
+!/.dotconfig/.zsh
+!/.dotconfig/.zsh/profile
+!/.dotconfig/.zsh/rc
+!/.dotconfig/.zsh/rc/alias.zsh
+!/.dotconfig/.zsh/rc/bindkey.zsh
+!/.dotconfig/.zsh/rc/setopt.zsh
+!/.dotconfig/.zsh/rc/xxenv.zsh
 
 # ------------------------------------------------------------------------
 # /setup
 # ------------------------------------------------------------------------
 !/setup
+
 !/setup/deploy
 !/setup/deploy/deploy.sh
+
 !/setup/init
 !/setup/init/init_homebrew.sh
