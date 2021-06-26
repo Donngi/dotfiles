@@ -4,11 +4,13 @@
 
 ### Deploy
 
-Link dotfiles to $HOME.
+dotfiles のシンボリックリンクを`$HOME`に作成。
 
 ```
 make deploy
 ```
+
+_NOTE_ VSCode etc ... の特定のアプリケーションがインストールされているときだけ Deploy したいものは、`make`では読み込まないように設定しているため、手動で実行する。
 
 ### Install
 
