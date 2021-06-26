@@ -1,0 +1,47 @@
+cask_args appdir: "/Applications"
+
+# homebrew
+tap "homebrew/cask"
+tap "homebrew/cask-versions"
+
+# Utility
+brew "jq"
+brew "peco"
+brew "nmap"
+brew "tree"
+
+# AWS
+brew "awscli"
+
+tap "jimon-s/awsmfa"
+brew "jimon-s/awsmfa/awsmfa"
+
+cask "session-manager-plugin"
+
+# Git
+brew "git"
+brew "ghq"
+brew "git-secrets"
+
+# Docker
+cask "docker"
+
+# xxenv
+brew "tfenv"
+brew "pipenv"
+brew "pyenv"
+brew "rbenv"
+
+# terraform
+brew "tflint"
+
+# Java
+cask "corretto11"
+brew "maven"
+brew "gradle"
+
+# Swift
+brew "swiftlint"
+
+# NodeJS
+brew "nodebrew"
