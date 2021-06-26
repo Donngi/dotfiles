@@ -41,6 +41,7 @@
 
 !/setup/deploy
 !/setup/deploy/deploy_home.sh
+!/setup/deploy/deploy_vscode.sh
 
 !/setup/init
 !/setup/init/init_homebrew.sh
