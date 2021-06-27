@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------
 # All ignore
 # ------------------------------------------------------------------------
-/*
+/**
 /.**
 
 # ------------------------------------------------------------------------
@@ -26,7 +26,9 @@
 !/.dotconfig/vscode
 !/.dotconfig/vscode/keybindings.json
 
-!/.dotconfig/zsh
+!/.dotconfig/idea
+!/.dotconfig/idea/macOS_Jimon.xml
+
 !/.dotconfig/zsh/profile
 !/.dotconfig/zsh/rc
 !/.dotconfig/zsh/rc/alias.zsh
@@ -42,6 +44,7 @@
 !/setup/deploy
 !/setup/deploy/deploy_home.sh
 !/setup/deploy/deploy_vscode.sh
+!/setup/deploy/deploy_idea.sh
 
 !/setup/init
 !/setup/init/init_homebrew.sh
