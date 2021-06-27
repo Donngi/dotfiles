@@ -45,3 +45,7 @@ brew "swiftlint"
 
 # NodeJS
 brew "nodebrew"
+
+# Applications
+cask "visual-studio-code"
+cask "intellij-idea-ce"
