@@ -29,12 +29,15 @@
 !/.dotconfig/idea
 !/.dotconfig/idea/macOS_Jimon.xml
 
+!/.dotconfig/zsh
 !/.dotconfig/zsh/profile
 !/.dotconfig/zsh/rc
 !/.dotconfig/zsh/rc/alias.zsh
 !/.dotconfig/zsh/rc/bindkey.zsh
+!/.dotconfig/zsh/rc/plugin.zsh
 !/.dotconfig/zsh/rc/setopt.zsh
 !/.dotconfig/zsh/rc/xxenv.zsh
+!/.dotconfig/zsh/rc/zinit.zsh
 
 # ------------------------------------------------------------------------
 # /setup
@@ -48,3 +51,4 @@
 
 !/setup/init
 !/setup/init/init_homebrew.sh
+!/setup/init/init_zinit.sh
