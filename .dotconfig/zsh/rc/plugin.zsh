@@ -34,3 +34,16 @@ zstyle :prompt:pure:user color 242
 zstyle :prompt:pure:user:root color default
 zstyle :prompt:pure:virtualenv color 242
 zstyle :prompt:pure:aws:envs color magenta
+
+# ------------------------------------------------------------------------
+# Prezto
+# ------------------------------------------------------------------------
+
+zinit snippet PZT::modules/environment/init.zsh
+zinit snippet PZT::modules/terminal/init.zsh
+zinit snippet PZT::modules/editor/init.zsh
+zinit snippet PZT::modules/history/init.zsh
+zinit snippet PZT::modules/directory/init.zsh
+zinit snippet PZT::modules/spectrum/init.zsh
+zinit snippet PZT::modules/utility/init.zsh
+zinit snippet PZT::modules/completion/init.zsh
