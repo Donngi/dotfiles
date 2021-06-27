@@ -40,10 +40,10 @@ zstyle :prompt:pure:aws:envs color magenta
 # ------------------------------------------------------------------------
 
 zinit snippet PZT::modules/environment/init.zsh
-zinit snippet PZT::modules/terminal/init.zsh
-zinit snippet PZT::modules/editor/init.zsh
+# zinit snippet PZT::modules/terminal/init.zsh
+# zinit snippet PZT::modules/editor/init.zsh
 zinit snippet PZT::modules/history/init.zsh
 zinit snippet PZT::modules/directory/init.zsh
 zinit snippet PZT::modules/spectrum/init.zsh
-zinit snippet PZT::modules/utility/init.zsh
+# zinit snippet PZT::modules/utility/init.zsh
 zinit snippet PZT::modules/completion/init.zsh
