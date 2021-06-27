@@ -24,6 +24,6 @@ do
         mv $VSCODE_DIR/$f $BACKUP_DIR
     fi
 
-    ln -sfnv $HOME/.dotconfig/.vscode/$f $VSCODE_DIR
+    ln -sfnv $HOME/.dotconfig/vscode/$f $VSCODE_DIR
     echo ""
 done

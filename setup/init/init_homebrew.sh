@@ -7,4 +7,4 @@ then
 fi
 
 echo "Start brew bundle..."
-brew bundle --file "$HOME/.dotconfig/.homebrew/Brewfile"
+brew bundle --file "$HOME/.dotconfig/homebrew/Brewfile"
