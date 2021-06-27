@@ -1,5 +1,10 @@
 #!/bin/sh
 
+echo "# ------------------------------------"
+echo "# START: Deploy idea"
+echo "# ------------------------------------"
+echo ""
+
 IDEA_DIR="$HOME/Library/Application Support/Code/User"
 
 # Create backup directory
@@ -8,10 +13,10 @@ if [ ! -d "$IDEA_DIR/.dotbackup" ];then
     mkdir "$IDEA_DIR/.dotbackup"
 fi
 
-BACKUP_DIR=$IDEA_DIR/.dotbackup/$(date +%Y%m%d-%H%M%S)
+BACKUP_DIR="$IDEA_DIR/.dotbackup/$(date +%Y%m%d-%H%M%S)"
 echo "Create backup directory: $BACKUP_DIR"
 echo ""
-mkdir $BACKUP_DIR
+mkdir "$BACKUP_DIR"
 
 # Link vscode config files
 files=("macOS_Jimon.xml")
@@ -19,11 +24,11 @@ for f in $files
 do
     echo "Start to link $f"
 
-    if [ -e $IDEA_DIR/$f ];then
+    if [ -e "$IDEA_DIR/$f" ];then
         echo "$f already exists. Move the old file to backup"
-        mv $IDEA_DIR/$f $BACKUP_DIR
+        mv "$IDEA_DIR/$f" "$BACKUP_DIR"
     fi
 
-    ln -sfnv $HOME/.dotconfig/idea/$f $IDEA_DIR
+    ln -sfnv "$HOME/.dotconfig/idea/$f" "$IDEA_DIR"
     echo ""
 done

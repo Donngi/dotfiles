@@ -1,5 +1,10 @@
 #!/bin/sh
 
+echo "# ------------------------------------"
+echo "# START: Deploy home"
+echo "# ------------------------------------"
+echo ""
+
 # Create backup directory
 if [ ! -d "$HOME/.dotbackup" ];then
     echo "$HOME/.dotbackup not found. Automatically create it."
