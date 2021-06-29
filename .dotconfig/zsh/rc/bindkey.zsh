@@ -9,6 +9,9 @@ bindkey -d
 # macOS basis
 # ------------------------------------------------------------------------
 
+# Enable Emacs keybind
+bindkey -e
+
 # Enable fn + delete key
 bindkey "^[[3~" delete-char
 
