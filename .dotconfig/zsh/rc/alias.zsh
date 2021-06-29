@@ -3,6 +3,7 @@
 # ------------------------------------------------------------------------
 
 alias gs='git status'
+alias gc='git commit'
 alias gga='git graphall'
 alias gaa='git add -A'
 
