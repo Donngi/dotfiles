@@ -6,6 +6,8 @@ alias gs='git status'
 alias gc='git commit'
 alias gga='git graphall'
 alias gaa='git add -A'
+alias gd='git diff'
+alias gf='git fetch -p --all'
 
 # ------------------------------------------------------------------------
 # AWS
@@ -41,3 +43,12 @@ alias tg='tree -a -I ".git"'
 alias ls="ls -G"
 alias ll="ls -lhG"
 alias la="ls -lahG"
+
+# ------------------------------------------------------------------------
+# cd
+# ------------------------------------------------------------------------
+
+alias ..='cd ..'
+alias ..2='cd ../..'
+alias ..3='cd ../../..'
+
