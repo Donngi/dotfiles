@@ -4,6 +4,8 @@
 
 alias gs='git status'
 alias gc='git commit'
+alias gcm='git commit -m'
+alias gcam='git commit -am '
 alias gga='git graphall'
 alias gaa='git add -A'
 alias gd='git diff'
