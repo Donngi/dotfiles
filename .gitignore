@@ -33,7 +33,9 @@
 !/.dotconfig/zsh/profile
 !/.dotconfig/zsh/rc
 !/.dotconfig/zsh/rc/alias.zsh
+!/.dotconfig/zsh/rc/appearance.zsh
 !/.dotconfig/zsh/rc/bindkey.zsh
+!/.dotconfig/zsh/rc/completion.zsh
 !/.dotconfig/zsh/rc/plugin.zsh
 !/.dotconfig/zsh/rc/setopt.zsh
 !/.dotconfig/zsh/rc/xxenv.zsh
