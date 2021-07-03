@@ -9,6 +9,7 @@ brew "jq"
 brew "peco"
 brew "nmap"
 brew "tree"
+brew "bat"
 
 # AWS
 brew "awscli"

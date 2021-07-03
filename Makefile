@@ -6,4 +6,7 @@ deploy-home:
 
 init-all:
 	@$(foreach val, $(wildcard ./setup/init/*.sh), bash $(val);)
+
+init-brew:
+	@$(foreach val, $(wildcard ./setup/init/init_homebrew.sh), bash $(val);)
 	
