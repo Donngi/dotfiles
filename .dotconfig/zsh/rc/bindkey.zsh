@@ -75,3 +75,15 @@ function peco-ghq () {
 }
 zle -N peco-ghq
 bindkey '^G^G' peco-ghq
+
+# pecoで選択して、vscodeで開く
+function peco-ghq-vscode () {
+  local selected_dir=$(ghq list -p | peco --query "$LBUFFER")
+  if [ -n "$selected_dir" ]; then
+    BUFFER="code ${selected_dir}"
+    zle accept-line
+  fi
+  zle clear-screen
+}
+zle -N peco-ghq-vscode
+bindkey '^G^F' peco-ghq-vscode
