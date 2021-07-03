@@ -20,6 +20,9 @@
 # ------------------------------------------------------------------------
 !/.dotconfig
 
+!/.dotconfig/bat
+!/.dotconfig/bat/bat.conf
+
 !/.dotconfig/homebrew
 !/.dotconfig/homebrew/Brewfile
 
