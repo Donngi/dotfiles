@@ -1,5 +1,6 @@
 // Place your key bindings in this file to overwrite the defaults
 [
+  // Toggle terminal focus. If there is not a runnning terminal, start new one.
   {
     "key": "ctrl+enter",
     "command": "workbench.action.terminal.focus"
@@ -9,17 +10,41 @@
     "command": "workbench.action.focusActiveEditorGroup",
     "when": "terminalFocus"
   },
+  // Toggle maximize/minimize terminal area.
   {
     "key": "ctrl+space",
     "command": "workbench.action.toggleMaximizedPanel"
   },
+  // Enable zsh like word delete.
   {
     "key": "ctrl+w",
     "command": "deleteWordLeft",
     "when": "textInputFocus && !editorReadonly"
   },
+  // Switch vscode windows.
   {
-    "key": "cmd+k cmd+w",
+    "key": "ctrl+m ctrl+w",
     "command": "workbench.action.switchWindow"
-  }
+  },
+  // Enable to move the cursor all at once.
+  {
+    "key": "ctrl+j ctrl+k",
+    "command": "cursorMove",
+    "args": {
+      "to": "up",
+      "by": "line",
+      "value": 15
+    },
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+j ctrl+j",
+    "command": "cursorMove",
+    "args": {
+      "to": "down",
+      "by": "line",
+      "value": 15
+    },
+    "when": "editorTextFocus"
+  },
 ]
