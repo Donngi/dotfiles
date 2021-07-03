@@ -21,6 +21,11 @@
     "command": "deleteWordLeft",
     "when": "textInputFocus && !editorReadonly"
   },
+  {
+    "key": "ctrl+j ctrl+w",
+    "command": "deleteWordRight",
+    "when": "textInputFocus && !editorReadonly"
+  },
   // Switch vscode windows.
   {
     "key": "ctrl+m ctrl+w",
