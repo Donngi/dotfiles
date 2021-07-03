@@ -18,4 +18,8 @@
     "command": "deleteWordLeft",
     "when": "textInputFocus && !editorReadonly"
   },
+  {
+    "key": "cmd+k cmd+w",
+    "command": "workbench.action.switchWindow"
+  }
 ]
