@@ -13,4 +13,9 @@
     "key": "ctrl+space",
     "command": "workbench.action.toggleMaximizedPanel"
   },
+  {
+    "key": "ctrl+w",
+    "command": "deleteWordLeft",
+    "when": "textInputFocus && !editorReadonly"
+  },
 ]
