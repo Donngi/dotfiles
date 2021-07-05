@@ -2,25 +2,36 @@
 
 ## Set up
 
+### All in one
+If you are in new MacOS environment, execute all in one commnad.
+
+```
+make all-in-one
+```
+
+This command performs both `deploy` and `install` in correct order.
+
 ### Deploy
-dotfiles のシンボリックリンクを`$HOME`に作成。
+Create symbolic links of dotfiles to target directories.
 
 ```
-make deploy-all
+make deploy-<application_name>
 ```
 
-_NOTE_ `make deploy-all`は、VSCodeやIdeaのDeployもまとめて実施する仕様。 特定のアプリケーションがインストールされているときだけDeployしたいetc の事情で、個別にDeploy したい場合は、`make deploy-home` のみ実行して、手動で `setup/deploy` 配下の残りのScriptを起動する。
+If you want to deploy all of applications, you can use `make deploy-all`.
 
 ### Install
-Applicationのインストールや初期設定。
+Install applications or setup configs of them.
 
 ```
-make init-all
+make init-<application_name>
 ```
+
+If you want to install all of applications, you can use `make install-all`.
 
 ## Local values
 
-Some dotfiles can load local dotfiles in your local $HOME additionally.
+Some dotfiles can additionally load local dotfiles in your local `$HOME`.
 
 | file               | purpose                                  |
 | ------------------ | ---------------------------------------- |
