@@ -26,6 +26,7 @@ alias tf='terraform'
 alias tfi='terraform init'
 alias tfp='terraform plan'
 alias tfa='terraform apply'
+alias tfaauto='terraform apply --auto-approve'
 alias tff='terraform fmt --recursive'
 
 # ------------------------------------------------------------------------
