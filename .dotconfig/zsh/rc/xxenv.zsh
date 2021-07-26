@@ -14,5 +14,5 @@ eval "$(rbenv init - --no-rehash)"
 # go
 export GOENV_ROOT=$HOME/.goenv
 export PATH=$GOENV_ROOT/bin:$PATH
-export PATH=$GOPATH/bin:$PATH
 eval "$(goenv init - --no-rehash)"
+export PATH=$GOPATH/bin:$PATH
