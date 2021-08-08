@@ -39,6 +39,7 @@
 !/.dotconfig/zsh/rc/appearance.zsh
 !/.dotconfig/zsh/rc/bindkey.zsh
 !/.dotconfig/zsh/rc/completion.zsh
+!/.dotconfig/zsh/rc/history.zsh
 !/.dotconfig/zsh/rc/plugin.zsh
 !/.dotconfig/zsh/rc/setopt.zsh
 !/.dotconfig/zsh/rc/xxenv.zsh
