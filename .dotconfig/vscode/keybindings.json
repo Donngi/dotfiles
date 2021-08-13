@@ -28,7 +28,7 @@
   },
   // Switch vscode windows.
   {
-    "key": "ctrl+m ctrl+w",
+    "key": "ctrl+m ctrl+m",
     "command": "workbench.action.switchWindow"
   },
   // Enable to move the cursor all at once.
