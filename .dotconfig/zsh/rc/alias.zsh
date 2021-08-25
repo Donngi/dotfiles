@@ -30,10 +30,14 @@ alias tfaauto='terraform apply --auto-approve'
 alias tff='terraform fmt --recursive'
 
 # ------------------------------------------------------------------------
-# zshのスピード測定
+# zsh
 # ------------------------------------------------------------------------
 
+# 起動速度測定
 alias timezsh='time zsh -i -c exit'
+
+# .zshxx再読み込み
+alias reloadzsh="source $ZDOTDIR/.zshenv && source $ZDOTDIR/.zprofile && source $ZDOTDIR/.zshrc"
 
 # ------------------------------------------------------------------------
 # tree
