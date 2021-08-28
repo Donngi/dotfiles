@@ -15,6 +15,15 @@
     "key": "ctrl+space",
     "command": "workbench.action.toggleMaximizedPanel"
   },
+  // Move teriminal area.
+  {
+    "key": "ctrl+j ctrl+space",
+    "command": "workbench.action.positionPanelRight"
+  },
+  {
+    "key": "ctrl+m ctrl+space",
+    "command": "workbench.action.positionPanelBottom"
+  },
   // Enable zsh like word delete.
   {
     "key": "ctrl+w",
