@@ -87,3 +87,20 @@ function peco-ghq-vscode () {
 }
 zle -N peco-ghq-vscode
 bindkey '^G^F' peco-ghq-vscode
+
+
+# ------------------------------------------------------------------------
+# 自分のGitHub Repositoryをクエリして開く
+# ------------------------------------------------------------------------
+
+function open-my-repos() {
+  local selected_repo=$(curl -s https://api.github.com/users/jimon-s/repos | jq -r ".[].full_name" | peco )
+  if [ -n "$selected_repo" ]; then
+    BUFFER="open https://github.com/${selected_repo}"
+    echo $BUFFER
+    zle accept-line
+  fi
+  zle clear-screen
+}
+zle -N open-my-repos
+bindkey '^J^L' open-my-repos
