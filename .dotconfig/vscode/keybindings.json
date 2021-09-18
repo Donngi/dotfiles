@@ -17,12 +17,14 @@
   },
   // Move teriminal area.
   {
-    "key": "ctrl+j ctrl+space",
-    "command": "workbench.action.positionPanelRight"
+    "key": "ctrl+m ctrl+space",
+    "command": "workbench.action.positionPanelRight",
+    "when": "panelPosition == 'bottom'"
   },
   {
     "key": "ctrl+m ctrl+space",
-    "command": "workbench.action.positionPanelBottom"
+    "command": "workbench.action.positionPanelBottom",
+    "when": "panelPosition == 'right'"
   },
   // Enable zsh like word delete.
   {
