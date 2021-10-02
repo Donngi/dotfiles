@@ -41,6 +41,7 @@
 !/.dotconfig/zsh/rc/completion.zsh
 !/.dotconfig/zsh/rc/history.zsh
 !/.dotconfig/zsh/rc/plugin.zsh
+!/.dotconfig/zsh/rc/wordstyle.zsh
 !/.dotconfig/zsh/rc/setopt.zsh
 !/.dotconfig/zsh/rc/xxenv.zsh
 !/.dotconfig/zsh/rc/zinit.zsh
