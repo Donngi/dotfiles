@@ -103,4 +103,4 @@ function open-my-repos() {
   zle clear-screen
 }
 zle -N open-my-repos
-bindkey '^J^L' open-my-repos
+bindkey '^J^I' open-my-repos
