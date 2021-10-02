@@ -23,6 +23,8 @@ cask "session-manager-plugin"
 brew "git"
 brew "ghq"
 brew "git-secrets"
+brew "gibo"
+
 
 # Docker
 cask "docker"
