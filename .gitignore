@@ -55,6 +55,7 @@
 !/setup/deploy/deploy_home.sh
 !/setup/deploy/deploy_vscode.sh
 !/setup/deploy/deploy_idea.sh
+!/setup/deploy/util_deploy.sh
 
 !/setup/init
 !/setup/init/init_homebrew.sh
