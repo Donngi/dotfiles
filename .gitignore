@@ -27,6 +27,7 @@
 !/.dotconfig/homebrew/Brewfile
 
 !/.dotconfig/vscode
+!/.dotconfig/vscode/_setting.json
 !/.dotconfig/vscode/keybindings.json
 
 !/.dotconfig/idea

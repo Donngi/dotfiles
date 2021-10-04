@@ -1,0 +1,31 @@
+// Note: This file is not automatically deploy
+// You should copy each settings manually.
+{
+    "workbench.colorCustomizations": {
+        "terminal.ansiBlack": "#1e2132",
+        "terminal.ansiBlue": "#84a0c6",
+        "terminal.ansiBrightBlack": "#6b7089",
+        "terminal.ansiBrightBlue": "#91acd1",
+        "terminal.ansiBrightCyan": "#95c4ce",
+        "terminal.ansiBrightGreen": "#c0ca8e",
+        "terminal.ansiBrightMagenta": "#ada0d3",
+        "terminal.ansiBrightRed": "#e98989",
+        "terminal.ansiBrightWhite": "#d2d4de",
+        "terminal.ansiBrightYellow": "#e9b189",
+        "terminal.ansiCyan": "#89b8c2",
+        "terminal.ansiGreen": "#b4be82",
+        "terminal.ansiMagenta": "#a093c7",
+        "terminal.ansiRed": "#e27878",
+        "terminal.ansiWhite": "#c6c8d1",
+        "terminal.ansiYellow": "#E2E2BF",
+        "terminal.foreground": "#c6c8d1",
+        "terminal.selectionBackground": "#4b548266",
+        "editorBracketHighlight.foreground1": "#D4D4D4",
+        "editorBracketHighlight.foreground2": "#D4D4D4",
+        "editorBracketHighlight.foreground3": "#4498F6",
+        "editorBracketHighlight.foreground4": "#CD66D7",
+        "editorBracketHighlight.foreground5": "#d8b800",
+        "editorBracketHighlight.foreground6": "#D4D4D4"
+    },
+    "editor.bracketPairColorization.enabled": true,
+}
