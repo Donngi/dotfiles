@@ -20,6 +20,7 @@ cask "session-manager-plugin"
 
 # Git
 brew "git"
+brew "gh"
 brew "ghq"
 brew "git-secrets"
 brew "gibo"
