@@ -1,9 +1,5 @@
 cask_args appdir: "/Applications"
 
-# homebrew
-tap "homebrew/cask"
-tap "homebrew/cask-versions"
-
 # Utility
 brew "jq"
 brew "peco"
@@ -17,6 +13,9 @@ brew "awscli"
 tap "jimon-s/awsmfa"
 brew "jimon-s/awsmfa/awsmfa"
 
+tap "jimon-s/pipeline-lens"
+brew "jimon-s/pipeline-lens/pipeline-lens"
+
 cask "session-manager-plugin"
 
 # Git
@@ -24,7 +23,6 @@ brew "git"
 brew "ghq"
 brew "git-secrets"
 brew "gibo"
-
 
 # Docker
 cask "docker"
@@ -34,6 +32,7 @@ brew "tfenv"
 brew "pipenv"
 brew "pyenv"
 brew "rbenv"
+brew "goenv", args: ["HEAD"]
 
 # terraform
 brew "tflint"
@@ -48,7 +47,3 @@ brew "swiftlint"
 
 # NodeJS
 brew "nodebrew"
-
-# Applications
-cask "visual-studio-code"
-cask "intellij-idea-ce"

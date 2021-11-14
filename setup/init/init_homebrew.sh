@@ -16,4 +16,7 @@ else
 fi
 
 echo "Start brew bundle ..."
-brew bundle --file "$HOME/.dotconfig/homebrew/Brewfile"
+brew bundle --file "$HOME/.dotconfig/homebrew/Brewfile_homebrew"
+brew bundle --file "$HOME/.dotconfig/homebrew/Brewfile_dev_cli"
+brew bundle --file "$HOME/.dotconfig/homebrew/Brewfile_dev_gui"
+brew bundle --file "$HOME/.dotconfig/homebrew/Brewfile_applications"

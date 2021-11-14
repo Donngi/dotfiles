@@ -1,0 +1,5 @@
+cask_args appdir: "/Applications"
+
+# homebrew
+tap "homebrew/cask"
+tap "homebrew/cask-versions"

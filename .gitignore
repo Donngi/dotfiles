@@ -24,7 +24,10 @@
 !/.dotconfig/bat/bat.conf
 
 !/.dotconfig/homebrew
-!/.dotconfig/homebrew/Brewfile
+!/.dotconfig/homebrew/Brewfile_applications
+!/.dotconfig/homebrew/Brewfile_dev_cli
+!/.dotconfig/homebrew/Brewfile_dev_gui
+!/.dotconfig/homebrew/Brewfile_homebrew
 
 !/.dotconfig/vscode
 !/.dotconfig/vscode/_setting.json
