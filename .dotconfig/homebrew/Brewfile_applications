@@ -18,4 +18,4 @@ cask "zoom"
 # Utils
 cask "karabiner-elements"
 cask "imageoptim"
-
+cask "google-japanese-ime"
