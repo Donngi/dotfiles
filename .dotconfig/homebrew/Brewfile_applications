@@ -13,6 +13,7 @@ cask "adobe-creative-cloud"
 
 # Commutication
 cask "slack"
+cask "zoom"
 
 # Utils
 cask "karabiner-elements"
