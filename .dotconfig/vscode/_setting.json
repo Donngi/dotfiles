@@ -28,4 +28,6 @@
         "editorBracketHighlight.foreground6": "#D4D4D4"
     },
     "editor.bracketPairColorization.enabled": true,
+    "editor.formatOnSave": true,
+    "files.autoSave": "afterDelay",
 }
