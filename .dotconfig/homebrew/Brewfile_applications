@@ -15,8 +15,12 @@ cask "adobe-creative-cloud"
 cask "slack"
 cask "zoom"
 
+# Dictionary
+cask "deepl"
+
 # Utils
 cask "karabiner-elements"
 cask "imageoptim"
 cask "google-japanese-ime"
 cask "alfred"
+
