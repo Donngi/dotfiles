@@ -7,6 +7,9 @@ brew "nmap"
 brew "tree"
 brew "bat"
 
+# zsh
+brew "zsh-completions"
+
 # AWS
 brew "awscli"
 

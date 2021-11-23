@@ -9,6 +9,9 @@
 # ------------------------------------------------------------------------
 
 # 補完有効化
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+fi
 autoload -Uz compinit && compinit
 
 # 補完後カーソルを行末に移動
