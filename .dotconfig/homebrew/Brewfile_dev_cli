@@ -10,6 +10,9 @@ brew "bat"
 # AWS
 brew "awscli"
 
+tap "iann0036/iamlive"
+brew "iann0036/iamlive/iamlive"
+
 tap "jimon-s/awsmfa"
 brew "jimon-s/awsmfa/awsmfa"
 
