@@ -9,6 +9,7 @@ brew "bat"
 
 # AWS
 brew "awscli"
+brew "git-remote-codecommit"
 
 tap "iann0036/iamlive"
 brew "iann0036/iamlive/iamlive"
