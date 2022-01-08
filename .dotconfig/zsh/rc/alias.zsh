@@ -18,6 +18,23 @@ alias gf='git fetch -p --all'
 # AWSを含む環境変数をすべてunset
 alias raws='unset $(export | grep AWS | egrep -o "^[^=]+")'
 
+# pipeline-lens
+function pipeline-lens-with-peco(){
+    PIPELINE_NAME=`aws codepipeline list-pipelines --query "pipelines[*].[name]" --output text | peco`
+    if [ -n "$PIPELINE_NAME" ]; then
+        pipeline-lens --name ${PIPELINE_NAME}
+    fi
+}
+alias pl=pipeline-lens-with-peco
+
+function pipeline-lens-with-peco-run(){
+    PIPELINE_NAME=`aws codepipeline list-pipelines --query "pipelines[*].[name]" --output text | peco`
+    if [ -n "$PIPELINE_NAME" ]; then
+        pipeline-lens --name ${PIPELINE_NAME} --run
+    fi
+}
+alias pipeline-lens-with-peco-run=plr
+
 # ------------------------------------------------------------------------
 # Terraform
 # ------------------------------------------------------------------------
