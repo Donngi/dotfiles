@@ -33,7 +33,7 @@ function pipeline-lens-with-peco-run(){
         pipeline-lens --name ${PIPELINE_NAME} --run
     fi
 }
-alias pipeline-lens-with-peco-run=plr
+alias plr=pipeline-lens-with-peco-run
 
 # ------------------------------------------------------------------------
 # Terraform
