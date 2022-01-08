@@ -49,6 +49,3 @@ brew "gradle"
 
 # Swift
 brew "swiftlint"
-
-# NodeJS
-brew "nodebrew"

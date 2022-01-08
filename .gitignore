@@ -62,6 +62,7 @@
 !/setup/deploy/util_deploy.sh
 
 !/setup/init
-!/setup/init/init_macOS.sh
 !/setup/init/init_homebrew.sh
+!/setup/init/init_macOS.sh
+!/setup/init/init_node.sh
 !/setup/init/init_zinit.sh
