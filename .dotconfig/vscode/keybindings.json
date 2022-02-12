@@ -15,7 +15,7 @@
     "key": "ctrl+space",
     "command": "workbench.action.toggleMaximizedPanel"
   },
-  // Move teriminal area.
+  // Move teriminal area to right or bottom.
   {
     "key": "ctrl+m ctrl+space",
     "command": "workbench.action.positionPanelRight",
@@ -25,6 +25,18 @@
     "key": "ctrl+m ctrl+space",
     "command": "workbench.action.positionPanelBottom",
     "when": "panelPosition == 'right'"
+  },
+  // Switch terminals.
+  {
+    "key": "ctrl+shift+\\",
+    "command": "workbench.action.terminal.focusNext",
+    "when": "terminalFocus"
+  },
+  // Switch divided terminals.
+  {
+    "key": "ctrl+\\",
+    "command": "workbench.action.terminal.focusNextPane",
+    "when": "terminalFocus"
   },
   // Enable zsh like word delete.
   {
