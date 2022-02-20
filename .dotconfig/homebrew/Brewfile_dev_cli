@@ -30,6 +30,12 @@ brew "git-secrets"
 brew "gibo"
 
 # Docker
+brew "lima"
+# NOTE: In commercial use, you mustn't use docker desktop without payment.
+#
+# If you want to make docker environment without docker desktop,
+# use 'brew docker' instead of  'cask docker'.
+# brew "docker"
 cask "docker"
 
 # xxenv
