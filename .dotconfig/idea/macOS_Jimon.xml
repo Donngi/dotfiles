@@ -1,7 +1,5 @@
 <keymap version="1" name="macOS_Jimon" parent="Mac OS X 10.5+">
-  <action id="CompareTwoFiles" />
   <action id="Debug" />
-  <action id="Diff.ShowDiff" />
   <action id="EditorBackSpace">
     <keyboard-shortcut first-keystroke="back_space" />
     <keyboard-shortcut first-keystroke="shift back_space" />
@@ -11,17 +9,7 @@
     <keyboard-shortcut first-keystroke="delete" />
     <keyboard-shortcut first-keystroke="ctrl d" />
   </action>
-  <action id="EditorDuplicate" />
-  <action id="FileChooser.GotoDesktop" />
-  <action id="GuiDesigner.Duplicate" />
-  <action id="RunDashboard.CopyConfiguration" />
-  <action id="SelectNextOccurrence">
-    <keyboard-shortcut first-keystroke="meta d" />
-  </action>
-  <action id="SendEOF" />
-  <action id="TypeHierarchy">
-    <keyboard-shortcut first-keystroke="ctrl meta h" />
-  </action>
+  <action id="TypeHierarchy" />
+  <action id="TypeHierarchyBase.BaseOnThisType" />
   <action id="UsageGrouping.DirectoryStructure" />
-  <action id="XDebugger.CopyWatch" />
 </keymap>
