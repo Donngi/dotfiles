@@ -19,9 +19,15 @@ mkdir $BACKUP_DIR
 # Link dotfiles to HOME directory
 for f in .??*
 do
-    [[ "$f" == ".git" ]] && continue
-    [[ "$f" == ".DS_Store" ]] && continue
-    [[ "$f" == ".gitignore" ]] && continue
+    if [ "$f" = ".git" ]; then
+        continue
+    fi
+    if [ "$f" = ".DS_Store" ]; then
+        continue
+    fi
+    if [ "$f" = ".gitignore" ]; then
+        continue
+    fi
 
     echo "Start to link $f"
 

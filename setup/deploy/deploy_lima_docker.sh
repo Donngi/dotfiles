@@ -5,7 +5,7 @@ script_dir=$(cd $(dirname $0); pwd)
 target="Docker environment with lima"
 deploy_dir="$HOME/.lima"
 source_dir="$ZDOTDIR/.dotconfig/lima"
-files=("docker_template.yml")
+files="docker_template.yml"
 source "$script_dir/util_deploy.sh" "$target" "$deploy_dir" "$source_dir" "$files"
 
 # 環境変数:LIMA_WORKSPACE_DIRECTORY が未設定の場合、ERRORとなるため、ダミーの値を暫定で入れる

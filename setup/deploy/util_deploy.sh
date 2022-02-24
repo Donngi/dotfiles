@@ -5,7 +5,7 @@
 # - target     : string, target software name
 # - deploy_dir : string, path of directry where to place symbolic links
 # - source_dir : string, path of directry which contains files to link
-# - files      : array of string, files to link 
+# - files      : array of string, files to link. like 'file1 file2 file3'
 
 target="$1"
 deploy_dir="$2"
@@ -35,8 +35,10 @@ echo ""
 mkdir "$backup_dir"
 
 # Link target config files
-for f in $files
+file_length=`echo $files | tr ' ' '\n' | wc -l`
+for i in `seq $file_length`
 do
+    f=`echo $files | cut -d ' ' -f $i`
     echo "Start to link $f"
 
     if [ -e "$deploy_dir/$f" ];then
