@@ -16,9 +16,15 @@ echo "Create backup directory: $BACKUP_DIR"
 echo ""
 mkdir $BACKUP_DIR
 
+script_dir=$(cd $(dirname $0); pwd)
+setup_dir=$(dirname $script_dir);
+repository_dir=$(dirname $setup_dir);
+
 # Link dotfiles to HOME directory
-for f in .??*
+for file_path in "$repository_dir"/.??*
 do
+    f=$(echo $file_path | rev | cut -d '/' -f 1 | rev)
+
     if [ "$f" = ".git" ]; then
         continue
     fi
@@ -36,8 +42,7 @@ do
         mv $HOME/$f $BACKUP_DIR
     fi
 
-    # TODO: dotfilesのroot directoryの取得方法を精査する
-    DOTFILES_PATH=$(pwd)
+    DOTFILES_PATH="$repository_dir"
     ln -sfnv $DOTFILES_PATH/$f $HOME
     echo ""
 done
