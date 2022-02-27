@@ -38,6 +38,17 @@
     "command": "workbench.action.terminal.focusNextPane",
     "when": "terminalFocus"
   },
+  // Cursor move by word.
+  {
+    "key": "ctrl+shift+f",
+    "command": "cursorWordPartRight",
+    "when": "textInputFocus"
+  },
+  {
+    "key": "ctrl+shift+b",
+    "command": "cursorWordLeft",
+    "when": "textInputFocus"
+  },
   // Enable zsh like word delete.
   {
     "key": "ctrl+w",
