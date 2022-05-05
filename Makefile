@@ -1,26 +1,26 @@
-all-in-one: init-all deploy-all
+all-in-one: deploy-home init-brew init-all deploy-all
 
 deploy-all:
 	@$(foreach val, $(wildcard ./setup/deploy/deploy_*.sh), bash $(val);)
 
 deploy-home:
-	@$(foreach val, $(wildcard ./setup/deploy/deploy_home.sh), bash $(val);)
+	bash ./setup/deploy/deploy_home.sh
 
 deploy-idea:
-	@$(foreach val, $(wildcard ./setup/deploy/deploy_idea.sh), bash $(val);)
+	bash ./setup/deploy/deploy_idea.sh
 
 deploy-vscode:
-	@$(foreach val, $(wildcard ./setup/deploy/deploy_vscode.sh), bash $(val);)
+	bash ./setup/deploy/deploy_vscode.sh
 
 deploy-lima-docker:
-	@$(foreach val, $(wildcard ./setup/deploy/deploy_lima_docker.sh), bash $(val);)
+	bash ./setup/deploy/deploy_lima_docker.sh
 
 init-all:
 	@$(foreach val, $(wildcard ./setup/init/*.sh), bash $(val);)
 
 init-brew:
-	@$(foreach val, $(wildcard ./setup/init/init_homebrew.sh), bash $(val);)
+	bash ./setup/init/init_homebrew.sh
 
 init-lima-docker:
-	@$(foreach val, $(wildcard ./setup/init/init_lima_docker.sh), bash $(val);)
+	bash ./setup/init/init_lima_docker.sh
 	
