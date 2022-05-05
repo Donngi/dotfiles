@@ -3,8 +3,8 @@
 # ------------------------------------------------------------------------
 
 # pure
-zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
-zinit light Jimon-s/pure
+zi ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
+zi light Jimon-s/pure
 
 zstyle :prompt:pure:execution_time color yellow
 zstyle :prompt:pure:git:arrow color cyan

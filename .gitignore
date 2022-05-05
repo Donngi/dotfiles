@@ -52,6 +52,7 @@
 !/.dotconfig/zsh/rc/setopt.zsh
 !/.dotconfig/zsh/rc/xxenv.zsh
 !/.dotconfig/zsh/rc/zinit.zsh
+!/.dotconfig/zsh/rc/zi.zsh
 
 # ------------------------------------------------------------------------
 # /setup
@@ -71,4 +72,5 @@
 !/setup/init/init_macOS.sh
 !/setup/init/init_node.sh
 !/setup/init/init_zinit.sh
+!/setup/init/init_zi.sh
 !/setup/init/lima_docker_limit.plist
