@@ -3,7 +3,7 @@
 ## Set up
 
 ### All in one
-If you are in new MacOS environment, execute all in one commnad.
+If you are in new macOS environment, execute all in one commnad.
 
 ```
 make all-in-one
