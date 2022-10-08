@@ -18,4 +18,6 @@ init-all:
 init-brew:
 	bash ./setup/init/init_homebrew.sh
 
+init-node:
+	bash ./setup/init/init_node.sh
 	

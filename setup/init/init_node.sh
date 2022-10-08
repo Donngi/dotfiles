@@ -1,2 +1,3 @@
-# Install nodebrew
-curl -L git.io/nodebrew | perl - setup
+# Install volta
+# https://docs.volta.sh/guide/getting-started
+curl https://get.volta.sh | bash
