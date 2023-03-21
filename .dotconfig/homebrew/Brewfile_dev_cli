@@ -54,3 +54,6 @@ brew "gradle"
 
 # Swift
 brew "swiftlint"
+
+# Vim
+brew "neovim"
