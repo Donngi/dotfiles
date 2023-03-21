@@ -86,4 +86,13 @@
     },
     "when": "editorTextFocus"
   },
+  // Create new file and folder
+  {
+    "key": "cmd+shift+n",
+    "command": "explorer.newFile"
+  },
+  {
+    "key": "cmd+alt+n",
+    "command": "explorer.newFile"
+  }
 ]
