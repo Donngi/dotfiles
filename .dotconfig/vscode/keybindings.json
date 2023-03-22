@@ -93,6 +93,6 @@
   },
   {
     "key": "cmd+alt+n",
-    "command": "explorer.newFile"
+    "command": "explorer.newFolder"
   }
 ]
