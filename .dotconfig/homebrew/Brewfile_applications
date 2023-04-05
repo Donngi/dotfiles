@@ -24,3 +24,5 @@ cask "imageoptim"
 cask "google-japanese-ime"
 cask "alfred"
 
+# Terminal
+cask "iterm2"

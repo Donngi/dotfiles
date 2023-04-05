@@ -36,6 +36,16 @@
 !/.dotconfig/idea
 !/.dotconfig/idea/macOS_Jimon.xml
 
+!/.dotconfig/nvim
+!/.dotconfig/nvim/lua
+!/.dotconfig/nvim/lua/base.lua
+!/.dotconfig/nvim/lua/keymaps.lua
+!/.dotconfig/nvim/lua/nvim_tree_util.lua
+!/.dotconfig/nvim/lua/nvim_tree.lua
+!/.dotconfig/nvim/lua/nvim_vscode.lua
+!/.dotconfig/nvim/lua/plugins.lua
+!/.dotconfig/nvim/init.lua
+
 !/.dotconfig/lima
 !/.dotconfig/lima/docker_template.yml
 
@@ -63,6 +73,7 @@
 !/setup/deploy/deploy_home.sh
 !/setup/deploy/deploy_vscode.sh
 !/setup/deploy/deploy_idea.sh
+!/setup/deploy/deploy_nvim.sh
 !/setup/deploy/deploy_lima_docker.sh
 !/setup/deploy/util_deploy.sh
 
@@ -71,6 +82,7 @@
 !/setup/init/init_lima_docker.sh
 !/setup/init/init_macOS.sh
 !/setup/init/init_node.sh
+!/setup/init/init_vim_plugins.sh
 !/setup/init/init_zinit.sh
 !/setup/init/init_zi.sh
 !/setup/init/lima_docker_limit.plist

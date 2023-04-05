@@ -12,6 +12,9 @@ deploy-idea:
 deploy-vscode:
 	bash ./setup/deploy/deploy_vscode.sh
 
+deploy-nvim:
+	bash ./setup/deploy/deploy_nvim.sh
+
 init-all:
 	@$(foreach val, $(wildcard ./setup/init/*.sh), bash $(val);)
 
@@ -21,3 +24,5 @@ init-brew:
 init-node:
 	bash ./setup/init/init_node.sh
 	
+init-vim-plugins:
+	bash ./setup/init/init_vim_plugins.sh

@@ -26,7 +26,7 @@ echo ""
 # Create backup directory
 if [ ! -d "$deploy_dir/.dotbackup" ];then
     echo "$deploy_dir/.dotbackup not found. Automatically create it."
-    mkdir "$deploy_dir/.dotbackup"
+    mkdir -p "$deploy_dir/.dotbackup"
 fi
 
 backup_dir="$deploy_dir/.dotbackup/$(date +%Y%m%d-%H%M%S)"

@@ -57,3 +57,7 @@ brew "swiftlint"
 
 # Vim
 brew "neovim"
+
+# Font
+tap "delphinus/sfmono-square"
+brew "sfmono-square"
