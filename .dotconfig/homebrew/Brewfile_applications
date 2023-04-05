@@ -23,6 +23,7 @@ cask "karabiner-elements"
 cask "imageoptim"
 cask "google-japanese-ime"
 cask "alfred"
+cask "rectangle"
 
 # Terminal
 cask "iterm2"
