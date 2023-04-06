@@ -36,6 +36,9 @@
 !/.dotconfig/idea
 !/.dotconfig/idea/macOS_Jimon.xml
 
+!/.dotconfig/iterm2
+!/.dotconfig/iterm2/com.googlecode.iterm2.plist
+
 !/.dotconfig/nvim
 !/.dotconfig/nvim/lua
 !/.dotconfig/nvim/lua/base.lua

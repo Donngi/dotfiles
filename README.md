@@ -56,3 +56,13 @@ export LIMA_WORKSPACE_DIRECTORY="YOUR_LIMA_PATH"
     root = YOUR_GHQ_PATH
     
 ```
+
+## Additional settings to be done manually
+Some apps can't be set up completely only by scripts. 
+
+### iTerm2
+Specify config file path.
+
+- Go `Settings` > `General` > `Preferences`
+- Check `Load preferences from a custom folder or URL` and set path to `/Users/NAME/.dotconfig/iterm2`
+
