@@ -66,3 +66,12 @@ Specify config file path.
 - Go `Settings` > `General` > `Preferences`
 - Check `Load preferences from a custom folder or URL` and set path to `/Users/NAME/.dotconfig/iterm2`
 
+### SF Mono Square
+Add fonts to mac.
+
+```
+open "$(brew --prefix sfmono-square)/share/fonts"
+```
+
+[SF Mono Square](https://github.com/delphinus/homebrew-sfmono-square)
+
