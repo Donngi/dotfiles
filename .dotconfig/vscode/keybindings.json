@@ -94,5 +94,11 @@
   {
     "key": "cmd+alt+n",
     "command": "explorer.newFolder"
-  }
+  },
+  // Trigger suggest
+  {
+    "key": "shift+space",
+    "command": "editor.action.triggerSuggest",
+    "when": "editorHasCompletionItemProvider && textInputFocus && !editorReadonly && !suggestWidgetVisible"
+  },
 ]
