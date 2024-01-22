@@ -12,7 +12,7 @@
   },
   // Toggle maximize/minimize terminal area.
   {
-    "key": "ctrl+space",
+    "key": "shift+space",
     "command": "workbench.action.toggleMaximizedPanel"
   },
   // Move teriminal area to right or bottom.
@@ -94,11 +94,5 @@
   {
     "key": "cmd+alt+n",
     "command": "explorer.newFolder"
-  },
-  // Trigger suggest
-  {
-    "key": "shift+space",
-    "command": "editor.action.triggerSuggest",
-    "when": "editorHasCompletionItemProvider && textInputFocus && !editorReadonly && !suggestWidgetVisible"
   },
 ]
