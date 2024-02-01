@@ -94,7 +94,7 @@ bindkey '^G^F' peco-ghq-vscode
 # ------------------------------------------------------------------------
 
 function open-my-repos() {
-  local selected_repo=$(curl -s https://api.github.com/users/jimon-s/repos | jq -r ".[].full_name" | peco )
+  local selected_repo=$(curl -s https://api.github.com/users/donngi/repos | jq -r ".[].full_name" | peco )
   if [ -n "$selected_repo" ]; then
     BUFFER="open https://github.com/${selected_repo}"
     echo $BUFFER

@@ -4,7 +4,7 @@
 
 # pure
 zi ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
-zi light Jimon-s/pure
+zi light Donngi/pure
 
 zstyle :prompt:pure:execution_time color yellow
 zstyle :prompt:pure:git:arrow color cyan

@@ -97,4 +97,4 @@ alias vdot='vi $HOME/.dotconfig'
 # other
 # ------------------------------------------------------------------------
 
-alias openrepo='open "https://github.com/Jimon-s?tab=repositories"'
+alias openrepo='open "https://github.com/Donngi?tab=repositories"'

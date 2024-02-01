@@ -14,11 +14,11 @@ brew "git-remote-codecommit"
 tap "iann0036/iamlive"
 brew "iann0036/iamlive/iamlive"
 
-tap "jimon-s/awsmfa"
-brew "jimon-s/awsmfa/awsmfa"
+tap "donngi/awsmfa"
+brew "donngi/awsmfa/awsmfa"
 
-tap "jimon-s/pipeline-lens"
-brew "jimon-s/pipeline-lens/pipeline-lens"
+tap "donngi/pipeline-lens"
+brew "donngi/pipeline-lens/pipeline-lens"
 
 cask "session-manager-plugin"
 
