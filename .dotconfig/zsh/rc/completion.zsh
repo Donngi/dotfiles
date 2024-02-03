@@ -89,3 +89,9 @@ zstyle ':completion:*:approximate:*' max-errors 1 numeric
 
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion::complete:*' cache-path "${ZDOTDIR:-$HOME}/.zcompcache"
+
+# ------------------------------------------------------------------------
+# npm
+# ------------------------------------------------------------------------
+
+eval "npm completion" > /dev/null 
