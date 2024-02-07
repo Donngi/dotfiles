@@ -64,8 +64,6 @@
 !/.dotconfig/zsh/rc/wordstyle.zsh
 !/.dotconfig/zsh/rc/setopt.zsh
 !/.dotconfig/zsh/rc/xxenv.zsh
-!/.dotconfig/zsh/rc/zinit.zsh
-!/.dotconfig/zsh/rc/zi.zsh
 
 # ------------------------------------------------------------------------
 # /setup
@@ -77,16 +75,12 @@
 !/setup/deploy/deploy_vscode.sh
 !/setup/deploy/deploy_idea.sh
 !/setup/deploy/deploy_nvim.sh
-!/setup/deploy/deploy_lima_docker.sh
 !/setup/deploy/util_deploy.sh
 
 !/setup/init
 !/setup/init/init_custom_pure.sh
 !/setup/init/init_homebrew.sh
-!/setup/init/init_lima_docker.sh
 !/setup/init/init_macOS.sh
 !/setup/init/init_node.sh
 !/setup/init/init_vim_plugins.sh
-!/setup/init/init_zinit.sh
-!/setup/init/init_zi.sh
 !/setup/init/lima_docker_limit.plist
