@@ -26,3 +26,7 @@ init-node:
 	
 init-vim-plugins:
 	bash ./setup/init/init_vim_plugins.sh
+
+init-custom-pure:
+	bash ./setup/init/init_custom_pure.sh
+	

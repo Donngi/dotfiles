@@ -3,8 +3,9 @@
 # ------------------------------------------------------------------------
 
 # pure
-zi ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
-zi light Donngi/pure
+fpath+=($HOME/.zsh/pure)
+autoload -U promptinit; promptinit
+prompt pure
 
 zstyle :prompt:pure:execution_time color yellow
 zstyle :prompt:pure:git:arrow color cyan

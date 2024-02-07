@@ -2,12 +2,6 @@
 [[ -f "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.pre.zsh"
 
 # ------------------------------------------------------------------------
-# zi
-# ------------------------------------------------------------------------
-
-source $ZSHRC_DIR/zi.zsh
-
-# ------------------------------------------------------------------------
 # appearance
 # ------------------------------------------------------------------------
 
