@@ -12,9 +12,10 @@ eval "$(pyenv init - --no-rehash)"
 eval "$(rbenv init - --no-rehash)"
 
 # go
-export GOENV_ROOT=$HOME/.goenv
-export PATH=$GOENV_ROOT/bin:$PATH
-eval "$(goenv init - --no-rehash)"
+export GOROOT=`go1.22.1 env GOROOT`
+export PATH=$GOROOT/bin:$PATH
+
+export GOPATH=$HOME/.go
 export PATH=$GOPATH/bin:$PATH
 
 # nodebrew

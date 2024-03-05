@@ -42,7 +42,6 @@ brew "tfenv"
 brew "pipenv"
 brew "pyenv"
 brew "rbenv"
-brew "goenv", args: ["HEAD"]
 
 # terraform
 brew "tflint"
@@ -54,6 +53,9 @@ brew "gradle"
 
 # Swift
 brew "swiftlint"
+
+# Go
+brew "go"
 
 # Vim
 brew "neovim"
