@@ -70,17 +70,19 @@
 # ------------------------------------------------------------------------
 !/setup
 
-!/setup/deploy
-!/setup/deploy/deploy_home.sh
-!/setup/deploy/deploy_vscode.sh
-!/setup/deploy/deploy_idea.sh
-!/setup/deploy/deploy_nvim.sh
-!/setup/deploy/util_deploy.sh
+!/setup/mac_os
 
-!/setup/init
-!/setup/init/init_custom_pure.sh
-!/setup/init/init_homebrew.sh
-!/setup/init/init_macOS.sh
-!/setup/init/init_node.sh
-!/setup/init/init_vim_plugins.sh
-!/setup/init/lima_docker_limit.plist
+!/setup/mac_os/deploy
+!/setup/mac_os/deploy/deploy_home.sh
+!/setup/mac_os/deploy/deploy_vscode.sh
+!/setup/mac_os/deploy/deploy_idea.sh
+!/setup/mac_os/deploy/deploy_nvim.sh
+!/setup/mac_os/deploy/util_deploy.sh
+
+!/setup/mac_os/init
+!/setup/mac_os/init/init_custom_pure.sh
+!/setup/mac_os/init/init_homebrew.sh
+!/setup/mac_os/init/init_macOS.sh
+!/setup/mac_os/init/init_node.sh
+!/setup/mac_os/init/init_vim_plugins.sh
+!/setup/mac_os/init/lima_docker_limit.plist
