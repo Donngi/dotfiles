@@ -20,6 +20,9 @@
 # ------------------------------------------------------------------------
 !/.dotconfig
 
+!/.dotconfig/autohotkey
+!/.dotconfig/autohotkey/apple-magic-keyboard-us.ahk
+
 !/.dotconfig/bat
 !/.dotconfig/bat/bat.conf
 
