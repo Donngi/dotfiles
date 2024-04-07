@@ -69,3 +69,30 @@ send_key_if_short_press(key){
     }
 }
 
+; -----------------------------------------------------------
+; macOS風キーバインド
+; Caps lockとの組み合わせで起動
+; (Caps lockは、デフォルトでF13として認識されている)
+; -----------------------------------------------------------
+
+; 矢印キー
+F13 & f::Right
+F13 & p::Up
+F13 & n::Down
+F13 & b::Left
+
+; カーソル移動
+F13 & a::HOME
+F13 & e::END
+
+; 削除
+F13 & d::Del 
+F13 & h::BS 
+F13 & k::SendInput "+{End}{Del}" ; カーソルの右側を削除
+F13 & w::SendInput "^+{Left}{Del}" ; 単語単位で削除
+
+; 単語単位のカーソル操作
+!Left::SendInput "^{Left}"
+!Right::SendInput "^{Right}"
++!Left::SendInput "^+{Left}"
++!Right::SendInput "^+{Right}"
