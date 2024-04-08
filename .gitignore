@@ -35,6 +35,10 @@
 !/.dotconfig/vscode
 !/.dotconfig/vscode/_setting.json
 !/.dotconfig/vscode/keybindings.json
+!/.dotconfig/vscode/mac_os
+!/.dotconfig/vscode/mac_os/keybindings.json
+!/.dotconfig/vscode/windows
+!/.dotconfig/vscode/windows/keybindings.json
 
 !/.dotconfig/idea
 !/.dotconfig/idea/macOS_Donngi.xml
