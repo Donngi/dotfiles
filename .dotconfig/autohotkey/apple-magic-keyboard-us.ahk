@@ -9,8 +9,7 @@
 ;      左Win (=左Cmd)  → 左Ctrl  
 ;      右Win (=右Cmd)  → 右Ctrl  
 ;      左Ctrl(=左Ctrl) → 左Win
-; - Caps lockがF13として認識されている
-;   (デフォルトでこの挙動だが、認識していない場合は置き換える)
+;      F13(=Capslock)  → 右Win
 ;
 ; すべての動作をAutoHotKeyだけで行うこともできそうではあったものの
 ; スクリプトが極めて煩雑になったため、
@@ -76,24 +75,26 @@ send_key_if_short_press(key){
 ; -----------------------------------------------------------
 ; macOS風キーバインド
 ; Caps lockとの組み合わせで起動
-; (Caps lockは、デフォルトでF13として認識されている)
 ; -----------------------------------------------------------
 
+; 単体入力時にWinキーとして動作させない(ダミーキーを送信)
+~RWin::SendInput "{Blind}{vkE8}"
+
 ; 矢印キー
-F13 & f::Right
-F13 & p::Up
-F13 & n::Down
-F13 & b::Left
+RWin & f::SendInput "{Blind}{RWin up}{Right}"
+RWin & p::SendInput "{Blind}{RWin up}{Up}"
+RWin & n::SendInput "{Blind}{RWin up}{Down}"
+RWin & b::SendInput "{Blind}{RWin up}{Left}"
 
 ; カーソル移動
-F13 & a::HOME
-F13 & e::END
+RWin & a::SendInput "{Blind}{RWin up}{HOME}"
+RWin & e::SendInput "{Blind}{RWin up}{END}"
 
 ; 削除
-F13 & d::Del 
-F13 & h::BS 
-F13 & k::SendInput "+{End}{Del}" ; カーソルの右側を削除
-F13 & w::SendInput "^+{Left}{Del}" ; 単語単位で削除
+RWin & d::SendInput "{Blind}{RWin up}{Del}"
+RWin & h::SendInput "{Blind}{RWin up}{BS}"
+RWin & k::SendInput "{Blind}{RWin up}+{End}{Del}" ; カーソルの右側を削除
+RWin & w::SendInput "{Blind}{RWin up}^+{Left}{Del}" ; 単語単位で削除
 
 ; 単語単位のカーソル操作
 !Left::SendInput "^{Left}"
