@@ -22,53 +22,31 @@
 
 ; -----------------------------------------------------------
 ; IME切り替え
-; Cmdキーを短く押した場合、変換/無変換キーとして扱う
+; Cmdキーを単独で押して離した場合、変換/無変換キーとして扱う
 ; -----------------------------------------------------------
 
-global shortPressBoarder := 500 ;sec
-global leftCtrlDownTime := 0
-global rightCtrlDownTime := 0
+; NOTE: LCtrl/RCtrl up に設定している理由
+; 
+; PowerToysでWinキーをCtrlキーに割り当てている場合、
+; LCtrlとRCtrlに設定したホットキーが原因不明で起動しなかった
+; 解決策として、Ctrl::{return} のようなCtrlへの割り当てを合わせて行うと
+; なぜか起動するようになったが理由が全く分からなかった
+; 
+; また、同様に RWinに対してなにかしらの割り当てを行うと
+; RCtrlのホットキー設定が動作しなくなる現象も発生した
+; 
+; upに設定した場合、これらの挙動が発生しなかったため、
+; upへの割り当てを採用した
 
-LCtrl::start_time_recorder("LCtrl")
-LCtrl up::send_key_if_short_press("LCtrl")
-
-RCtrl::start_time_recorder("RCtrl")
-RCtrl up::send_key_if_short_press("RCtrl")
-
-Ctrl::Return ; NOTE: 原因不明だが、Ctrlに対してなにか割り当てられていないと上記の割り当てが動作しない
-
-start_time_recorder(key){
-    ; global変数を関数内で呼び出す際は、再定義が必要
-    global leftCtrlDownTime
-    global rightCtrlDownTime
-
-    if (key == "LCtrl"){
-        leftCtrlDownTime := A_TickCount
-    } else if (key == "RCtrl") {
-        rightCtrlDownTime := A_TickCount
-    } else {
-        ; TODO error
+LCtrl up::{
+    if (A_PriorKey == "LControl"){
+        SendInput "{vk1D}"
     }
 }
 
-send_key_if_short_press(key){
-    ; global変数を関数内で呼び出す際は、再定義が必要
-    global leftCtrlDownTime
-    global rightCtrlDownTime
-    global shortPressBoarder
-
-    if (key == "LCtrl"){
-        duration := A_TickCount - leftCtrlDownTime
-        if (duration <= shortPressBoarder) {
-            SendInput "{vk1D}"
-        }
-    } else if (key == "RCtrl") {
-        duration := A_TickCount - rightCtrlDownTime
-        if (duration <= shortPressBoarder) {
-            SendInput "{vk1C}"
-        }
-    } else {
-        ; TODO error
+RCtrl up::{
+    if (A_PriorKey == "RControl"){
+        SendInput "{vk1C}"
     }
 }
 
@@ -76,6 +54,11 @@ send_key_if_short_press(key){
 ; macOS風キーバインド
 ; Caps lockとの組み合わせで起動
 ; -----------------------------------------------------------
+
+; NOTE: AutoHotKeyのドキュメントを読むと
+; ~付加時は、元のキーの操作を残すと書かれていたが、
+; なぜか逆の挙動で、~がないとWindowsメニューが開かれてしまったため
+; ~を付与している
 
 ; 単体入力時にWinキーとして動作させない(ダミーキーを送信)
 ~RWin::SendInput "{Blind}{vkE8}"
