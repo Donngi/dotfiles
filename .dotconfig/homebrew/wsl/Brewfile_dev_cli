@@ -1,0 +1,53 @@
+cask_args appdir: "/Applications"
+
+# Utility
+brew "jq"
+brew "peco"
+brew "nmap"
+brew "tree"
+brew "bat"
+
+# AWS
+brew "awscli"
+brew "git-remote-codecommit"
+
+tap "iann0036/iamlive"
+brew "iann0036/iamlive/iamlive"
+
+tap "donngi/awsmfa"
+brew "donngi/awsmfa/awsmfa"
+
+tap "donngi/pipeline-lens"
+brew "donngi/pipeline-lens/pipeline-lens"
+
+cask "session-manager-plugin"
+
+# Git
+brew "git"
+brew "gh"
+brew "ghq"
+brew "git-secrets"
+brew "gibo"
+
+# xxenv
+brew "tfenv"
+brew "pipenv"
+brew "pyenv"
+brew "rbenv"
+
+# terraform
+brew "tflint"
+
+# Java
+cask "corretto11"
+brew "maven"
+brew "gradle"
+
+# Swift
+brew "swiftlint"
+
+# Go
+brew "go"
+
+# Vim
+brew "neovim"

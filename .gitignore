@@ -31,6 +31,13 @@
 !/.dotconfig/homebrew/Brewfile_dev_cli
 !/.dotconfig/homebrew/Brewfile_dev_gui
 !/.dotconfig/homebrew/Brewfile_homebrew
+!/.dotconfig/homebrew/mac_os
+!/.dotconfig/homebrew/mac_os/Brewfile_applications
+!/.dotconfig/homebrew/mac_os/Brewfile_dev_cli
+!/.dotconfig/homebrew/mac_os/Brewfile_dev_gui
+!/.dotconfig/homebrew/mac_os/Brewfile_homebrew
+!/.dotconfig/homebrew/wsl
+!/.dotconfig/homebrew/wsl/Brewfile_dev_cli
 
 !/.dotconfig/vscode
 !/.dotconfig/vscode/_setting.json
