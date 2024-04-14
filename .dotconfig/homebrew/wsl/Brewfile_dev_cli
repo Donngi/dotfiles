@@ -1,5 +1,7 @@
 cask_args appdir: "/Applications"
 
+brew "zsh"
+
 # Utility
 brew "jq"
 brew "peco"
