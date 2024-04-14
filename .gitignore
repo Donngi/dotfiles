@@ -107,6 +107,7 @@
 !/setup/wsl
 
 !/setup/wsl/deploy
+!/setup/wsl/deploy/deploy_home.sh
 !/setup/wsl/deploy/deploy_wsl_conf.sh
 
 !/setup/wsl/init
