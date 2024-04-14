@@ -100,3 +100,7 @@
 !/setup/mac_os/init/init_node.sh
 !/setup/mac_os/init/init_vim_plugins.sh
 !/setup/mac_os/init/lima_docker_limit.plist
+
+!/setup/wsl
+!/setup/wsl/init
+!/setup/wsl/init/init_homebrew.sh
