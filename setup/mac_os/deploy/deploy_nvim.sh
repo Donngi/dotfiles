@@ -5,8 +5,6 @@ echo "# START: Deploy nvim"
 echo "# ------------------------------------"
 echo ""
 
-script_dir=$(cd $(dirname $0); pwd)
-
 target="neovim"
 deploy_dir="$HOME/.config"
 source_dir="$ZDOTDIR/.dotconfig/nvim"

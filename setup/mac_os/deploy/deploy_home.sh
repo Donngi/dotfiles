@@ -17,7 +17,8 @@ echo ""
 mkdir $BACKUP_DIR
 
 script_dir=$(cd $(dirname $0); pwd)
-setup_dir=$(dirname $script_dir);
+os_dir=$(dirname $script_dir);
+setup_dir=$(dirname $os_dir);
 repository_dir=$(dirname $setup_dir);
 
 # Link dotfiles to HOME directory
