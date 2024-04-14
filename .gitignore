@@ -66,6 +66,9 @@
 !/.dotconfig/lima
 !/.dotconfig/lima/docker_template.yml
 
+!/.dotconfig/wsl
+!/.dotconfig/wsl/wsl.conf
+
 !/.dotconfig/zsh
 !/.dotconfig/zsh/profile
 !/.dotconfig/zsh/rc
