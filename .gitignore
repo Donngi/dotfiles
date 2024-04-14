@@ -104,4 +104,5 @@
 !/setup/wsl
 !/setup/wsl/init
 !/setup/wsl/init/init_build_essential.sh
+!/setup/wsl/init/init_ca_certificates.sh
 !/setup/wsl/init/init_homebrew.sh
