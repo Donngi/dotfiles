@@ -13,9 +13,6 @@ brew "bat"
 brew "awscli"
 brew "git-remote-codecommit"
 
-tap "iann0036/iamlive"
-brew "iann0036/iamlive/iamlive"
-
 tap "donngi/awsmfa"
 brew "donngi/awsmfa/awsmfa"
 
