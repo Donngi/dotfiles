@@ -117,6 +117,7 @@
 !/setup/wsl/init/init_default_shell.sh
 !/setup/wsl/init/init_docker.sh
 !/setup/wsl/init/init_homebrew.sh
+!/setup/wsl/init/init_node.sh
 
 !/setup/util_deploy_sudo.sh
 !/setup/util_deploy.sh
