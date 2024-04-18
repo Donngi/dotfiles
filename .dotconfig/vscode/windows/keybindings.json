@@ -1,147 +1,156 @@
 // 手動でWindowsのkeybindings.jsonに貼り付けてください
 [
-  // ---------------------------------------------------------------
-  // カスタムショートカット
-  // ---------------------------------------------------------------
-  // ターミナルとエディタのフォーカスを切り替え
-  {
-      // AutoHotKey有効化時: F13+Enter
-      "key": "F13 ctrl+enter",
-      "command": "workbench.action.terminal.focus"
-  },
-  {
-      // AutoHotKey有効化時: F13+Enter
-      "key": "F13 ctrl+enter",
-      "command": "workbench.action.focusActiveEditorGroup",
-      "when": "terminalFocus"
-  },
-  // ターミナル最大化
-  {
-      // AutoHotKey有効化時: F13+Space
-      "key": "F13 ctrl+space",
-      "command": "workbench.action.toggleMaximizedPanel"
-  },
-  // ターミナルを画面下部 ⇔ 右端に移動
-  {
-      // AutoHotKey有効化時: F13+m F13+space
-      "key": "F13 ctrl+shift+space",
-      "command": "workbench.action.positionPanelRight",
-      "when": "panelPosition == 'bottom'"
-  },
-  {
-      // AutoHotKey有効化時: F13+m F13+space
-      "key": "F13 ctrl+shift+space",
-      "command": "workbench.action.positionPanelBottom",
-      "when": "panelPosition == 'right'"
-  },
-  // 次のターミナルグループへ移動
-  {
-      // AutoHotKey有効化時: F13+Shift+\
-      "key": "F13 ctrl+shift+\\",
-      "command": "workbench.action.terminal.focusNext",
-      "when": "terminalFocus"
-  },
-  // 隣のターミナルに移動
-  {
-      // AutoHotKey有効化時: F13+\
-      "key": "F13 ctrl+\\",
-      "command": "workbench.action.terminal.focusNextPane",
-      "when": "terminalFocus"
-  },
-  // カーソルを高速で移動
-  {
-      // AutoHotKey有効化時: F13+J F13+K
-      "key": "F13 ctrl+k",
-      "command": "cursorMove",
-      "args": {
-          "to": "up",
-          "by": "line",
-          "value": 15
-      },
-      "when": "editorTextFocus"
-  },
-  {
-      // AutoHotKey有効化時: F13+J F13+J
-      "key": "F13 ctrl+j",
-      "command": "cursorMove",
-      "args": {
-          "to": "down",
-          "by": "line",
-          "value": 15
-      },
-      "when": "editorTextFocus"
-  },
-  // 新規ファイル/ディレクトリ作成
-  {
-      // AutoHotKey有効化時: Ctrl+Shift+N
-      "key": "ctrl+shift+n",
-      "command": "explorer.newFile"
-  },
-  {
-      // AutoHotKey有効化時: Alt+Shift+N
-      "key": "ctrl+alt+n",
-      "command": "explorer.newFolder"
-  },
-  // ---------------------------------------------------------------
-  // macOSデフォルトショートカット模倣
-  // Emacs風ショートカット
-  // F13 -> ctrl+shift+alt+なにか で統一
-  // ---------------------------------------------------------------
-  {
-      // AutoHotKey有効化時: F13+k
-      "key": "F13 ctrl+shift+alt+k",
-      "command": "deleteAllRight",
-      "when": "textInputFocus && !editorReadonly"
-  },
-  // ---------------------------------------------------------------
-  // macOSデフォルトショートカット模倣
-  // ---------------------------------------------------------------
-  // Navigate back/formard 
-  {
-      // AutoHotKey有効化時: F13+-
-      "key": "F13 ctrl+-",
-      "command": "workbench.action.navigateBack",
-      "when": "canNavigateBack"
-  },
-  {
-      // AutoHotKey有効化時: F13+Shift+-
-      "key": "F13 ctrl+shift+-",
-      "command": "workbench.action.navigateForward",
-      "when": "canNavigateForward"
-  },
-  // Editor間の横移動
-  {
-      // AutoHotKey有効化時: Alt+Ctrl+Left
-      "key": "alt+ctrl+left",
-      "command": "workbench.action.previousEditor",
-  },
-  {
-      // AutoHotKey有効化時: Alt+Ctrl+Right
-      "key": "alt+ctrl+right",
-      "command": "workbench.action.nextEditor",
-  },
-  // EditorGroupの移動
-  {
-      // AutoHotKey有効化時: F13+Ctrl+Left
-      "key": "F13 ctrl+shift+alt+left", // 例外: macだと、cmd+ctrl
-      "command": "workbench.action.moveEditorToPreviousGroup",
-  },
-  {
-      // AutoHotKey有効化時: F13+Ctrl+Right
-      "key": "F13 ctrl+shift+alt+right", // 例外: macだと、cmd+ctrl
-      "command": "workbench.action.moveEditorToNextGroup",
-  },
-  // 行指定移動
-  {
-      // AutoHotKey有効化時: F13+G
-      "key": "F13 ctrl+g",
-      "command": "workbench.action.gotoLine",
-  },
-  // 分割したターミナルを起動
-  {
-      // AutoHotKey有効化時: Ctrl+\
-      "key": "ctrl+\\",
-      "command": "workbench.action.terminal.split",
-      "when": "terminalFocus && terminalProcessSupported || terminalFocus && terminalWebExtensionContributedProfile"
-  },
+    // ---------------------------------------------------------------
+    // カスタムショートカット
+    // ---------------------------------------------------------------
+    // ターミナルとエディタのフォーカスを切り替え
+    {
+        // AutoHotKey有効化時: F13+Enter
+        "key": "F13 ctrl+enter",
+        "command": "workbench.action.terminal.focus"
+    },
+    {
+        // AutoHotKey有効化時: F13+Enter
+        "key": "F13 ctrl+enter",
+        "command": "workbench.action.focusActiveEditorGroup",
+        "when": "terminalFocus"
+    },
+    // ターミナル最大化
+    {
+        // AutoHotKey有効化時: F13+Space
+        "key": "F13 ctrl+space",
+        "command": "workbench.action.toggleMaximizedPanel"
+    },
+    // ターミナルを画面下部 ⇔ 右端に移動
+    {
+        // AutoHotKey有効化時: F13+m F13+space
+        "key": "F13 ctrl+shift+space",
+        "command": "workbench.action.positionPanelRight",
+        "when": "panelPosition == 'bottom'"
+    },
+    {
+        // AutoHotKey有効化時: F13+m F13+space
+        "key": "F13 ctrl+shift+space",
+        "command": "workbench.action.positionPanelBottom",
+        "when": "panelPosition == 'right'"
+    },
+    // 次のターミナルグループへ移動
+    {
+        // AutoHotKey有効化時: F13+Shift+\
+        "key": "F13 ctrl+shift+\\",
+        "command": "workbench.action.terminal.focusNext",
+        "when": "terminalFocus"
+    },
+    // 隣のターミナルに移動
+    {
+        // AutoHotKey有効化時: F13+\
+        "key": "F13 ctrl+\\",
+        "command": "workbench.action.terminal.focusNextPane",
+        "when": "terminalFocus"
+    },
+    // カーソルを高速で移動
+    {
+        // AutoHotKey有効化時: F13+J F13+K
+        "key": "F13 ctrl+k",
+        "command": "cursorMove",
+        "args": {
+            "to": "up",
+            "by": "line",
+            "value": 15
+        },
+        "when": "editorTextFocus"
+    },
+    {
+        // AutoHotKey有効化時: F13+J F13+J
+        "key": "F13 ctrl+j",
+        "command": "cursorMove",
+        "args": {
+            "to": "down",
+            "by": "line",
+            "value": 15
+        },
+        "when": "editorTextFocus"
+    },
+    // 新規ファイル/ディレクトリ作成
+    {
+        // AutoHotKey有効化時: Ctrl+Shift+N
+        "key": "ctrl+shift+n",
+        "command": "explorer.newFile"
+    },
+    {
+        // AutoHotKey有効化時: Alt+Shift+N
+        "key": "ctrl+alt+n",
+        "command": "explorer.newFolder"
+    },
+    // ---------------------------------------------------------------
+    // macOSデフォルトショートカット模倣
+    // Emacs風ショートカット
+    // F13 -> ctrl+shift+alt+なにか で統一
+    // ---------------------------------------------------------------
+    {
+        // AutoHotKey有効化時: F13+k
+        "key": "F13 ctrl+shift+alt+k",
+        "command": "deleteAllRight",
+        "when": "textInputFocus && !editorReadonly"
+    },
+    // ---------------------------------------------------------------
+    // macOSデフォルトショートカット模倣
+    // ---------------------------------------------------------------
+    // Navigate back/formard 
+    {
+        // AutoHotKey有効化時: F13+-
+        "key": "F13 ctrl+-",
+        "command": "workbench.action.navigateBack",
+        "when": "canNavigateBack"
+    },
+    {
+        // AutoHotKey有効化時: F13+Shift+-
+        "key": "F13 ctrl+shift+-",
+        "command": "workbench.action.navigateForward",
+        "when": "canNavigateForward"
+    },
+    // Editor間の横移動
+    {
+        // AutoHotKey有効化時: Alt+Ctrl+Left
+        "key": "alt+ctrl+left",
+        "command": "workbench.action.previousEditor",
+    },
+    {
+        // AutoHotKey有効化時: Alt+Ctrl+Right
+        "key": "alt+ctrl+right",
+        "command": "workbench.action.nextEditor",
+    },
+    // EditorGroupの移動
+    {
+        // AutoHotKey有効化時: F13+Ctrl+Left
+        "key": "F13 ctrl+shift+alt+left", // 例外: macだと、cmd+ctrl
+        "command": "workbench.action.moveEditorToPreviousGroup",
+    },
+    {
+        // AutoHotKey有効化時: F13+Ctrl+Right
+        "key": "F13 ctrl+shift+alt+right", // 例外: macだと、cmd+ctrl
+        "command": "workbench.action.moveEditorToNextGroup",
+    },
+    // 行指定移動
+    {
+        // AutoHotKey有効化時: F13+G
+        "key": "F13 ctrl+g",
+        "command": "workbench.action.gotoLine",
+    },
+    // 分割したターミナルを起動
+    {
+        // AutoHotKey有効化時: Ctrl+\
+        "key": "ctrl+\\",
+        "command": "workbench.action.terminal.split",
+        "when": "terminalFocus && terminalProcessSupported || terminalFocus && terminalWebExtensionContributedProfile"
+    },
+    // ---------------------------------------------------------------
+    // その他
+    // ---------------------------------------------------------------
+    // zshに設定したカスタムバインドと干渉するため無効化
+    {
+        "key": "ctrl+g",
+        "command": "",
+        "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+    },
 ]
