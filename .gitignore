@@ -12,8 +12,9 @@
 !/.zshrc
 !/.gitconfig
 !/.gitignore
-!/.Makefile
-!/.README.md
+!/Makefile
+!/README.md
+!/setup.sh
 
 # ------------------------------------------------------------------------
 # /.dotconfig

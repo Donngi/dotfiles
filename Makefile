@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------------
 # macOS
 # ----------------------------------------------------------------------------
-mac-os-all-in-one: deploy-home init-brew init-all deploy-all
+mac-os-all-in-one: mac-os-deploy-home mac-os-init-brew mac-os-init-all mac-os-deploy-all
 
 ### deploy
 mac-os-deploy-all:
@@ -35,3 +35,43 @@ mac-os-init-vim-plugins:
 mac-os-init-custom-pure:
 	bash ./setup/mac_os/init/init_custom_pure.sh
 
+
+# ----------------------------------------------------------------------------
+# macOS
+# ----------------------------------------------------------------------------
+wsl-all-in-one: wsl-deploy-home wsl-init-brew wsl-init-all wsl-deploy-all
+
+### deploy
+wsl-deploy-all:
+	@$(foreach val, $(wildcard ./setup/wsl/deploy/deploy_*.sh), bash $(val);)
+
+wsl-deploy-home:
+	bash ./setup/wsl/deploy/deploy_home.sh
+
+wsl-deploy-wsl-conf:
+	bash ./setup/wsl/deploy/deploy_wsl_conf.sh
+
+### init
+wsl-init-all:
+	@$(foreach val, $(wildcard ./setup/wsl/init/*.sh), bash $(val);)
+
+wsl-init-build-essential:
+	bash ./setup/wsl/init/init_build_essential.sh
+
+wsl-init-ca-certificates:
+	bash ./setup/wsl/init/init_ca_certificates.sh
+
+wsl-init-custom-pure:
+	bash ./setup/wsl/init/init_custom_pure.sh
+
+wsl-init-default-shell:
+	bash ./setup/wsl/init/init_default_shell.sh
+
+wsl-init-docker:
+	bash ./setup/wsl/init/init_docker.sh
+
+wsl-init-brew:
+	bash ./setup/wsl/init/init_homebrew.sh
+	
+wsl-init-node:
+	bash ./setup/wsl/init/init_node.sh
