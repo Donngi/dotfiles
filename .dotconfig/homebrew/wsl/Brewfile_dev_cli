@@ -19,8 +19,6 @@ brew "donngi/awsmfa/awsmfa"
 tap "donngi/pipeline-lens"
 brew "donngi/pipeline-lens/pipeline-lens"
 
-cask "session-manager-plugin"
-
 # Git
 brew "git"
 brew "gh"
@@ -38,12 +36,8 @@ brew "rbenv"
 brew "tflint"
 
 # Java
-cask "corretto11"
 brew "maven"
 brew "gradle"
-
-# Swift
-brew "swiftlint"
 
 # Go
 brew "go"
