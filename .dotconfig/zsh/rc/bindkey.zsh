@@ -22,9 +22,20 @@ bindkey "^[[3~" delete-char
 # pecoと組み合わせて、QUERYを有効化
 # https://qiita.com/shepabashi/items/f2bc2be37a31df49bca5
 function peco-history-selection() {
-    BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
+  if command -v tac >/dev/null 2>&1; then
+    # tacコマンドの利用が可能な場合 (主にLinux)
+    BUFFER=`history -n 1 | tac  | awk '!a[$0]++' | peco`
     CURSOR=$#BUFFER
     zle reset-prompt
+  elif tail --help 2>&1 | grep -q "\-r"; then
+    # tacがなく、tailに-rオプションがある場合（主にmacOS）
+    BUFFER=`history | tail -r | awk '!a[$0]++' | peco`
+    CURSOR=$#BUFFER
+    zle reset-prompt
+  else
+    echo "Neither tac nor tail -r are available in this environment."
+    exit 1
+  fi
 }
 zle -N peco-history-selection
 bindkey '^R' peco-history-selection
