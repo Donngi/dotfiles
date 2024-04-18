@@ -9,9 +9,11 @@ if ! command -v brew &> /dev/null
 then
     echo "Install Homebrew ..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    # deploy完了までの間にhomebrewのpathを通すため、一時的に.bashrcにpathを書き込む(deploy phaseで上書きされる)
+    # 初回セットアップ時(zshにデフォルトシェルを切り替える前)に
+    # homebrewでinstallしたコマンドを利用するケースがあるため、
+    # .bashrcでもhomebrewのPATHを通しておく
     echo "Write homebrew path to .bashrc"
-    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $HOME/.bashrc
+    echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> $HOME/.bashrc
     source $HOME/.bashrc
     echo ""
 else
