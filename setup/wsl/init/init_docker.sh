@@ -22,9 +22,11 @@ sudo apt-get update
 
 # sudoなしでdockerを利用できるようにする
 # https://docs.docker.com/engine/install/linux-postinstall/
-sudo groupadd docker
-sudo usermod -aG docker $USER
-newgrp docker
+if ! getent group docker >/dev/null 2>&1; then
+  sudo groupadd docker
+  sudo usermod -aG docker $USER
+  newgrp docker
+else
 
 # boot時にdockerを立ち上げ
 sudo systemctl enable docker.service
