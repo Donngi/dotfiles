@@ -16,8 +16,11 @@ echo "# ------------------------------------"
 # Apple silicon mac
 if [[ `uname -m` == 'arm64' ]]; then 
     # macOSの場合、デフォルトでmakeが使えるため、makeコマンドを実行するのみ
-    # (コマンド間の依存関係は、makefile内で吸収)
-    make mac-os-all-in-one
+    make mac-os-deploy-home
+    make mac-os-init-brew
+    make mac-os-init-all
+    make mac-os-deploy-all
+
     echo "### Setup success! ###"
 
 # WSL
@@ -26,6 +29,9 @@ elif [[ `uname -a` == *"microsoft"* && `uname -s` == "Linux"* ]]; then
     # インストールしてからmakeコマンド実行
     source ./setup/wsl/init/init_ca_certificates.sh
     source ./setup/wsl/init/init_build_essential.sh
-    make wsl-all-in-one
+    make wsl-deploy-home
+    make wsl-init-brew
+    make wsl-init-all
+    make wsl-deploy-all
     echo "### Setup success! ###"
 fi

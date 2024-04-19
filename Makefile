@@ -1,7 +1,6 @@
 # ----------------------------------------------------------------------------
 # macOS
 # ----------------------------------------------------------------------------
-mac-os-all-in-one: mac-os-deploy-home mac-os-init-brew mac-os-init-all mac-os-deploy-all
 
 ### deploy
 mac-os-deploy-all:
@@ -39,7 +38,6 @@ mac-os-init-custom-pure:
 # ----------------------------------------------------------------------------
 # macOS
 # ----------------------------------------------------------------------------
-wsl-all-in-one: wsl-deploy-home wsl-init-brew wsl-init-all wsl-deploy-all
 
 ### deploy
 wsl-deploy-all:
