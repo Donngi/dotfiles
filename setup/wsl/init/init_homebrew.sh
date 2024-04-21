@@ -14,7 +14,7 @@ then
     # .bashrcでもhomebrewのPATHを通しておく
     echo "Write homebrew path to .bashrc"
     echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> $HOME/.bashrc
-    source $HOME/.bashrc
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
     echo ""
 else
     echo "Homebrew is already installed."

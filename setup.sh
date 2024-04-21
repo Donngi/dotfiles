@@ -31,6 +31,8 @@ elif [[ `uname -a` == *"microsoft"* && `uname -s` == "Linux"* ]]; then
     source ./setup/wsl/init/init_build_essential.sh
     make wsl-deploy-home
     make wsl-init-brew
+    # 以降の処理でhomebrewでinstallしたtoolを利用するため、再読み込み
+    source ~/.bashrc
     make wsl-init-all
     make wsl-deploy-all
     echo "### Setup success! ###"
