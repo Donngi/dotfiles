@@ -96,7 +96,18 @@
     // ---------------------------------------------------------------
     // macOSデフォルトショートカット模倣
     // ---------------------------------------------------------------
-    // Navigate back/formard 
+    // Top/Bottom
+    {
+        "key": "ctrl+up",
+        "command": "cursorTop",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "ctrl+down",
+        "command": "cursorBottom",
+        "when": "textInputFocus"
+    },
+    // 直前のカーソル位置に移動
     {
         // AutoHotKey有効化時: F13+-
         "key": "F13 ctrl+-",
