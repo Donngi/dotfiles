@@ -81,6 +81,7 @@
 !/.dotconfig/zsh/rc/plugin.zsh
 !/.dotconfig/zsh/rc/wordstyle.zsh
 !/.dotconfig/zsh/rc/setopt.zsh
+!/.dotconfig/zsh/rc/wsl.zsh
 !/.dotconfig/zsh/rc/xxenv.zsh
 
 # ------------------------------------------------------------------------
