@@ -165,6 +165,7 @@ Shift & v::{
         if (f13AndMPressed){
             SendInput("{F13}")
             SendInput("+^{Space}")
+            f13AndMPressed := False
         }else{
             SendInput("{F13}")
             SendInput("^{Space}")
