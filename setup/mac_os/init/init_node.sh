@@ -1,4 +1,9 @@
-# Install volta
+#!/bin/sh
+
+echo "# ------------------------------------"
+echo "# START: Install volta"
+echo "# ------------------------------------"
+
 # https://docs.volta.sh/guide/getting-started
 curl https://get.volta.sh | bash
 
