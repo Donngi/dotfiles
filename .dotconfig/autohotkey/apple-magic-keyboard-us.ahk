@@ -204,7 +204,7 @@ Shift & v::{
     }
 
     tab::{
-        ; Ctrl+TTabで直前に開いたファイルを移動するショートカットは
+        ; Ctrl+Tabで直前に開いたファイルを移動するショートカットは
         ; 次のファイルの選択にTab単体でなく、Ctrl+Tabを利用していた
         if (GetKeyState("F13","P")){
             SendInput("{Ctrl Down}{Tab}")
