@@ -29,7 +29,7 @@ function peco-history-selection() {
     zle reset-prompt
   elif tail --help 2>&1 | grep -q "\-r"; then
     # tacがなく、tailに-rオプションがある場合（主にmacOS）
-    BUFFER=`history | tail -r | awk '!a[$0]++' | peco`
+    BUFFER=`history -n 1 | tail -r | awk '!a[$0]++' | peco`
     CURSOR=$#BUFFER
     zle reset-prompt
   else
