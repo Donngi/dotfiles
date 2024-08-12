@@ -95,3 +95,4 @@ zstyle ':completion::complete:*' cache-path "${ZDOTDIR:-$HOME}/.zcompcache"
 # ------------------------------------------------------------------------
 
 eval "npm completion" > /dev/null 
+eval "pnpm completion zsh" > /dev/null 
