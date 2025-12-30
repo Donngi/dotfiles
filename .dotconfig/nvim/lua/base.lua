@@ -39,3 +39,11 @@ vim.keymap.set('i', '<C-e>', '<End>', { noremap = true, desc = '行末に移動'
 vim.keymap.set('i', '<C-h>', '<BS>', { noremap = true, desc = '前の文字を削除' })
 vim.keymap.set('i', '<C-d>', '<Del>', { noremap = true, desc = 'カーソル位置の文字を削除' })
 vim.keymap.set('i', '<C-k>', '<C-o>D', { noremap = true, desc = 'カーソル位置から行末まで削除' })
+
+-- ノーマルモードで15行ずつ移動
+vim.keymap.set('n', '<C-j><C-k>', '15k', { noremap = true, desc = '15行上に移動' })
+vim.keymap.set('n', '<C-j><C-j>', '15j', { noremap = true, desc = '15行下に移動' })
+
+-- インサートモードでも15行ずつ移動
+vim.keymap.set('i', '<C-j><C-k>', '<C-o>15k', { noremap = true, desc = '15行上に移動' })
+vim.keymap.set('i', '<C-j><C-j>', '<C-o>15j', { noremap = true, desc = '15行下に移動' })
