@@ -1,22 +1,21 @@
-vim.cmd.packadd "packer.nvim"
+-- lazy.nvimでプラグインを管理
+require("lazy").setup({
+  -- ファイルエクスプローラー
+  {
+    "nvim-tree/nvim-tree.lua",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+  },
 
-require('packer').startup(function()
-    use{ 'wbthomason/packer.nvim', opt = true}
+  -- ファジーファインダー
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+  },
 
-    use {
-        'nvim-tree/nvim-tree.lua',
-        requires = {
-          'nvim-tree/nvim-web-devicons',
-        },
-        config = function()
-          require("nvim-tree").setup {}
-        end
-      }
-
-    use {'neoclide/coc.nvim', branch='release'}
-
-    use 'nvim-lua/plenary.nvim'
-    use { 'nvim-telescope/telescope.nvim', tag = '0.1.1' }
-
-    use 'Mofiqul/vscode.nvim'
-end)
+  -- カラースキーム
+  { "Mofiqul/vscode.nvim" },
+})

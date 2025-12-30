@@ -63,6 +63,8 @@
 !/.dotconfig/nvim/lua/plugin_nvim_vscode.lua
 !/.dotconfig/nvim/lua/plugin_telescope.lua
 !/.dotconfig/nvim/init.lua
+!/.dotconfig/nvim/README.md
+!/.dotconfig/nvim/lazy-lock.json
 
 !/.dotconfig/lima
 !/.dotconfig/lima/docker_template.yml
@@ -79,6 +81,7 @@
 !/.dotconfig/zsh/rc/completion.zsh
 !/.dotconfig/zsh/rc/history.zsh
 !/.dotconfig/zsh/rc/plugin.zsh
+!/.dotconfig/zsh/rc/path.zsh
 !/.dotconfig/zsh/rc/wordstyle.zsh
 !/.dotconfig/zsh/rc/setopt.zsh
 !/.dotconfig/zsh/rc/wsl.zsh
@@ -103,7 +106,6 @@
 !/setup/mac_os/init/init_homebrew.sh
 !/setup/mac_os/init/init_macOS.sh
 !/setup/mac_os/init/init_node.sh
-!/setup/mac_os/init/init_vim_plugins.sh
 !/setup/mac_os/init/lima_docker_limit.plist
 
 !/setup/windows
