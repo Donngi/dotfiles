@@ -47,3 +47,6 @@ vim.keymap.set('n', '<C-j><C-j>', '15j', { noremap = true, desc = '15行下に�
 -- インサートモードでも15行ずつ移動
 vim.keymap.set('i', '<C-j><C-k>', '<C-o>15k', { noremap = true, desc = '15行上に移動' })
 vim.keymap.set('i', '<C-j><C-j>', '<C-o>15j', { noremap = true, desc = '15行下に移動' })
+
+-- 検索ハイライトをクリア
+vim.keymap.set('n', '<Esc><Esc>', ':nohlsearch<CR>', { noremap = true, silent = true, desc = '検索ハイライトをクリア' })
