@@ -6,7 +6,7 @@
 
 ## 機能
 
-- ✅ シンタックスハイライト（Neovim標準機能）
+- ✅ シンタックスハイライト（Neovim標準機能 + nvim-treesitter）
 - ✅ ファイルエクスプローラー（nvim-tree）
 - ✅ ファジーファインダー（Telescope）
 - ✅ VSCode風カラースキーム
@@ -15,6 +15,7 @@
 - ✅ Git統合（nvim-tree）
 - ✅ macOS標準のEmacs風キーバインド（インサートモード）
 - ✅ マルチカーソル（vim-visual-multi）
+- ✅ アウトライン表示（aerial.nvim）
 
 ## インストール済みプラグイン
 
@@ -39,6 +40,14 @@
 - **vim-visual-multi**: 複数箇所を同時編集
   - 同じ単語を複数選択して一度に変更
   - VSCodeのCtrl+Dと同様の機能
+
+### 構文解析・アウトライン
+- **nvim-treesitter**: 高度な構文解析
+  - より正確なシンタックスハイライト
+  - コード構造の理解
+- **aerial.nvim**: アウトライン表示
+  - Markdownの見出し一覧をサイドバーに表示
+  - VSCodeのアウトライン機能と同様
 
 ## セットアップ手順（新しい環境での再現）
 
@@ -100,6 +109,29 @@ nvim
 | `p`     | ペースト                                        |
 | `R`     | 更新                                            |
 | `?`     | ヘルプ表示                                      |
+
+### アウトライン表示（aerial.nvim）
+| キー       | 機能                                  |
+| ---------- | ------------------------------------- |
+| `<Space>o` | アウトライン（目次）の表示/非表示を切り替え |
+
+**アウトラインへの移動**:
+| キー         | 機能                     |
+| ------------ | ------------------------ |
+| `Ctrl+w` `l` | 右のウィンドウ（アウトライン）へ移動 |
+| `Ctrl+w` `h` | 左のウィンドウ（エディタ）へ移動     |
+| `Ctrl+w` `w` | 次のウィンドウへトグル               |
+
+**アウトライン内でのキー操作**:
+| キー    | 機能                               |
+| ------- | ---------------------------------- |
+| `j`/`k` | 上下に移動                         |
+| `Enter` | 見出しの位置にジャンプ             |
+| `o`     | ジャンプ（アウトラインを閉じない） |
+| `q`     | アウトラインを閉じる               |
+| `?`     | ヘルプを表示                       |
+
+Markdownの見出し（`#`, `##`, `###`など）をツリー形式で表示します。
 
 ### ファジーファインダー（Telescope）
 | キー        | 機能                                 |
@@ -187,6 +219,7 @@ macOSの標準的なEmacs風キーバインドをインサートモードで使�
 - **15行移動**: Ctrl+j Ctrl+k/Ctrl+j Ctrl+jで15行ずつ上下に移動
 - **マルチカーソル**: vim-visual-multiで複数箇所を同時編集
 - **検索ハイライトクリア**: Esc Escで検索ハイライトをクリア
+- **アウトライン表示**: Space oでMarkdownの見出し一覧を表示
 
 ### カラースキーム
 
@@ -367,3 +400,5 @@ filters = {
 - [Telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
 - [vscode.nvim](https://github.com/Mofiqul/vscode.nvim)
 - [vim-visual-multi](https://github.com/mg979/vim-visual-multi)
+- [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
+- [aerial.nvim](https://github.com/stevearc/aerial.nvim)
