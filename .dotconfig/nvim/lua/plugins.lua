@@ -18,4 +18,7 @@ require("lazy").setup({
 
   -- カラースキーム
   { "Mofiqul/vscode.nvim" },
+
+  -- マルチカーソル
+  { "mg979/vim-visual-multi" },
 })
