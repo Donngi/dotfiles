@@ -223,7 +223,7 @@ macOSの標準的なEmacs風キーバインドをインサートモードで使�
 
 ### カラースキーム
 
-VSCode風のダークテーマを使用しています。変更したい場合は`.dotconfig/nvim/lua/plugin_nvim_vscode.lua`を編集してください。
+VSCode風のダークテーマを使用しています。変更したい場合は`.dotconfig/nvim/lua/plugins.lua`のvscode.nvim設定を編集してください。
 
 ## よく使うコマンド
 
@@ -347,12 +347,8 @@ brew upgrade neovim
 ├── init.lua                      # メインの設定ファイル
 ├── README.md                     # このファイル
 └── lua/
-    ├── base.lua                  # 基本設定
-    ├── keymaps.lua               # Telescopeのキーマッピング
-    ├── plugins.lua               # プラグイン一覧
-    ├── plugin_nvim_tree.lua      # nvim-treeの設定
-    ├── plugin_nvim_vscode.lua    # VSCodeテーマの設定
-    └── plugin_telescope.lua      # Telescopeの設定
+    ├── base.lua                  # 基本設定（キーマッピング含む）
+    └── plugins.lua               # プラグイン一覧と設定
 ```
 
 ## カスタマイズ
@@ -375,16 +371,22 @@ vim.opt.tabstop=2
 { "folke/tokyonight.nvim" },
 ```
 
-`.dotconfig/nvim/lua/plugin_nvim_vscode.lua`の内容を変更：
+`.dotconfig/nvim/lua/plugins.lua`のvscode.nvim設定を変更：
 
 ```lua
-require("tokyonight").setup()
-vim.cmd[[colorscheme tokyonight]]
+{
+  "folke/tokyonight.nvim",
+  priority = 1000,
+  config = function()
+    require("tokyonight").setup({})
+    vim.cmd[[colorscheme tokyonight]]
+  end,
+},
 ```
 
 ### nvim-treeのdotfiles表示を有効にしたい
 
-`.dotconfig/nvim/lua/plugin_nvim_tree.lua`を編集：
+`.dotconfig/nvim/lua/plugins.lua`のnvim-tree設定を編集：
 
 ```lua
 filters = {

@@ -14,7 +14,3 @@ vim.opt.rtp:prepend(lazypath)
 
 require("base")
 require("plugins")
-require("keymaps")
-require("plugin_nvim_tree")
-require("plugin_nvim_vscode")
-require("plugin_telescope")
