@@ -35,10 +35,11 @@ require("lazy").setup({
     },
     opts = {},
     keys = {
-      { "<leader>ff", "<cmd>Telescope find_files<CR>", desc = "ファイル検索" },
-      { "<leader>fg", "<cmd>Telescope live_grep<CR>", desc = "文字列検索" },
-      { "<leader>fb", "<cmd>Telescope buffers<CR>", desc = "バッファ一覧" },
-      { "<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "ヘルプ検索" },
+      { "<leader>ff", "<cmd>Telescope find_files<CR>", desc = "ファイル名で検索（カレントディレクトリ以下）" },
+      { "<leader>fg", "<cmd>Telescope live_grep<CR>", desc = "grep検索（カレントディレクトリ以下）" },
+      { "<leader>fn", "<cmd>Telescope current_buffer_fuzzy_find<CR>", desc = "現在開いているファイル内を検索" },
+      { "<leader>fb", "<cmd>Telescope buffers<CR>", desc = "開いているバッファの一覧から選択" },
+      { "<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "ヘルプドキュメントを検索" },
     },
   },
 
