@@ -12,7 +12,7 @@ require("lazy").setup({
         group_empty = true,
       },
       filters = {
-        dotfiles = true,
+        dotfiles = false,
       },
       git = {
         enable = true,
@@ -33,7 +33,19 @@ require("lazy").setup({
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
-    opts = {},
+    opts = {
+      defaults = {
+        file_ignore_patterns = { "%.git/" },
+      },
+      pickers = {
+        find_files = {
+          hidden = true,
+        },
+        live_grep = {
+          additional_args = { "--hidden" },
+        },
+      },
+    },
     keys = {
       { "<leader>ff", "<cmd>Telescope find_files<CR>", desc = "ファイル名で検索（カレントディレクトリ以下）" },
       { "<leader>fg", "<cmd>Telescope live_grep<CR>", desc = "grep検索（カレントディレクトリ以下）" },
