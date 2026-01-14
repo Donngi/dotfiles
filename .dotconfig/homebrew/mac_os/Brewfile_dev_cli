@@ -63,3 +63,6 @@ brew "neovim"
 # Font
 tap "delphinus/sfmono-square"
 brew "sfmono-square"
+
+# Nerd Font (for nvim-web-devicons, etc.)
+cask "font-jetbrains-mono-nerd-font"
