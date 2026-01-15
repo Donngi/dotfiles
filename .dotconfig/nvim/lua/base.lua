@@ -19,6 +19,10 @@ vim.opt.number=true
 vim.opt.syntax="on"
 vim.opt.scrolloff=6 -- カーソルが画面端から6行以内に入らないよう自動スクロール
 vim.opt.autowriteall=true -- バッファ切替やフォーカス移動時に自動保存
+vim.opt.autoread=true -- 外部でファイルが変更された場合に自動で再読み込み
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+  command = "checktime",
+})
 
 vim.g.mapleader=" "
 
