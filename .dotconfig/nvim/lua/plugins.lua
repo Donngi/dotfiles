@@ -91,4 +91,13 @@ require("lazy").setup({
       { "<leader>o", "<cmd>AerialToggle!<CR>", desc = "アウトライン表示の切り替え" },
     },
   },
+
+  -- スムーススクロール
+  {
+    "karb94/neoscroll.nvim",
+    opts = {
+      mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "zt", "zz", "zb" },
+      duration_multiplier = 0.5,  -- アニメーション速度（小さいほど速い）
+    },
+  },
 })
