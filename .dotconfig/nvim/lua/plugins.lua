@@ -19,7 +19,7 @@ require("lazy").setup({
         ignore = false,
       },
       filesystem_watchers = {
-        enable = false,
+        enable = true,
       },
     },
     keys = {
