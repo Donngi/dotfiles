@@ -18,6 +18,9 @@ mac-os-deploy-vscode:
 mac-os-deploy-nvim:
 	bash ./setup/mac_os/deploy/deploy_nvim.sh
 
+mac-os-deploy-ghostty:
+	bash ./setup/mac_os/deploy/deploy_ghostty.sh
+
 ### init
 mac-os-init-all:
 	@$(foreach val, $(wildcard ./setup/mac_os/init/*.sh), bash $(val);)

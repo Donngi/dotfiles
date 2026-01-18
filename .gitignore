@@ -54,6 +54,9 @@
 !/.dotconfig/iterm2
 !/.dotconfig/iterm2/com.googlecode.iterm2.plist
 
+!/.dotconfig/ghostty
+!/.dotconfig/ghostty/config
+
 !/.dotconfig/nvim
 !/.dotconfig/nvim/lua
 !/.dotconfig/nvim/lua/base.lua
@@ -99,6 +102,7 @@
 !/setup/mac_os/deploy/deploy_vscode.sh
 !/setup/mac_os/deploy/deploy_idea.sh
 !/setup/mac_os/deploy/deploy_nvim.sh
+!/setup/mac_os/deploy/deploy_ghostty.sh
 !/setup/mac_os/deploy/util_deploy.sh
 
 !/setup/mac_os/init

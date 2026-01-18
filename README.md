@@ -66,6 +66,16 @@ Specify config file path.
 - Go `Settings` > `General` > `Preferences`
 - Check `Load preferences from a custom folder or URL` and set path to `/Users/NAME/.dotconfig/iterm2`
 
+### Ghostty
+Ghostty configuration is managed via symbolic link.
+
+Deploy ghostty configuration:
+```bash
+make mac-os-deploy-ghostty
+```
+
+The configuration will be automatically loaded from `~/.config/ghostty/`.
+
 ### SF Mono Square
 Add fonts to mac.
 
