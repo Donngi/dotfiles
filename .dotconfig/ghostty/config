@@ -50,3 +50,14 @@
 
 
 theme = Iceberg Dark
+
+# Font
+font-family = Menlo
+font-family = Hiragino Kaku Gothic ProN
+font-size = 15
+
+# Nerd Font icons fallback
+# Map Nerd Font icon codepoints to JetBrains Mono Nerd Font
+font-codepoint-map = U+E000-U+E7FF=JetBrainsMono Nerd Font
+font-codepoint-map = U+F000-U+F8FF=JetBrainsMono Nerd Font
+font-codepoint-map = U+F0000-U+FFFFF=JetBrainsMono Nerd Font
