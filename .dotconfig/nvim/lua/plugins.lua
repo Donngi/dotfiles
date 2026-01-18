@@ -32,20 +32,33 @@ require("lazy").setup({
     "nvim-telescope/telescope.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
+      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     },
-    opts = {
-      defaults = {
-        file_ignore_patterns = { "%.git/" },
-      },
-      pickers = {
-        find_files = {
-          hidden = true,
+    config = function()
+      local telescope = require("telescope")
+      telescope.setup({
+        defaults = {
+          file_ignore_patterns = { "%.git/" },
         },
-        live_grep = {
-          additional_args = { "--hidden" },
+        pickers = {
+          find_files = {
+            hidden = true,
+          },
+          live_grep = {
+            additional_args = { "--hidden" },
+          },
         },
-      },
-    },
+        extensions = {
+          fzf = {
+            fuzzy = true,
+            override_generic_sorter = true,
+            override_file_sorter = true,
+            case_mode = "smart_case",
+          },
+        },
+      })
+      telescope.load_extension("fzf")
+    end,
     keys = {
       { "<leader>ff", "<cmd>Telescope find_files<CR>", desc = "ファイル名で検索（カレントディレクトリ以下）" },
       { "<leader>fg", "<cmd>Telescope live_grep<CR>", desc = "grep検索（カレントディレクトリ以下）" },
