@@ -68,6 +68,11 @@ font-family = Menlo
 font-family = Hiragino Kaku Gothic ProN
 font-size = 15
 
+# Window Title Font (タブバーのフォント)
+# タブバーのフォントサイズは直接変更できないため、太字フォントで視認性を向上
+window-title-font-family = Menlo Bold
+window-title-font-family = Hiragino Kaku Gothic ProN
+
 # Nerd Font icons fallback
 # Map Nerd Font icon codepoints to JetBrains Mono Nerd Font
 font-codepoint-map = U+E000-U+E7FF=JetBrainsMono Nerd Font
