@@ -57,6 +57,9 @@
 !/.dotconfig/ghostty
 !/.dotconfig/ghostty/config
 
+!/.dotconfig/karabiner
+!/.dotconfig/karabiner/_karabiner.json
+
 !/.dotconfig/nvim
 !/.dotconfig/nvim/lua
 !/.dotconfig/nvim/lua/base.lua
