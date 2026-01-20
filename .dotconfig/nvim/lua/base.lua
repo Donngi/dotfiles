@@ -12,7 +12,26 @@ vim.opt.tabstop=4 -- スペースをタブに自動変換するしきい値
 
 vim.opt.autoindent=true
 
-vim.opt.clipboard="unnamed" -- vimのyankをclipboardに保存する
+-- クリップボード連携
+-- 背景: vim.opt.clipboard="unnamed"やpbcopyを使った方法では、3yyなどの
+--       複数行yankでクリップボードへの反映が不安定になる問題があった。
+-- 解決: OSC 52エスケープシーケンスを使用。ターミナルが直接クリップボードへ
+--       書き込むため、neovim内部のキャッシュ問題を回避できる。
+-- copy: OSC 52でターミナル経由でシステムクリップボードに送信
+-- paste: OSC 52のpaste機能はターミナルによって制限されることがあるため、
+--        macOS標準のpbpasteを使用して確実に読み取る
+vim.g.clipboard = {
+  name = 'OSC 52',
+  copy = {
+    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+  },
+  paste = {
+    ['+'] = function() return vim.fn.systemlist('pbpaste') end,
+    ['*'] = function() return vim.fn.systemlist('pbpaste') end,
+  },
+}
+vim.opt.clipboard = 'unnamedplus'
 
 vim.opt.termguicolors = true
 vim.opt.number=true

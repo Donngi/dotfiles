@@ -80,7 +80,9 @@ require("lazy").setup({
   },
 
   -- マルチカーソル
-  { "mg979/vim-visual-multi" },
+  {
+    "mg979/vim-visual-multi",
+  },
 
   -- 構文解析
   {
