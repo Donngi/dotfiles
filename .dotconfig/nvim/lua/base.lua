@@ -56,3 +56,8 @@ vim.keymap.set('i', '<C-j><C-j>', '<C-o>15j', { noremap = true, desc = '15行下
 
 -- 検索ハイライトをクリア
 vim.keymap.set('n', '<Esc><Esc>', ':nohlsearch<CR>', { noremap = true, silent = true, desc = '検索ハイライトをクリア' })
+
+-- バッファ操作
+vim.keymap.set('n', '<S-h>', ':bprevious<CR>', { noremap = true, silent = true, desc = '前のバッファ' })
+vim.keymap.set('n', '<S-l>', ':bnext<CR>', { noremap = true, silent = true, desc = '次のバッファ' })
+vim.keymap.set('n', '<leader>bd', ':bdelete<CR>', { noremap = true, silent = true, desc = 'バッファを閉じる' })
