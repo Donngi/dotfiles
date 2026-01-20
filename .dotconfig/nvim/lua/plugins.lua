@@ -113,4 +113,18 @@ require("lazy").setup({
       duration_multiplier = 0.5,  -- アニメーション速度（小さいほど速い）
     },
   },
+
+  -- Git変更表示
+  {
+    "lewis6991/gitsigns.nvim",
+    opts = {
+      signs = {
+        add          = { text = "│" },
+        change       = { text = "│" },
+        delete       = { text = "_" },
+        topdelete    = { text = "‾" },
+        changedelete = { text = "~" },
+      },
+    },
+  },
 })
