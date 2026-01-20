@@ -78,3 +78,7 @@ window-title-font-family = Hiragino Kaku Gothic ProN
 font-codepoint-map = U+E000-U+E7FF=JetBrainsMono Nerd Font
 font-codepoint-map = U+F000-U+F8FF=JetBrainsMono Nerd Font
 font-codepoint-map = U+F0000-U+FFFFF=JetBrainsMono Nerd Font
+
+# Quick Terminal
+# Command + ; (セミコロン) でquick terminalを開閉
+keybind = super+semicolon=toggle_quick_terminal
