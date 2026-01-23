@@ -4,7 +4,7 @@ brew "zsh"
 
 # Utility
 brew "jq"
-brew "peco"
+brew "fzf"
 brew "nmap"
 brew "tree"
 brew "bat"

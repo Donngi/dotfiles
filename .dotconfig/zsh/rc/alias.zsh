@@ -19,21 +19,21 @@ alias gf='git fetch -p --all'
 alias raws='unset $(export | grep AWS | egrep -o "^[^=]+")'
 
 # pipeline-lens
-function pipeline-lens-with-peco(){
-    PIPELINE_NAME=`aws codepipeline list-pipelines --query "pipelines[*].[name]" --output text | peco`
+function pipeline-lens-with-fzf(){
+    PIPELINE_NAME=$(aws codepipeline list-pipelines --query "pipelines[*].[name]" --output text | fzf --height 60% --reverse)
     if [ -n "$PIPELINE_NAME" ]; then
         pipeline-lens --name ${PIPELINE_NAME}
     fi
 }
-alias pl=pipeline-lens-with-peco
+alias pl=pipeline-lens-with-fzf
 
-function pipeline-lens-with-peco-run(){
-    PIPELINE_NAME=`aws codepipeline list-pipelines --query "pipelines[*].[name]" --output text | peco`
+function pipeline-lens-with-fzf-run(){
+    PIPELINE_NAME=$(aws codepipeline list-pipelines --query "pipelines[*].[name]" --output text | fzf --height 60% --reverse)
     if [ -n "$PIPELINE_NAME" ]; then
         pipeline-lens --name ${PIPELINE_NAME} --run
     fi
 }
-alias plr=pipeline-lens-with-peco-run
+alias plr=pipeline-lens-with-fzf-run
 
 # ------------------------------------------------------------------------
 # Terraform
