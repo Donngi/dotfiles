@@ -99,6 +99,18 @@ function fzf-ghq-vscode () {
 zle -N fzf-ghq-vscode
 bindkey '^G^F' fzf-ghq-vscode
 
+# fzfで選択して、neovimで開く（nvim-treeも表示）
+function fzf-ghq-nvim () {
+  local selected_dir=$(ghq list -p | fzf --height 60% --reverse --query "$LBUFFER")
+  if [ -n "$selected_dir" ]; then
+    BUFFER="nvim ${selected_dir} -c \"lua require('nvim-tree.api').tree.toggle()\""
+    zle accept-line
+  fi
+  zle clear-screen
+}
+zle -N fzf-ghq-nvim
+bindkey '^G^V' fzf-ghq-nvim
+
 
 # ------------------------------------------------------------------------
 # 自分のGitHub Repositoryをクエリして開く
