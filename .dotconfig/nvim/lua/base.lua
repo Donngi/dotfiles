@@ -1,7 +1,14 @@
 vim.g.shell = '/bin/zsh'
 
+-- locale/encoding (avoid mojibake on non-ASCII yanks)
+vim.env.LANG = "en_US.UTF-8"
+vim.env.LC_ALL = "en_US.UTF-8"
+vim.opt.encoding = "utf-8"
+vim.opt.fileencoding = "utf-8"
+vim.opt.fileencodings = { "utf-8", "ucs-bom", "latin1" }
+
 -- language
-vim.api.nvim_exec('language en_US', true)
+vim.api.nvim_exec('language en_US.UTF-8', true)
 
 -- disable netrw
 vim.g.loaded_netrw = 1
@@ -13,25 +20,41 @@ vim.opt.tabstop=4 -- スペースをタブに自動変換するしきい値
 vim.opt.autoindent=true
 
 -- クリップボード連携
--- 背景: vim.opt.clipboard="unnamed"やpbcopyを使った方法では、3yyなどの
---       複数行yankでクリップボードへの反映が不安定になる問題があった。
--- 解決: OSC 52エスケープシーケンスを使用。ターミナルが直接クリップボードへ
---       書き込むため、neovim内部のキャッシュ問題を回避できる。
--- copy: OSC 52でターミナル経由でシステムクリップボードに送信
--- paste: OSC 52のpaste機能はターミナルによって制限されることがあるため、
---        macOS標準のpbpasteを使用して確実に読み取る
-vim.g.clipboard = {
-  name = 'OSC 52',
-  copy = {
-    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
-    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
-  },
-  paste = {
-    ['+'] = function() return vim.fn.systemlist('pbpaste') end,
-    ['*'] = function() return vim.fn.systemlist('pbpaste') end,
-  },
-}
-vim.opt.clipboard = 'unnamedplus'
+-- 背景: vim.opt.clipboard="unnamed"やunnamedplusを使った方法では、
+--       pbpasteを経由して日本語が文字化けする問題があった。
+-- 解決: neovim内部レジスタでyank/pasteを行い、yankした内容は自動的に
+--       pbcopyでシステムクリップボードにも送信する。
+-- 動作:
+--   - yank時: neovim内部レジスタに保存し、autocmdで自動的にpbcopyで
+--             システムクリップボードにも送信(日本語も正常に動作)
+--   - paste(p): neovim内部レジスタから貼り付け(日本語の文字化けなし)
+--   - システムクリップボードから貼り付け: <leader>v で可能
+
+-- clipboard optionは設定しない(neovim内部レジスタを使用)
+
+-- yankした内容を自動的にpbcopyでシステムクリップボードに送信
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function()
+    if vim.v.event.operator ~= 'y' then
+      return
+    end
+    local content = vim.v.event.regcontents
+    if not content or #content == 0 then
+      return
+    end
+
+    local text = table.concat(content, '\n')
+    if vim.v.event.regtype == 'V' then
+      text = text .. '\n'
+    end
+
+    if vim.system then
+      vim.system({ 'pbcopy' }, { stdin = text })
+    else
+      vim.fn.system('pbcopy', text)
+    end
+  end,
+})
 
 vim.opt.termguicolors = true
 vim.opt.number=true
@@ -75,6 +98,23 @@ vim.keymap.set('i', '<C-j><C-j>', '<C-o>15j', { noremap = true, desc = '15行下
 
 -- 検索ハイライトをクリア
 vim.keymap.set('n', '<Esc><Esc>', ':nohlsearch<CR>', { noremap = true, silent = true, desc = '検索ハイライトをクリア' })
+
+-- システムクリップボードから貼り付け
+vim.keymap.set({'n', 'v'}, '<leader>v', function()
+  local handle = io.popen('pbpaste')
+  if handle then
+    local content = handle:read('*a')
+    handle:close()
+    if content and #content > 0 then
+      -- 末尾の改行を削除
+      if content:sub(-1) == '\n' then
+        content = content:sub(1, -2)
+      end
+      local lines = vim.split(content, '\n', {plain = true})
+      vim.api.nvim_put(lines, 'c', true, true)
+    end
+  end
+end, { noremap = true, desc = 'システムクリップボードから貼り付け' })
 
 -- バッファ操作
 vim.keymap.set('n', '<S-h>', ':bprevious<CR>', { noremap = true, silent = true, desc = '前のバッファ' })
