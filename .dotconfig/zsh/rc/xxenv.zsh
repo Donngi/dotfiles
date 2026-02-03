@@ -22,3 +22,4 @@ export PATH=$GOPATH/bin:$PATH
 
 # nodebrew
 export PATH=$PATH:$HOME/.nodebrew/current/bin
+
