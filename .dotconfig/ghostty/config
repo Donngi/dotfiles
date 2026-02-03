@@ -82,3 +82,9 @@ font-codepoint-map = U+F0000-U+FFFFF=JetBrainsMono Nerd Font
 # Quick Terminal
 # Command + ; (セミコロン) でquick terminalを開閉
 keybind = super+semicolon=toggle_quick_terminal
+
+# CWD 継承（新規タブ/ウィンドウでカレントディレクトリを引き継ぐ）
+# うまく継承されない場合は shell-integration の自動注入が無効な可能性あり
+working-directory = inherit
+window-inherit-working-directory = true
+shell-integration = zsh
