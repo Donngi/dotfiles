@@ -38,14 +38,25 @@ require("lazy").setup({
       local telescope = require("telescope")
       telescope.setup({
         defaults = {
-          file_ignore_patterns = { "%.git/" },
+          file_ignore_patterns = {
+            "%.git/",
+            "node_modules/",
+            "%.venv/",
+            "__pycache__/",
+            "dist/",
+            "build/",
+            "target/",
+            "vendor/",
+            "deps/",
+          },
         },
         pickers = {
           find_files = {
             hidden = true,
+            no_ignore = true,
           },
           live_grep = {
-            additional_args = { "--hidden" },
+            additional_args = { "--hidden", "--no-ignore" },
           },
         },
         extensions = {
