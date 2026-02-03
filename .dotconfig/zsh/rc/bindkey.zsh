@@ -103,7 +103,7 @@ bindkey '^G^F' fzf-ghq-vscode
 function fzf-ghq-nvim () {
   local selected_dir=$(ghq list -p | fzf --height 60% --reverse --query "$LBUFFER")
   if [ -n "$selected_dir" ]; then
-    BUFFER="nvim ${selected_dir} -c \"lua require('nvim-tree.api').tree.toggle()\""
+    BUFFER="cd ${selected_dir} && nvim -c \"lua require('nvim-tree.api').tree.toggle()\""
     zle accept-line
   fi
   zle clear-screen
