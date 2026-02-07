@@ -101,4 +101,19 @@
     "command": "editor.action.triggerSuggest",
     "when": "editorHasCompletionItemProvider && textInputFocus && !editorReadonly && !suggestWidgetVisible"
   },
+  // ------------------------------------------------
+  // Copilot Chat
+  // ------------------------------------------------
+  // デフォルトのEnter送信を無効化
+  {
+    "key": "enter",
+    "command": "-workbench.action.chat.submit",
+    "when": "chatInputHasText && inChatInput && !chatSessionRequestInProgress && !withinEditSessionDiff"
+  },
+  // Ctrl+Enterで送信に変更
+  {
+    "key": "ctrl+enter",
+    "command": "workbench.action.chat.submit",
+    "when": "chatInputHasText && inChatInput && !chatSessionRequestInProgress && !withinEditSessionDiff"
+  }
 ]
