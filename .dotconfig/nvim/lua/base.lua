@@ -119,4 +119,9 @@ end, { noremap = true, desc = 'システムクリップボードから貼り付�
 -- バッファ操作
 vim.keymap.set('n', '<S-h>', ':bprevious<CR>', { noremap = true, silent = true, desc = '前のバッファ' })
 vim.keymap.set('n', '<S-l>', ':bnext<CR>', { noremap = true, silent = true, desc = '次のバッファ' })
-vim.keymap.set('n', '<leader>bd', ':bdelete<CR>', { noremap = true, silent = true, desc = 'バッファを閉じる' })
+vim.keymap.set('n', '<leader>bd', function()
+  local buf = vim.api.nvim_get_current_buf()
+  -- 前のバッファに切り替えてから削除（ウィンドウレイアウトを保持）
+  vim.cmd('bprevious')
+  vim.api.nvim_buf_delete(buf, { force = false })
+end, { noremap = true, silent = true, desc = 'バッファを閉じる' })

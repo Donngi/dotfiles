@@ -140,4 +140,29 @@ require("lazy").setup({
       },
     },
   },
+
+  -- バッファライン（タブ表示）
+  {
+    "akinsho/bufferline.nvim",
+    version = "*",
+    dependencies = "nvim-tree/nvim-web-devicons",
+    opts = {
+      options = {
+        mode = "buffers",
+        separator_style = "thin",
+        show_buffer_close_icons = true,
+        show_close_icon = true,
+        color_icons = true,
+        always_show_bufferline = true,
+        offsets = {
+          {
+            filetype = "NvimTree",
+            text = "File Explorer",
+            text_align = "center",
+            separator = true,
+          },
+        },
+      },
+    },
+  },
 })
