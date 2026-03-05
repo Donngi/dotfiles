@@ -74,6 +74,10 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     vim.opt_local.formatoptions:append("r")  -- Enterで自動的に箇条書きを継続
     vim.opt_local.comments = "b:-,b:*"       -- - と * を箇条書き記号として認識
+
+    -- Tab/Shift-Tabで箇条書きのインデントレベルを変更（VS Code互換）
+    vim.keymap.set('i', '<Tab>', '<C-t>', { buffer = true, desc = 'インデントを上げる' })
+    vim.keymap.set('i', '<S-Tab>', '<C-d>', { buffer = true, desc = 'インデントを下げる' })
   end,
 })
 
