@@ -7,6 +7,12 @@ require("lazy").setup({
       "nvim-tree/nvim-web-devicons",
     },
     opts = {
+      view = {
+        width = {
+          min = 30,
+          max = 50,
+        },
+      },
       sort_by = "case_sensitive",
       renderer = {
         group_empty = true,
