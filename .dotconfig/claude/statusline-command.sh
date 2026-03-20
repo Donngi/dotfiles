@@ -111,9 +111,9 @@ week_pct = rate_limits.get('seven_day', {}).get('used_percentage')
 # --- Build segments ---
 
 # Line 3: [ctx + tokens] │ [5h] │ [7d]
-ctx_bar = fmt_bar('ctx', ctx_pct) if ctx_pct is not None else ''
+ctx_bar = fmt_bar('ctx', ctx_pct if ctx_pct is not None else 0)
 tokens = f'{DIM}in:{R}{in_fmt} {DIM}out:{R}{out_fmt}'
-ctx_tokens = f'{ctx_bar} {tokens}' if ctx_bar else tokens
+ctx_tokens = f'{ctx_bar} {tokens}'
 
 five_bar = fmt_bar('5h', five_pct) if five_pct is not None else ''
 week_bar = fmt_bar('7d', week_pct) if week_pct is not None else ''
