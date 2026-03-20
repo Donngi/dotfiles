@@ -56,6 +56,9 @@
 !/.dotconfig/iterm2
 !/.dotconfig/iterm2/com.googlecode.iterm2.plist
 
+!/.dotconfig/claude
+!/.dotconfig/claude/statusline-command.sh
+
 !/.dotconfig/ghostty
 !/.dotconfig/ghostty/config
 
@@ -108,6 +111,7 @@
 !/setup/mac_os/deploy/deploy_vscode.sh
 !/setup/mac_os/deploy/deploy_idea.sh
 !/setup/mac_os/deploy/deploy_nvim.sh
+!/setup/mac_os/deploy/deploy_claude.sh
 !/setup/mac_os/deploy/deploy_ghostty.sh
 !/setup/mac_os/deploy/util_deploy.sh
 

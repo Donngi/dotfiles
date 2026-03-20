@@ -18,6 +18,9 @@ mac-os-deploy-vscode:
 mac-os-deploy-nvim:
 	bash ./setup/mac_os/deploy/deploy_nvim.sh
 
+mac-os-deploy-claude:
+	bash ./setup/mac_os/deploy/deploy_claude.sh
+
 mac-os-deploy-ghostty:
 	bash ./setup/mac_os/deploy/deploy_ghostty.sh
 
