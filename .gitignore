@@ -98,6 +98,7 @@
 !/.dotconfig/zsh/rc/setopt.zsh
 !/.dotconfig/zsh/rc/wsl.zsh
 !/.dotconfig/zsh/rc/xxenv.zsh
+!/.dotconfig/zsh/rc/terminal-integration.zsh
 
 # ------------------------------------------------------------------------
 # /setup
