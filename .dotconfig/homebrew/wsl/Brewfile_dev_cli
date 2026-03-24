@@ -8,6 +8,7 @@ brew "fzf"
 brew "nmap"
 brew "tree"
 brew "bat"
+brew "ripgrep"
 
 # AWS
 brew "awscli"
