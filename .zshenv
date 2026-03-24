@@ -13,6 +13,9 @@ export SAVEHIST=10000
 # bat
 export BAT_CONFIG_PATH=$ZDOTDIR/.dotconfig/bat/bat.conf
 
+# memo
+# MEMO_DIR is set in .zlocal
+
 # volta
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
