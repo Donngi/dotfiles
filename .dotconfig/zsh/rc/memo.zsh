@@ -4,6 +4,7 @@ function memo() {
         return 1
     fi
     [[ -d "$MEMO_DIR" ]] || mkdir -p "$MEMO_DIR"
+    cd "$MEMO_DIR"
 
     local today=$(date +%Y%m%d)
 
