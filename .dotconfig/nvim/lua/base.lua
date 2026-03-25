@@ -129,3 +129,50 @@ vim.keymap.set('n', '<leader>bd', function()
   vim.cmd('bprevious')
   vim.api.nvim_buf_delete(buf, { force = false })
 end, { noremap = true, silent = true, desc = 'バッファを閉じる' })
+
+-- メモファイルのリネーム
+vim.api.nvim_create_user_command('MemoRename', function()
+  local current = vim.api.nvim_buf_get_name(0)
+  if current == '' then
+    vim.notify('バッファにファイルが関連付けられていません', vim.log.levels.WARN)
+    return
+  end
+
+  local dir = vim.fn.fnamemodify(current, ':h')
+  local ext = vim.fn.fnamemodify(current, ':e')
+  local stem = vim.fn.fnamemodify(current, ':t:r')
+
+  vim.ui.input({ prompt = 'New name: ', default = stem }, function(new_name)
+    if not new_name or new_name == '' or new_name == stem then return end
+
+    local new_path = dir .. '/' .. new_name .. '.' .. ext
+
+    if vim.fn.filereadable(new_path) == 1 then
+      vim.notify('同名のファイルが既に存在します: ' .. new_name .. '.' .. ext, vim.log.levels.ERROR)
+      return
+    end
+
+    vim.cmd('silent write')
+
+    local ok = vim.fn.rename(current, new_path)
+    if ok ~= 0 then
+      vim.notify('リネームに失敗しました', vim.log.levels.ERROR)
+      return
+    end
+
+    local old_buf = vim.api.nvim_get_current_buf()
+    vim.cmd('edit ' .. vim.fn.fnameescape(new_path))
+    vim.api.nvim_buf_delete(old_buf, { force = true })
+
+    -- frontmatter の title を更新
+    local lines = vim.api.nvim_buf_get_lines(0, 0, 5, false)
+    for i, line in ipairs(lines) do
+      if line:match('^title:') then
+        vim.api.nvim_buf_set_lines(0, i - 1, i, false, { 'title: ' .. new_name })
+        break
+      end
+    end
+
+    vim.notify('Renamed: ' .. new_name .. '.' .. ext)
+  end)
+end, { desc = 'メモファイルをリネーム' })
