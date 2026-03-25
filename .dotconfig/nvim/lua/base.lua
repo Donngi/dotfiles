@@ -18,6 +18,7 @@ vim.opt.shiftwidth=4 -- インデント幅
 vim.opt.tabstop=4 -- スペースをタブに自動変換するしきい値
 
 vim.opt.autoindent=true
+vim.opt.wildoptions:append('fuzzy') -- コマンド補完でfuzzy matchを有効化（case-insensitive）
 
 -- クリップボード連携
 -- 背景: vim.opt.clipboard="unnamed"やunnamedplusを使った方法では、
