@@ -27,6 +27,9 @@ require("lazy").setup({
       filesystem_watchers = {
         enable = true,
       },
+      update_focused_file = {
+        enable = true,
+      },
     },
     keys = {
       { "<leader>e", "<cmd>NvimTreeToggle<CR>", desc = "ファイルツリー切り替え" },
