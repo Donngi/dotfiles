@@ -88,3 +88,6 @@ keybind = super+semicolon=toggle_quick_terminal
 working-directory = inherit
 window-inherit-working-directory = true
 shell-integration = zsh
+
+# Option キーを Alt/Meta として扱う（Nvim の <M-*> マッピング用）
+macos-option-as-alt = true
