@@ -104,6 +104,19 @@ vim.keymap.set('i', '<C-j><C-j>', '<C-o>15j', { noremap = true, desc = '15行下
 -- 検索ハイライトをクリア
 vim.keymap.set('n', '<Esc><Esc>', ':nohlsearch<CR>', { noremap = true, silent = true, desc = '検索ハイライトをクリア' })
 
+-- 行の折り返し/サイドスクロールをトグル
+vim.keymap.set('n', '<M-z>', function()
+  if vim.opt.wrap:get() then
+    vim.opt.wrap = false
+    vim.opt.sidescroll = 1
+    vim.notify('wrap: OFF (side scroll)')
+  else
+    vim.opt.wrap = true
+    vim.opt.sidescroll = 0
+    vim.notify('wrap: ON')
+  end
+end, { noremap = true, desc = '行折り返しをトグル' })
+
 -- システムクリップボードから貼り付け
 vim.keymap.set({'n', 'v'}, '<leader>v', function()
   local handle = io.popen('pbpaste')
