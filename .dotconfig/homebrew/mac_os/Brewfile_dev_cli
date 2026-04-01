@@ -61,5 +61,8 @@ brew "go"
 # Vim
 brew "neovim"
 
+# Prompt
+brew "pure"
+
 # Nerd Font (for nvim-web-devicons, etc.)
 cask "font-jetbrains-mono-nerd-font"

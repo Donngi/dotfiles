@@ -3,7 +3,7 @@
 # ------------------------------------------------------------------------
 
 # pure
-fpath+=($HOME/.zsh/pure)
+fpath+=("$(brew --prefix)/share/zsh/site-functions")
 autoload -U promptinit; promptinit
 prompt pure
 
@@ -22,7 +22,19 @@ zstyle :prompt:pure:prompt:continuation color 242
 zstyle :prompt:pure:user color 242
 zstyle :prompt:pure:user:root color default
 zstyle :prompt:pure:virtualenv color 242
-zstyle :prompt:pure:aws:envs color magenta
+
+# AWS 環境変数を Pure の preprompt 1行目末尾に表示する
+# Pure 本体を変更せずに、precmd hook で PROMPT に注入する
+function _inject_aws_to_preprompt() {
+  local aws_vars
+  aws_vars=$(env | grep '^AWS_' | tr '\n' ' ')
+  if [[ -n $aws_vars ]]; then
+    local aws_segment="%F{magenta}${aws_vars}%f"
+    PROMPT="${PROMPT/$prompt_newline/ ${aws_segment}${prompt_newline}}"
+  fi
+}
+autoload -U add-zsh-hook
+add-zsh-hook precmd _inject_aws_to_preprompt
 
 # ------------------------------------------------------------------------
 # Others

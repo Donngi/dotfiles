@@ -45,3 +45,6 @@ brew "go"
 
 # Vim
 brew "neovim"
+
+# Prompt
+brew "pure"

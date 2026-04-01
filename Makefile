@@ -37,9 +37,6 @@ mac-os-init-node:
 mac-os-init-vim-plugins:
 	bash ./setup/mac_os/init/init_vim_plugins.sh
 
-mac-os-init-custom-pure:
-	bash ./setup/mac_os/init/init_custom_pure.sh
-
 
 # ----------------------------------------------------------------------------
 # macOS
@@ -64,9 +61,6 @@ wsl-init-build-essential:
 
 wsl-init-ca-certificates:
 	bash ./setup/wsl/init/init_ca_certificates.sh
-
-wsl-init-custom-pure:
-	bash ./setup/wsl/init/init_custom_pure.sh
 
 wsl-init-default-shell:
 	bash ./setup/wsl/init/init_default_shell.sh
