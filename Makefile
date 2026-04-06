@@ -24,6 +24,12 @@ mac-os-deploy-claude:
 mac-os-deploy-ghostty:
 	bash ./setup/mac_os/deploy/deploy_ghostty.sh
 
+mac-os-deploy-npm:
+	bash ./setup/mac_os/deploy/deploy_npm.sh
+
+mac-os-deploy-uv:
+	bash ./setup/mac_os/deploy/deploy_uv.sh
+
 ### init
 mac-os-init-all:
 	@$(foreach val, $(wildcard ./setup/mac_os/init/*.sh), bash $(val);)

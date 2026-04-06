@@ -65,6 +65,9 @@
 !/.dotconfig/karabiner
 !/.dotconfig/karabiner/_karabiner.json
 
+!/.dotconfig/npm
+!/.dotconfig/npm/.npmrc
+
 !/.dotconfig/nvim
 !/.dotconfig/nvim/lua
 !/.dotconfig/nvim/lua/base.lua
@@ -76,6 +79,9 @@
 !/.dotconfig/nvim/init.lua
 !/.dotconfig/nvim/README.md
 !/.dotconfig/nvim/lazy-lock.json
+
+!/.dotconfig/uv
+!/.dotconfig/uv/uv.toml
 
 !/.dotconfig/lima
 !/.dotconfig/lima/docker_template.yml
@@ -115,6 +121,8 @@
 !/setup/mac_os/deploy/deploy_nvim.sh
 !/setup/mac_os/deploy/deploy_claude.sh
 !/setup/mac_os/deploy/deploy_ghostty.sh
+!/setup/mac_os/deploy/deploy_npm.sh
+!/setup/mac_os/deploy/deploy_uv.sh
 !/setup/mac_os/deploy/util_deploy.sh
 
 !/setup/mac_os/init
