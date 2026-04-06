@@ -69,16 +69,61 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
 
 vim.g.mapleader=" "
 
--- Markdownファイルで箇条書きの自動挿入を有効化
+-- Markdownファイルで箇条書き・引用の自動挿入を有効化
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
   callback = function()
-    vim.opt_local.formatoptions:append("r")  -- Enterで自動的に箇条書きを継続
-    vim.opt_local.comments = "b:-,b:*"       -- - と * を箇条書き記号として認識
+    -- gq など整形コマンドから参照される comments 設定（-, *, > を継続対象として認識）
+    vim.opt_local.comments = "b:-,b:*,b:>"
+    -- formatoptions の r は <CR> マッピングと重複して二重挿入になるため付けない
+    vim.opt_local.formatoptions:remove("r")
 
-    -- Tab/Shift-Tabで箇条書きのインデントレベルを変更（VS Code互換）
+    -- Tab/Shift-Tabで箇条書きのインデントレベルを変更
     vim.keymap.set('i', '<Tab>', '<C-t>', { buffer = true, desc = 'インデントを上げる' })
     vim.keymap.set('i', '<S-Tab>', '<C-d>', { buffer = true, desc = 'インデントを下げる' })
+
+    -- 引用(>)・箇条書き(-, *)・順序付きリスト(1. )の継続改行。
+    -- マーカーのみの空行で改行した場合はプレフィックスを消去してキャンセルする。
+    vim.keymap.set('i', '<CR>', function()
+      local line = vim.api.nvim_get_current_line()
+      local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+
+      -- プレフィックスを検出（順序付きリスト → 引用/箇条書きの順）。
+      -- カーソルが行末かつマッチしたときのみ継続/キャンセル処理を行う。
+      local indent, next_prefix, rest
+      if col == #line then
+        local oi, num, orst = line:match('^(%s*)(%d+)%.%s(.-)%s*$')
+        if num then
+          indent, next_prefix, rest = oi, tostring(tonumber(num) + 1) .. '. ', orst
+        else
+          local i2, marker, rst = line:match('^(%s*)([>%-%*])%s(.-)%s*$')
+          if marker then
+            indent, next_prefix, rest = i2, marker .. ' ', rst
+          end
+        end
+      end
+
+      if indent and rest == '' then
+        -- マーカーだけの空行: 現在行をクリア、改行は挿入しない
+        vim.api.nvim_buf_set_lines(0, row - 1, row, false, { '' })
+        vim.api.nvim_win_set_cursor(0, { row, 0 })
+        return
+      end
+
+      if indent then
+        -- 次行に indent + 次プレフィックスを挿入
+        local new_line = indent .. next_prefix
+        vim.api.nvim_buf_set_lines(0, row, row, false, { new_line })
+        vim.api.nvim_win_set_cursor(0, { row + 1, #new_line })
+        return
+      end
+
+      -- 通常の改行: カーソル位置で行を分割
+      local before = line:sub(1, col)
+      local after = line:sub(col + 1)
+      vim.api.nvim_buf_set_lines(0, row - 1, row, false, { before, after })
+      vim.api.nvim_win_set_cursor(0, { row + 1, 0 })
+    end, { buffer = true, desc = '引用・リストの継続改行' })
   end,
 })
 
