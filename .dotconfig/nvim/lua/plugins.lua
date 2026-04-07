@@ -145,6 +145,22 @@ require("lazy").setup({
     },
   },
 
+  -- Markdown バッファ内レンダリング
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    ft = "markdown",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
+    },
+    opts = {
+      enabled = false,
+    },
+    keys = {
+      { "<leader>pm", "<cmd>RenderMarkdown toggle<CR>", desc = "Markdownレンダリング切り替え" },
+    },
+  },
+
   -- スムーススクロール
   {
     "karb94/neoscroll.nvim",
