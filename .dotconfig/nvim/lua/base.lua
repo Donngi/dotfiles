@@ -78,6 +78,40 @@ vim.api.nvim_create_autocmd("FileType", {
     -- formatoptions の r は <CR> マッピングと重複して二重挿入になるため付けない
     vim.opt_local.formatoptions:remove("r")
 
+    -- Markdownアンカーリンクへのジャンプ（目次から見出しへ移動）
+    vim.keymap.set('n', '<CR>', function()
+      local line = vim.api.nvim_get_current_line()
+      -- 行内の最初の [text](#anchor) からアンカーを取得
+      local anchor = line:match('%[.-%]%(#(.-)%)')
+      if not anchor then return end
+
+      -- 見出しテキストを GitHub 形式アンカーに変換する関数
+      local function to_anchor(text)
+        local s = text:lower()
+        -- ASCII 句読点を除去（ハイフン・スペース・英数字・非ASCII文字は残す）
+        s = s:gsub('[%p]', function(c)
+          if c == '-' or c == ' ' then return c end
+          return ''
+        end)
+        -- 連続スペースを1つに
+        s = s:gsub('%s+', ' ')
+        s = s:match('^%s*(.-)%s*$')
+        -- スペースをハイフンに
+        s = s:gsub(' ', '-')
+        return s
+      end
+
+      -- 全行を走査して一致する見出しにジャンプ
+      local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+      for i, l in ipairs(lines) do
+        local heading = l:match('^#+%s+(.*)')
+        if heading and to_anchor(heading) == anchor then
+          vim.api.nvim_win_set_cursor(0, { i, 0 })
+          return
+        end
+      end
+    end, { buffer = true, desc = 'Markdownアンカーリンクにジャンプ' })
+
     -- Tab/Shift-Tabで箇条書きのインデントレベルを変更
     vim.keymap.set('i', '<Tab>', '<C-t>', { buffer = true, desc = 'インデントを上げる' })
     vim.keymap.set('i', '<S-Tab>', '<C-d>', { buffer = true, desc = 'インデントを下げる' })
