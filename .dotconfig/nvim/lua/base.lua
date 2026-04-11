@@ -69,6 +69,22 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
 
 vim.g.mapleader=" "
 
+-- Markdown 見出しテキストを GitHub 形式アンカーに変換（TOC生成・アンカージャンプで共用）
+local function to_anchor(text)
+  local s = text:lower()
+  -- ASCII 句読点を除去（ハイフン・スペース・英数字・非ASCII文字は残す）
+  s = s:gsub('[%p]', function(c)
+    if c == '-' or c == ' ' then return c end
+    return ''
+  end)
+  -- 連続スペースを1つに
+  s = s:gsub('%s+', ' ')
+  s = s:match('^%s*(.-)%s*$')
+  -- スペースをハイフンに
+  s = s:gsub(' ', '-')
+  return s
+end
+
 -- Markdownファイルで箇条書き・引用の自動挿入を有効化
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
@@ -84,22 +100,6 @@ vim.api.nvim_create_autocmd("FileType", {
       -- 行内の最初の [text](#anchor) からアンカーを取得
       local anchor = line:match('%[.-%]%(#(.-)%)')
       if not anchor then return end
-
-      -- 見出しテキストを GitHub 形式アンカーに変換する関数
-      local function to_anchor(text)
-        local s = text:lower()
-        -- ASCII 句読点を除去（ハイフン・スペース・英数字・非ASCII文字は残す）
-        s = s:gsub('[%p]', function(c)
-          if c == '-' or c == ' ' then return c end
-          return ''
-        end)
-        -- 連続スペースを1つに
-        s = s:gsub('%s+', ' ')
-        s = s:match('^%s*(.-)%s*$')
-        -- スペースをハイフンに
-        s = s:gsub(' ', '-')
-        return s
-      end
 
       -- 全行を走査して一致する見出しにジャンプ
       local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
@@ -269,3 +269,104 @@ vim.api.nvim_create_user_command('MemoRename', function()
     vim.notify('Renamed: ' .. new_name .. '.' .. ext)
   end)
 end, { desc = 'メモファイルをリネーム' })
+
+-- Markdown TOC ブロックの行範囲を行ベースで検出（1-indexed inclusive）。
+-- 連続する `- [text](#anchor)` 形式の行を TOC とみなす。
+local function find_toc_range()
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  local pattern = '^%s*%-%s+%[.-%]%(#[^)]*%)%s*$'
+  local start_row, end_row
+  for i, line in ipairs(lines) do
+    if line:match(pattern) then
+      if not start_row then start_row = i end
+      end_row = i
+    elseif start_row then
+      break
+    end
+  end
+  if start_row then return start_row, end_row end
+  return nil
+end
+
+-- Markdown 目次の行を treesitter ベースで生成。
+-- `(atx_heading)` ノードを列挙することでコードブロック・フロントマター内の `#` は自動除外される。
+local function generate_toc_lines()
+  local ok, parser = pcall(vim.treesitter.get_parser, 0, 'markdown')
+  if not ok or not parser then
+    vim.notify('markdown treesitter parser が利用できません', vim.log.levels.ERROR)
+    return {}
+  end
+  local tree = parser:parse()[1]
+  if not tree then return {} end
+  local query = vim.treesitter.query.parse('markdown', '(atx_heading) @h')
+
+  local headings = {}
+  for _, node in query:iter_captures(tree:root(), 0) do
+    local text = vim.treesitter.get_node_text(node, 0)
+    -- 最初の行から `#+ title` を抽出（閉じハッシュは後段で除去）
+    local first = text:match('([^\n]*)')
+    local hashes, title = first:match('^(#+)%s+(.-)%s*$')
+    if hashes and title and #hashes <= 6 then
+      title = title:gsub('%s*#+%s*$', '')
+      table.insert(headings, { level = #hashes, text = title })
+    end
+  end
+
+  if #headings == 0 then return {} end
+
+  local min_level = math.huge
+  for _, h in ipairs(headings) do
+    if h.level < min_level then min_level = h.level end
+  end
+
+  local seen, lines = {}, {}
+  for _, h in ipairs(headings) do
+    local base = to_anchor(h.text)
+    local anchor
+    local n = seen[base]
+    if n then
+      anchor = base .. '-' .. n
+      seen[base] = n + 1
+    else
+      anchor = base
+      seen[base] = 1
+    end
+    local indent = string.rep('  ', h.level - min_level)
+    table.insert(lines, indent .. '- [' .. h.text .. '](#' .. anchor .. ')')
+  end
+  return lines
+end
+
+-- Markdown 目次を挿入/更新。既存 TOC ブロックがあれば置換、なければカーソル位置に挿入。
+vim.api.nvim_create_user_command('MarkdownToc', function()
+  if vim.bo.filetype ~= 'markdown' then
+    vim.notify('markdown バッファではありません', vim.log.levels.WARN)
+    return
+  end
+  local toc = generate_toc_lines()
+  if #toc == 0 then
+    vim.notify('見出しが見つかりません', vim.log.levels.WARN)
+    return
+  end
+  local cursor = vim.api.nvim_win_get_cursor(0)
+  local s, e = find_toc_range()
+  if s then
+    vim.api.nvim_buf_set_lines(0, s - 1, e, false, toc)
+  else
+    vim.api.nvim_buf_set_lines(0, cursor[1] - 1, cursor[1] - 1, false, toc)
+  end
+  -- カーソル位置を復元（バッファ末尾を超えないようクランプ）
+  local last = vim.api.nvim_buf_line_count(0)
+  vim.api.nvim_win_set_cursor(0, { math.min(cursor[1], last), cursor[2] })
+end, { desc = 'Markdown 目次を挿入/更新' })
+
+-- TOC が存在する markdown ファイルを保存時に自動更新。
+vim.api.nvim_create_autocmd('BufWritePre', {
+  pattern = { '*.md', '*.markdown' },
+  callback = function()
+    if find_toc_range() then
+      vim.cmd('MarkdownToc')
+    end
+  end,
+  desc = 'TOC が存在する markdown ファイルを保存時に自動更新',
+})
