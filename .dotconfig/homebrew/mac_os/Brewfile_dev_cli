@@ -34,9 +34,9 @@ brew "gibo"
 # NOTE: In commercial use, you mustn't use docker desktop without payment.
 #
 # If you want to make docker environment without docker desktop,
-# use 'brew docker' instead of  'cask docker'.
+# use 'brew docker' instead of  'cask docker-desktop'.
 # brew "docker"
-cask "docker"
+cask "docker-desktop"
 
 # xxenv
 brew "tfenv"
@@ -48,7 +48,6 @@ brew "rbenv"
 brew "tflint"
 
 # Java
-cask "corretto11"
 brew "maven"
 brew "gradle"
 
