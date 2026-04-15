@@ -60,6 +60,26 @@ brew "go"
 # Vim
 brew "neovim"
 
+# LSP servers
+brew "lua-language-server"
+brew "gopls"
+brew "pyright"
+brew "ruff"
+brew "vtsls"
+brew "bash-language-server"
+brew "yaml-language-server"
+brew "terraform-ls"
+brew "biome"
+
+# Formatters
+brew "stylua"
+brew "gofumpt"
+brew "shfmt"
+
+# Linters
+brew "shellcheck"
+brew "yamllint"
+
 # Prompt
 brew "pure"
 

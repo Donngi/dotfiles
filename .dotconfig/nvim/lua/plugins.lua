@@ -223,4 +223,125 @@ require("lazy").setup({
       },
     },
   },
+
+  -- 補完エンジン
+  -- preset = "none" を必ず指定して、既存の Emacs 風キーバインド
+  -- (<C-n>/<C-p>/<C-f>/<C-b>/<C-a>/<C-e>/<C-h>/<C-d>/<C-k>) を温存する。
+  {
+    "saghen/blink.cmp",
+    version = "1.*",
+    lazy = true,
+    opts = {
+      keymap = {
+        preset = "none",
+        ["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
+        ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+        ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+        ["<CR>"] = { "accept", "fallback" },
+        ["<C-y>"] = { "select_and_accept", "fallback" },
+        ["<C-g>"] = { "cancel", "fallback" },
+      },
+      completion = {
+        documentation = { auto_show = true, auto_show_delay_ms = 300 },
+        list = { selection = { preselect = false, auto_insert = false } },
+      },
+      signature = { enabled = true },
+      snippets = { preset = "default" }, -- 組み込みの vim.snippet を使用
+      sources = {
+        default = { "lsp", "path", "snippets", "buffer" },
+      },
+      fuzzy = { implementation = "prefer_rust_with_warning" },
+    },
+  },
+
+  -- LSP サーバー定義の供給元 (起動は vim.lsp.config/enable で行う)
+  -- ファイルを開いたタイミング (BufReadPre/BufNewFile) でロードして LSP をアタッチする。
+  -- blink.cmp を dependencies に入れることで、先にロード・setup させて capabilities を取得できる。
+  {
+    "neovim/nvim-lspconfig",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = { "saghen/blink.cmp" },
+    config = function()
+      local capabilities = require("blink.cmp").get_lsp_capabilities()
+      require("lsp").setup(capabilities)
+    end,
+  },
+
+  -- LSP プログレス表示 (右下に spinner)
+  {
+    "j-hui/fidget.nvim",
+    event = "LspAttach",
+    opts = {
+      notification = {
+        window = { winblend = 0 },
+      },
+    },
+  },
+
+  -- フォーマッター
+  -- 保存時に filetype ごとの formatter を呼ぶ。未登録 filetype は LSP フォーマットにフォールバック。
+  {
+    "stevearc/conform.nvim",
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo" },
+    opts = {
+      formatters_by_ft = {
+        lua = { "stylua" },
+        go = { "gofumpt" },
+        python = { "ruff_organize_imports", "ruff_format" },
+        javascript = { "biome" },
+        typescript = { "biome" },
+        javascriptreact = { "biome" },
+        typescriptreact = { "biome" },
+        json = { "biome" },
+        jsonc = { "biome" },
+        css = { "biome" },
+        graphql = { "biome" },
+        sh = { "shfmt" },
+        bash = { "shfmt" },
+      },
+      format_on_save = {
+        timeout_ms = 1500,
+        lsp_format = "fallback",
+      },
+    },
+  },
+
+  -- 診断・参照・シンボル一覧 UI
+  {
+    "folke/trouble.nvim",
+    cmd = "Trouble",
+    opts = {},
+    keys = {
+      { "<leader>xx", "<cmd>Trouble diagnostics toggle<CR>",                      desc = "診断一覧 (プロジェクト全体)" },
+      { "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<CR>",         desc = "診断一覧 (現バッファ)" },
+      { "<leader>xs", "<cmd>Trouble lsp_document_symbols toggle<CR>",             desc = "シンボル一覧" },
+      { "<leader>xr", "<cmd>Trouble lsp_references toggle<CR>",                   desc = "LSP 参照一覧" },
+    },
+  },
+
+  -- リンター (保存時に外部 linter を走らせて vim.diagnostic に流す)
+  -- Phase 1: 骨格のみ。linters_by_ft は Phase 3 以降で言語別に追加する。
+  {
+    "mfussenegger/nvim-lint",
+    event = { "BufReadPost", "BufWritePost", "InsertLeave" },
+    config = function()
+      require("lint").linters_by_ft = {
+        sh = { "shellcheck" },
+        bash = { "shellcheck" },
+        yaml = { "yamllint" },
+      }
+
+      local augroup = vim.api.nvim_create_augroup("dotfiles_nvim_lint", { clear = true })
+      vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
+        group = augroup,
+        callback = function(args)
+          local ft = vim.bo[args.buf].filetype
+          if require("lint").linters_by_ft[ft] then
+            require("lint").try_lint()
+          end
+        end,
+      })
+    end,
+  },
 })
