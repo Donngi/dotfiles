@@ -12,6 +12,9 @@
 !/.zshrc
 !/.gitconfig
 !/.gitignore
+!/.stylua.toml
+!/.shellcheckrc
+!/biome.jsonc
 !/Makefile
 !/README.md
 !/CLAUDE.md

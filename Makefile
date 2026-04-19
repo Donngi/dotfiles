@@ -79,3 +79,44 @@ wsl-init-brew:
 	
 wsl-init-node:
 	bash ./setup/wsl/init/init_node.sh
+
+
+# ----------------------------------------------------------------------------
+# Lint / Format
+# ----------------------------------------------------------------------------
+
+### fmt: フォーマット適用 (書き込みあり)
+fmt: fmt-lua fmt-sh fmt-json
+
+fmt-lua:
+	stylua .
+
+fmt-sh:
+	shfmt -w setup/ setup.sh
+
+fmt-json:
+	biome format --write
+
+### fmt-check: フォーマットチェック (書き込みなし)
+fmt-check: fmt-check-lua fmt-check-sh fmt-check-json
+
+fmt-check-lua:
+	stylua --check .
+
+fmt-check-sh:
+	shfmt -d setup/ setup.sh
+
+fmt-check-json:
+	biome format
+
+### lint: リンター実行
+lint: lint-sh lint-json
+
+lint-sh:
+	shfmt -f setup/ setup.sh | xargs shellcheck
+
+lint-json:
+	biome lint
+
+### check: lint + fmt-check (統合)
+check: lint fmt-check
