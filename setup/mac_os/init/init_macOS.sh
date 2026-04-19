@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Trackpad speed
 defaults write -g com.apple.mouse.scaling 2.5

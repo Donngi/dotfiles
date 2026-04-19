@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Usage:
 # source ./util_deploy.sh <target> <deploy_dir> <files>
@@ -24,9 +24,9 @@ echo "[INFO] files to link     : $files"
 echo ""
 
 # Create backup directory
-if [ ! -d "$deploy_dir/.dotbackup" ];then
-    echo "$deploy_dir/.dotbackup not found. Automatically create it."
-    sudo mkdir -p "$deploy_dir/.dotbackup"
+if [ ! -d "$deploy_dir/.dotbackup" ]; then
+	echo "$deploy_dir/.dotbackup not found. Automatically create it."
+	sudo mkdir -p "$deploy_dir/.dotbackup"
 fi
 
 backup_dir="$deploy_dir/.dotbackup/$(date +%Y%m%d-%H%M%S)"
@@ -35,17 +35,16 @@ echo ""
 sudo mkdir "$backup_dir"
 
 # Link target config files
-file_length=`echo $files | tr ' ' '\n' | wc -l`
-for i in `seq $file_length`
-do
-    f=`echo $files | cut -d ' ' -f $i`
-    echo "Start to link $f"
+file_length=$(echo "$files" | tr ' ' '\n' | wc -l)
+for i in $(seq "$file_length"); do
+	f=$(echo "$files" | cut -d ' ' -f "$i")
+	echo "Start to link $f"
 
-    if [ -e "$deploy_dir/$f" ];then
-        echo "$f already exists. Move the old file to backup"
-        sudo mv "$deploy_dir/$f" "$backup_dir"
-    fi
+	if [ -e "$deploy_dir/$f" ]; then
+		echo "$f already exists. Move the old file to backup"
+		sudo mv "$deploy_dir/$f" "$backup_dir"
+	fi
 
-    sudo ln -sfnv "$source_dir/$f" "$deploy_dir"
-    echo ""
+	sudo ln -sfnv "$source_dir/$f" "$deploy_dir"
+	echo ""
 done

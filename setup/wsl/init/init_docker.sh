@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "# ------------------------------------"
 echo "# START: Install docker"
@@ -15,18 +15,20 @@ sudo chmod a+r /etc/apt/keyrings/docker.asc
 
 # Add the repository to Apt sources:
 echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+	"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $( # shellcheck source=/dev/null  # /etc/os-release は WSL 上にのみ存在するファイル
+		. /etc/os-release && echo "$VERSION_CODENAME"
+	) stable" |
+	sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 sudo apt-get update
 
 # sudoなしでdockerを利用できるようにする
 # https://docs.docker.com/engine/install/linux-postinstall/
 if ! getent group docker >/dev/null 2>&1; then
-  sudo groupadd docker
-  sudo usermod -aG docker $USER
-  newgrp docker
-else
+	sudo groupadd docker
+	sudo usermod -aG docker "$USER"
+	newgrp docker
+fi
 
 # boot時にdockerを立ち上げ
 sudo systemctl enable docker.service

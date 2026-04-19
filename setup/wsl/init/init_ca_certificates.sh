@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "# ------------------------------------"
 echo "# START: Install ca-certificates"
@@ -6,4 +6,3 @@ echo "# ------------------------------------"
 
 sudo apt-get update -y
 sudo apt-get install -y ca-certificates
-
