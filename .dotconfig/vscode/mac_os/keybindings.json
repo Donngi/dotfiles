@@ -1,119 +1,119 @@
 // Place your key bindings in this file to overwrite the defaults
 [
-  // Toggle terminal focus. If there is not a runnning terminal, start new one.
-  {
-    "key": "ctrl+enter",
-    "command": "workbench.action.terminal.focus"
-  },
-  {
-    "key": "ctrl+enter",
-    "command": "workbench.action.focusActiveEditorGroup",
-    "when": "terminalFocus"
-  },
-  // Toggle maximize/minimize terminal area.
-  {
-    "key": "ctrl+space",
-    "command": "workbench.action.toggleMaximizedPanel"
-  },
-  // Move teriminal area to right or bottom.
-  {
-    "key": "ctrl+m ctrl+space",
-    "command": "workbench.action.positionPanelRight",
-    "when": "panelPosition == 'bottom'"
-  },
-  {
-    "key": "ctrl+m ctrl+space",
-    "command": "workbench.action.positionPanelBottom",
-    "when": "panelPosition == 'right'"
-  },
-  // Switch terminals.
-  {
-    "key": "ctrl+shift+\\",
-    "command": "workbench.action.terminal.focusNext",
-    "when": "terminalFocus"
-  },
-  // Switch divided terminals.
-  {
-    "key": "ctrl+\\",
-    "command": "workbench.action.terminal.focusNextPane",
-    "when": "terminalFocus"
-  },
-  // Cursor move by word.
-  {
-    "key": "ctrl+shift+f",
-    "command": "cursorWordPartRight",
-    "when": "textInputFocus"
-  },
-  {
-    "key": "ctrl+shift+b",
-    "command": "cursorWordLeft",
-    "when": "textInputFocus"
-  },
-  // Enable zsh like word delete.
-  {
-    "key": "ctrl+w",
-    "command": "deleteWordLeft",
-    "when": "textInputFocus && !editorReadonly"
-  },
-  {
-    "key": "ctrl+j ctrl+w",
-    "command": "deleteWordRight",
-    "when": "textInputFocus && !editorReadonly"
-  },
-  // Switch vscode windows.
-  {
-    "key": "ctrl+m ctrl+m",
-    "command": "workbench.action.switchWindow"
-  },
-  // Enable to move the cursor all at once.
-  {
-    "key": "ctrl+j ctrl+k",
-    "command": "cursorMove",
-    "args": {
-      "to": "up",
-      "by": "line",
-      "value": 15
-    },
-    "when": "editorTextFocus"
-  },
-  {
-    "key": "ctrl+j ctrl+j",
-    "command": "cursorMove",
-    "args": {
-      "to": "down",
-      "by": "line",
-      "value": 15
-    },
-    "when": "editorTextFocus"
-  },
-  // Create new file and folder
-  {
-    "key": "cmd+shift+n",
-    "command": "explorer.newFile"
-  },
-  {
-    "key": "cmd+alt+n",
-    "command": "explorer.newFolder"
-  },
-  // Trigger suggest
-  {
-    "key": "shift+space",
-    "command": "editor.action.triggerSuggest",
-    "when": "editorHasCompletionItemProvider && textInputFocus && !editorReadonly && !suggestWidgetVisible"
-  },
-  // ------------------------------------------------
-  // Copilot Chat
-  // ------------------------------------------------
-  // デフォルトのEnter送信を無効化
-  {
-    "key": "enter",
-    "command": "-workbench.action.chat.submit",
-    "when": "chatInputHasText && inChatInput && !chatSessionRequestInProgress && !withinEditSessionDiff"
-  },
-  // Ctrl+Enterで送信に変更
-  {
-    "key": "ctrl+enter",
-    "command": "workbench.action.chat.submit",
-    "when": "chatInputHasText && inChatInput && !chatSessionRequestInProgress && !withinEditSessionDiff"
-  }
+	// Toggle terminal focus. If there is not a runnning terminal, start new one.
+	{
+		"key": "ctrl+enter",
+		"command": "workbench.action.terminal.focus"
+	},
+	{
+		"key": "ctrl+enter",
+		"command": "workbench.action.focusActiveEditorGroup",
+		"when": "terminalFocus"
+	},
+	// Toggle maximize/minimize terminal area.
+	{
+		"key": "ctrl+space",
+		"command": "workbench.action.toggleMaximizedPanel"
+	},
+	// Move teriminal area to right or bottom.
+	{
+		"key": "ctrl+m ctrl+space",
+		"command": "workbench.action.positionPanelRight",
+		"when": "panelPosition == 'bottom'"
+	},
+	{
+		"key": "ctrl+m ctrl+space",
+		"command": "workbench.action.positionPanelBottom",
+		"when": "panelPosition == 'right'"
+	},
+	// Switch terminals.
+	{
+		"key": "ctrl+shift+\\",
+		"command": "workbench.action.terminal.focusNext",
+		"when": "terminalFocus"
+	},
+	// Switch divided terminals.
+	{
+		"key": "ctrl+\\",
+		"command": "workbench.action.terminal.focusNextPane",
+		"when": "terminalFocus"
+	},
+	// Cursor move by word.
+	{
+		"key": "ctrl+shift+f",
+		"command": "cursorWordPartRight",
+		"when": "textInputFocus"
+	},
+	{
+		"key": "ctrl+shift+b",
+		"command": "cursorWordLeft",
+		"when": "textInputFocus"
+	},
+	// Enable zsh like word delete.
+	{
+		"key": "ctrl+w",
+		"command": "deleteWordLeft",
+		"when": "textInputFocus && !editorReadonly"
+	},
+	{
+		"key": "ctrl+j ctrl+w",
+		"command": "deleteWordRight",
+		"when": "textInputFocus && !editorReadonly"
+	},
+	// Switch vscode windows.
+	{
+		"key": "ctrl+m ctrl+m",
+		"command": "workbench.action.switchWindow"
+	},
+	// Enable to move the cursor all at once.
+	{
+		"key": "ctrl+j ctrl+k",
+		"command": "cursorMove",
+		"args": {
+			"to": "up",
+			"by": "line",
+			"value": 15
+		},
+		"when": "editorTextFocus"
+	},
+	{
+		"key": "ctrl+j ctrl+j",
+		"command": "cursorMove",
+		"args": {
+			"to": "down",
+			"by": "line",
+			"value": 15
+		},
+		"when": "editorTextFocus"
+	},
+	// Create new file and folder
+	{
+		"key": "cmd+shift+n",
+		"command": "explorer.newFile"
+	},
+	{
+		"key": "cmd+alt+n",
+		"command": "explorer.newFolder"
+	},
+	// Trigger suggest
+	{
+		"key": "shift+space",
+		"command": "editor.action.triggerSuggest",
+		"when": "editorHasCompletionItemProvider && textInputFocus && !editorReadonly && !suggestWidgetVisible"
+	},
+	// ------------------------------------------------
+	// Copilot Chat
+	// ------------------------------------------------
+	// デフォルトのEnter送信を無効化
+	{
+		"key": "enter",
+		"command": "-workbench.action.chat.submit",
+		"when": "chatInputHasText && inChatInput && !chatSessionRequestInProgress && !withinEditSessionDiff"
+	},
+	// Ctrl+Enterで送信に変更
+	{
+		"key": "ctrl+enter",
+		"command": "workbench.action.chat.submit",
+		"when": "chatInputHasText && inChatInput && !chatSessionRequestInProgress && !withinEditSessionDiff"
+	}
 ]
