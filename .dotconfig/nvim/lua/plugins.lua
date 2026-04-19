@@ -238,7 +238,9 @@ require("lazy").setup({
 
 	-- 補完エンジン
 	-- preset = "none" を必ず指定して、既存の Emacs 風キーバインド
-	-- (<C-n>/<C-p>/<C-f>/<C-b>/<C-a>/<C-e>/<C-h>/<C-d>/<C-k>) を温存する。
+	-- (<C-f>/<C-b>/<C-a>/<C-e>/<C-h>/<C-d>/<C-k>) を温存する。
+	-- <C-n>/<C-p> は補完メニュー表示中のみ候補選択に使い、
+	-- メニュー非表示時は fallback で base.lua の <Down>/<Up> 相当へ戻す。
 	{
 		"saghen/blink.cmp",
 		version = "1.*",
@@ -249,15 +251,22 @@ require("lazy").setup({
 				["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
 				["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
 				["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+				["<C-n>"] = { "select_next", "fallback" },
+				["<C-p>"] = { "select_prev", "fallback" },
 				["<CR>"] = { "accept", "fallback" },
 				["<C-y>"] = { "select_and_accept", "fallback" },
 				["<C-g>"] = { "cancel", "fallback" },
 			},
 			completion = {
-				documentation = { auto_show = true, auto_show_delay_ms = 300 },
+				menu = { border = "rounded" },
+				documentation = {
+					auto_show = true,
+					auto_show_delay_ms = 300,
+					window = { border = "rounded" },
+				},
 				list = { selection = { preselect = false, auto_insert = false } },
 			},
-			signature = { enabled = true },
+			signature = { enabled = true, window = { border = "rounded" } },
 			snippets = { preset = "default" }, -- 組み込みの vim.snippet を使用
 			sources = {
 				default = { "lsp", "path", "snippets", "buffer" },
