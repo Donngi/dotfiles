@@ -23,9 +23,15 @@ zstyle :prompt:pure:user color 242
 zstyle :prompt:pure:user:root color default
 zstyle :prompt:pure:virtualenv color 242
 
+# Pure が構築したオリジナルの PROMPT を退避（precmd で毎回ここから再構築する）
+typeset -g _PROMPT_BASE=$PROMPT
+
 # AWS 環境変数を Pure の preprompt 1行目末尾に表示する
 # Pure 本体を変更せずに、precmd hook で PROMPT に注入する
 function _inject_aws_to_preprompt() {
+  # 毎回オリジナルに戻してから再注入する。これをしないと precmd のたびに
+  # aws_segment が累積し、AWS_* を unset しても残り続けてしまう。
+  PROMPT=$_PROMPT_BASE
   local aws_vars
   aws_vars=$(env | grep '^AWS_' | tr '\n' ' ')
   if [[ -n $aws_vars ]]; then
