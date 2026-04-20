@@ -29,8 +29,11 @@ function _inject_aws_to_preprompt() {
   local aws_vars
   aws_vars=$(env | grep '^AWS_' | tr '\n' ' ')
   if [[ -n $aws_vars ]]; then
+    # Pure の PROMPT には展開前のリテラル文字列 ${prompt_newline} が
+    # 埋め込まれているため、検索対象もリテラルにする必要がある。
+    local marker='${prompt_newline}'
     local aws_segment="%F{magenta}${aws_vars}%f"
-    PROMPT="${PROMPT/$prompt_newline/ ${aws_segment}${prompt_newline}}"
+    PROMPT="${PROMPT/$marker/ ${aws_segment}${marker}}"
   fi
 }
 autoload -U add-zsh-hook
