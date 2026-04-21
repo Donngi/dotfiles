@@ -1,8 +1,11 @@
 # ------------------------------------------------------------------------
-# ghq + fzf + split + claude (Ctrl+G → c)
+# ghq + fzf + split + AI CLI ランチャー
 #
-# ghq 管理 repo を fzf で選択 → cd → ターミナルを縦 split → 左で claude 起動。
+# ghq 管理 repo を fzf で選択 → cd → ターミナルを縦 split → 左で AI CLI を起動。
 # Ghostty / cmux (coder/cmux) どちらでも同じキーで動く。
+#
+#   Ctrl+G → c  : claude
+#   Ctrl+G → k  : kiro-cli
 # ------------------------------------------------------------------------
 
 # 現在の pane が cmux 配下かを親プロセス系統で判定する。
@@ -32,7 +35,8 @@ _launcher-split-right() {
     fi
 }
 
-ghq-fzf-claude-launcher() {
+_launcher-ghq-fzf-run() {
+    local cmd=$1
     local target
     target=$(ghq list --full-path | fzf --height 60% --reverse) || { zle reset-prompt; return 0; }
     [[ -d "$target" ]] || { zle reset-prompt; return 0; }
@@ -41,8 +45,13 @@ ghq-fzf-claude-launcher() {
     zle reset-prompt
     cd "$target"
     _launcher-split-right
-    claude
+    "$cmd"
     zle reset-prompt
 }
+
+ghq-fzf-claude-launcher() { _launcher-ghq-fzf-run claude; }
+ghq-fzf-kiro-launcher()   { _launcher-ghq-fzf-run kiro-cli; }
 zle -N ghq-fzf-claude-launcher
+zle -N ghq-fzf-kiro-launcher
 bindkey '^Gc' ghq-fzf-claude-launcher
+bindkey '^Gk' ghq-fzf-kiro-launcher
