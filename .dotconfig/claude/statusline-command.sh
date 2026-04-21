@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Claude Code statusLine"""
-import json, os, re, subprocess, sys
+import json, os, re, shutil, subprocess, sys
 
 # --- Constants ---
 
@@ -11,6 +11,7 @@ BRANCH_COLOR = '\033[38;2;230;218;166m'
 
 SEP = f' {GRAY}│{R} '
 SEP_WIDTH = 3  # visible width of " │ "
+LABEL_W = 3  # ctx/5h/7d ラベルを揃えるための固定幅
 
 LEVEL_COLORS = [
     (50, (0, 200, 80)),      # green  (0-49%)
@@ -40,6 +41,16 @@ def pad(s, width):
     return s + ' ' * max(0, width - visible_len(s))
 
 
+def truncate_plain(s, width):
+    if len(s) <= width:
+        return s
+    if width <= 0:
+        return ''
+    if width == 1:
+        return '…'
+    return s[: width - 1] + '…'
+
+
 def fmt_tokens(n):
     if n is None or n == 0:
         return '0'
@@ -51,6 +62,7 @@ def fmt_tokens(n):
 
 
 def fmt_bar(label, pct, width=10):
+    label = label.ljust(LABEL_W)
     p = round(pct)
     pct_clamped = min(max(pct, 0), 100)
     full = round(pct_clamped * width / 100)
@@ -75,7 +87,13 @@ def build_hr(segs):
     return f'{GRAY}{result}──{R}'
 
 
+def row_width(segs):
+    return sum(visible_len(s) for s in segs) + SEP_WIDTH * max(0, len(segs) - 1)
+
+
 # --- Data extraction ---
+
+COLS = shutil.get_terminal_size((80, 24)).columns
 
 data = json.load(sys.stdin)
 
@@ -92,12 +110,12 @@ if cwd:
     except Exception:
         pass
 
-dir_display = ''
+dir_full = ''
 if cwd:
     home = os.path.expanduser('~')
     d = cwd.replace(home, '~', 1)
     parts = d.split('/')
-    dir_display = '/'.join(parts[-2:]) if len(parts) > 2 else d
+    dir_full = '/'.join(parts[-2:]) if len(parts) > 2 else d
 
 ctx = data.get('context_window', {})
 ctx_pct = ctx.get('used_percentage')
@@ -108,9 +126,8 @@ rate_limits = data.get('rate_limits') or {}
 five_pct = rate_limits.get('five_hour', {}).get('used_percentage')
 week_pct = rate_limits.get('seven_day', {}).get('used_percentage')
 
-# --- Build segments ---
+# --- Build base segments ---
 
-# Line 3: [ctx + tokens] │ [5h] │ [7d]
 ctx_bar = fmt_bar('ctx', ctx_pct if ctx_pct is not None else 0)
 tokens = f'{DIM}in:{R}{in_fmt} {DIM}out:{R}{out_fmt}'
 ctx_tokens = f'{ctx_bar} {tokens}'
@@ -118,29 +135,80 @@ ctx_tokens = f'{ctx_bar} {tokens}'
 five_bar = fmt_bar('5h', five_pct) if five_pct is not None else ''
 week_bar = fmt_bar('7d', week_pct) if week_pct is not None else ''
 
-line3_segs = [s for s in [ctx_tokens, five_bar, week_bar] if s]
 
-# Column widths (line 3 drives alignment)
-col1_w = visible_len(ctx_tokens)
-col2_w = visible_len(five_bar)
-col3_w = max(visible_len(week_bar), visible_len(model))
+def dir_branch_plain_len(dir_s):
+    if branch and dir_s:
+        return len(dir_s) + 1 + len(branch)
+    if branch:
+        return len(branch)
+    return len(dir_s)
 
-# Pad last segment to col3 width
-if line3_segs:
-    line3_segs[-1] = pad(line3_segs[-1], col3_w)
 
-# Line 1: [dir + branch] │ [model]
-dir_branch = dir_display
-if branch:
-    dir_branch = f'{dir_display} {BRANCH_COLOR}{branch}{R}' if dir_display else f'{BRANCH_COLOR}{branch}{R}'
+# --- Mode selection ---
 
-line1_segs = [
-    pad(dir_branch, col1_w + SEP_WIDTH + col2_w),
-    pad(model, col3_w),
-]
+full_segs = [s for s in [ctx_tokens, five_bar, week_bar] if s]
+no_tok_segs = [s for s in [ctx_bar, five_bar, week_bar] if s]
+
+line1_plain_w = dir_branch_plain_len(dir_full) + SEP_WIDTH + len(model)
+
+# build_hr は末尾に `──` (2 文字) を付けるため、行本体より 2 文字広くなる
+HR_EXTRA = 2
+
+if row_width(full_segs) + HR_EXTRA <= COLS and line1_plain_w <= COLS:
+    mode = 'full'
+elif row_width(no_tok_segs) + HR_EXTRA <= COLS and line1_plain_w <= COLS:
+    mode = 'no_tokens'
+else:
+    mode = 'fold'
+
+# --- Compose dir_branch (shorten dir in fold mode if needed) ---
+
+dir_display = dir_full
+if mode == 'fold':
+    # 罫線が overflow しないように、line1 の目標幅は COLS - HR_EXTRA
+    target = COLS - HR_EXTRA
+    if dir_branch_plain_len(dir_display) + SEP_WIDTH + len(model) > target:
+        path_parts = dir_full.split('/')
+        if len(path_parts) > 1:
+            dir_display = path_parts[-1]
+    if dir_branch_plain_len(dir_display) + SEP_WIDTH + len(model) > target:
+        budget = target - SEP_WIDTH - len(model)
+        if branch:
+            budget -= 1 + len(branch)
+        dir_display = truncate_plain(dir_display, max(0, budget))
+
+if branch and dir_display:
+    dir_branch = f'{dir_display} {BRANCH_COLOR}{branch}{R}'
+elif branch:
+    dir_branch = f'{BRANCH_COLOR}{branch}{R}'
+else:
+    dir_branch = dir_display
 
 # --- Output ---
 
-print(SEP.join(line1_segs))
-print(build_hr(line3_segs))
-print(SEP.join(line3_segs))
+if mode in ('full', 'no_tokens'):
+    first_col = ctx_tokens if mode == 'full' else ctx_bar
+    line3_segs = [s for s in [first_col, five_bar, week_bar] if s]
+
+    col1_w = visible_len(first_col)
+    col2_w = visible_len(five_bar)
+    col_last_w = max(visible_len(week_bar), visible_len(model))
+
+    if line3_segs:
+        line3_segs[-1] = pad(line3_segs[-1], col_last_w)
+
+    line1_segs = [
+        pad(dir_branch, col1_w + SEP_WIDTH + col2_w),
+        pad(model, col_last_w),
+    ]
+
+    print(SEP.join(line1_segs))
+    print(build_hr(line3_segs))
+    print(SEP.join(line3_segs))
+else:
+    # Fold モード: dir/branch │ model の下に各バーを 1 行ずつ縦積み
+    print(f'{dir_branch}{SEP}{model}')
+    print(build_hr([dir_branch, model]))
+    for bar in [ctx_bar, five_bar, week_bar]:
+        if bar:
+            print(bar)
