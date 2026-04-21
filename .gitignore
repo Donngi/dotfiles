@@ -109,6 +109,7 @@
 !/.dotconfig/zsh/rc/wsl.zsh
 !/.dotconfig/zsh/rc/xxenv.zsh
 !/.dotconfig/zsh/rc/memo.zsh
+!/.dotconfig/zsh/rc/launcher.zsh
 !/.dotconfig/zsh/rc/terminal-integration.zsh
 
 # ------------------------------------------------------------------------
