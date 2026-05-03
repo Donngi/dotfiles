@@ -18,7 +18,7 @@ Subcommands:
   <title>         今日の日付+タイトルでメモを開く (YYYYMMDD-<title>.md)
   ls              fzf でメモを一覧・選択して開く
   grep <keyword>  メモ内をキーワード検索し、選択して開く
-  dir             MEMO_DIR を nvim で開く
+  vi              MEMO_DIR を nvim で開く
   help, -h, --help  このヘルプを表示する
 
 Environment:
@@ -43,7 +43,7 @@ HELP
                 cut -d: -f1)
             [[ -n "$selected" ]] && nvim "$selected"
             ;;
-        dir)
+        vi)
             nvim "$MEMO_DIR"
             ;;
         "")
