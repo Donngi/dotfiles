@@ -139,7 +139,25 @@ require("lazy").setup({
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		opts = {
-			ensure_installed = { "markdown", "markdown_inline", "lua" },
+			-- markdown_inline のフェンスコードブロック注入 (LSP ホバー等) で
+			-- 各言語のハイライトを得るため、対象言語パーサを事前導入しておく。
+			ensure_installed = {
+				"markdown",
+				"markdown_inline",
+				"lua",
+				"go",
+				"python",
+				"typescript",
+				"tsx",
+				"javascript",
+				"bash",
+				"yaml",
+				"json",
+				"jsonc",
+				"css",
+				"terraform",
+				"hcl",
+			},
 			auto_install = true,
 			highlight = { enable = true },
 		},

@@ -58,6 +58,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 vim.opt.termguicolors = true
+vim.o.winborder = "rounded" -- フローティングウィンドウの既定枠（LSP ホバー・シグネチャ等）
 vim.opt.number = true
 vim.opt.syntax = "on"
 vim.opt.scrolloff = 6 -- カーソルが画面端から6行以内に入らないよう自動スクロール
