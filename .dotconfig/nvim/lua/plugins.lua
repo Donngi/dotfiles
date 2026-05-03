@@ -273,7 +273,7 @@ require("lazy").setup({
 				["<C-p>"] = { "select_prev", "fallback" },
 				["<CR>"] = { "accept", "fallback" },
 				["<C-y>"] = { "select_and_accept", "fallback" },
-				["<C-g>"] = { "cancel", "fallback" },
+				["<C-e>"] = { "cancel", "fallback" },
 			},
 			completion = {
 				menu = { border = "rounded" },
