@@ -97,6 +97,7 @@ require("lazy").setup({
 			},
 			{ "<leader>fb", "<cmd>Telescope buffers<CR>", desc = "開いているバッファの一覧から選択" },
 			{ "<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "ヘルプドキュメントを検索" },
+			{ "<leader>fk", "<cmd>Telescope keymaps<CR>", desc = "キーマップ一覧を検索" },
 		},
 	},
 
@@ -388,6 +389,41 @@ require("lazy").setup({
 						require("lint").try_lint()
 					end
 				end,
+			})
+		end,
+	},
+
+	-- キーマップ即時参照 (leader / g キー押下後にポップアップで候補表示)
+	-- 個別キーは vim.keymap.set 時の desc を which-key が自動で読み取るため、
+	-- ここではグループ名と Neovim 0.12 デフォルト LSP キーの説明のみ宣言する。
+	{
+		"folke/which-key.nvim",
+		version = "^3",
+		event = "VeryLazy",
+		opts = {
+			preset = "modern",
+			delay = 250,
+			icons = { mappings = true },
+		},
+		config = function(_, opts)
+			local wk = require("which-key")
+			wk.setup(opts)
+			wk.add({
+				-- leader 配下のグループ名
+				{ "<leader>f", group = "Find" },
+				{ "<leader>l", group = "LSP" },
+				{ "<leader>x", group = "Diagnostics" },
+				{ "<leader>b", group = "Buffer" },
+				{ "<leader>p", group = "Preview" },
+
+				-- Neovim 0.12 デフォルト LSP キー (g プレフィックス)
+				{ "gr", group = "LSP Refactor/References" },
+				{ "grn", desc = "LSP: シンボル名変更 (rename)" },
+				{ "gra", desc = "LSP: コードアクション" },
+				{ "grr", desc = "LSP: 参照一覧" },
+				{ "gri", desc = "LSP: 実装にジャンプ" },
+				{ "grt", desc = "LSP: 型定義にジャンプ" },
+				{ "gO", desc = "LSP: ドキュメント内シンボル一覧" },
 			})
 		end,
 	},
