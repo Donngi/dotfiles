@@ -45,6 +45,7 @@ brew "go"
 
 # Vim
 brew "neovim"
+brew "tree-sitter-cli"
 
 # LSP servers
 brew "lua-language-server"
