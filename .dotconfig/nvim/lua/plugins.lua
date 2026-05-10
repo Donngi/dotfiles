@@ -136,13 +136,20 @@ require("lazy").setup({
 	},
 
 	-- 構文解析
+	-- nvim-treesitter は 2026-04 にアーカイブされ、main ブランチのリライトが最終形となった。
+	-- 新 API: パーサ導入は require('nvim-treesitter').install、ハイライトは
+	-- FileType autocmd で vim.treesitter.start() を呼ぶ方式（旧 ensure_installed /
+	-- auto_install / highlight オプションは廃止）。lazy-load も非対応。
 	{
 		"nvim-treesitter/nvim-treesitter",
+		branch = "main",
+		lazy = false,
 		build = ":TSUpdate",
-		opts = {
-			-- markdown_inline のフェンスコードブロック注入 (LSP ホバー等) で
-			-- 各言語のハイライトを得るため、対象言語パーサを事前導入しておく。
-			ensure_installed = {
+		config = function()
+			-- markdown_inline はフェンスコードブロック注入 (LSP ホバー等) で各言語の
+			-- ハイライトを得るために必要。auto_install 相当は新 API にないため、
+			-- 必要なパーサはここで明示する。
+			local parsers = {
 				"markdown",
 				"markdown_inline",
 				"lua",
@@ -158,10 +165,17 @@ require("lazy").setup({
 				"css",
 				"terraform",
 				"hcl",
-			},
-			auto_install = true,
-			highlight = { enable = true },
-		},
+			}
+			require("nvim-treesitter").install(parsers)
+
+			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("dotfiles_treesitter", { clear = true }),
+				callback = function(args)
+					-- パーサ未導入の filetype では静かに失敗させる
+					pcall(vim.treesitter.start, args.buf)
+				end,
+			})
+		end,
 	},
 
 	-- アウトライン表示（目次）
