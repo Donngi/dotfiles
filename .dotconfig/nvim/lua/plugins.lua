@@ -178,6 +178,36 @@ require("lazy").setup({
 		end,
 	},
 
+	-- スコープ（見出し・関数・クラス）を画面上部にスティッキー表示
+	-- VSCode の sticky scroll 相当。Markdown では H1 > H2 > H3 ... が階層的に積まれる。
+	{
+		"nvim-treesitter/nvim-treesitter-context",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		event = { "BufReadPost", "BufNewFile" },
+		main = "treesitter-context",
+		opts = {
+			enable = true,
+			max_lines = 0,
+			min_window_height = 0,
+			line_numbers = true,
+			multiline_threshold = 20,
+			trim_scope = "outer",
+			mode = "cursor",
+			separator = nil,
+			zindex = 20,
+		},
+		keys = {
+			{
+				"[c",
+				function()
+					require("treesitter-context").go_to_context(vim.v.count1)
+				end,
+				desc = "親コンテキスト（見出し/関数）にジャンプ",
+				silent = true,
+			},
+		},
+	},
+
 	-- アウトライン表示（目次）
 	{
 		"stevearc/aerial.nvim",
