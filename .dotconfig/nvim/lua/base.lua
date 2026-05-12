@@ -206,6 +206,16 @@ vim.keymap.set("n", "<M-z>", function()
 	end
 end, { noremap = true, desc = "行折り返しをトグル" })
 
+-- 行を上下に移動（VSCode の Alt+Up/Down 相当）
+vim.keymap.set("n", "<M-Up>", ":move .-2<CR>==", { silent = true, desc = "行を上に移動" })
+vim.keymap.set("n", "<M-Down>", ":move .+1<CR>==", { silent = true, desc = "行を下に移動" })
+
+vim.keymap.set("i", "<M-Up>", "<C-g>u<Esc>:move .-2<CR>==gi", { silent = true, desc = "行を上に移動" })
+vim.keymap.set("i", "<M-Down>", "<C-g>u<Esc>:move .+1<CR>==gi", { silent = true, desc = "行を下に移動" })
+
+vim.keymap.set("v", "<M-Up>", ":move '<-2<CR>gv=gv", { silent = true, desc = "選択行を上に移動" })
+vim.keymap.set("v", "<M-Down>", ":move '>+1<CR>gv=gv", { silent = true, desc = "選択行を下に移動" })
+
 -- システムクリップボードから貼り付け
 vim.keymap.set({ "n", "v" }, "<leader>v", function()
 	local handle = io.popen("pbpaste")
