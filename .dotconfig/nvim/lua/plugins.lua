@@ -48,8 +48,14 @@ require("lazy").setup({
 		},
 		config = function()
 			local telescope = require("telescope")
+			local actions = require("telescope.actions")
 			telescope.setup({
 				defaults = {
+					mappings = {
+						i = {
+							["<Esc>"] = actions.close,
+						},
+					},
 					file_ignore_patterns = {
 						"%.git/",
 						"node_modules/",
