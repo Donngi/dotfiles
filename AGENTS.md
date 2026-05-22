@@ -112,6 +112,16 @@ lazy.nvim はプラグインのコードがインストール時/起動時に sh
 - 別マシンや初回起動時の同期は `:Lazy restore` で lockfile に合わせる
 - `:Lazy sync` は install/update/clean を一括で行うため使わない。install したいだけなら `:Lazy install`、update したいときは `:Lazy update` を使う
 
+### Lazy UI のキー操作
+
+`:Lazy` UI 内のキーは本来すべて確認なしで即実行される (lazy.nvim の設計)。
+このリポジトリでは `.dotconfig/nvim/lua/base.lua` の `FileType lazy` autocmd で、状態を変更するキーに `vim.fn.confirm` を挟むようバッファローカルで上書きしている。
+
+- 確認あり (デフォルト No): `I` / `U` / `S` / `X` / `R` (全件)、`i` / `u` / `x` (カーソル位置 + visual mode で選択した範囲のプラグイン)、`r` (個別 restore)
+- 確認なし (read-only): `C` (check) / `L` (log) / `c` (個別 check)
+
+意図的にプラグインの状態を変更する場合のみ Yes を選ぶこと。プロンプト中で `Enter` を押すと No が確定する設計にしてある (誤操作防止)。
+
 ### プラグインの更新フロー
 
 1. `:Lazy update` で更新候補を取得 (lockfile はまだ書き換わらない)

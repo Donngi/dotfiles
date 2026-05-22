@@ -405,3 +405,167 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	end,
 	desc = "TOC が存在する markdown ファイルを保存時に自動更新",
 })
+
+-- :Lazy UI で「プラグインの状態を変更するキー」に確認プロンプトを挟む。
+-- lazy.nvim は I/U/S/X/R/i/u/x/r を確認なしで即実行する設計のため、反射的な
+-- 押下で lockfile やプラグインの物理ディレクトリが書き換わるのを防ぐ。
+-- read-only キー (C/L/c, log/check) はフックしない。
+-- 個別操作 (i/u/x) は normal + visual モードの両方で上書きする (visual mode で
+-- 複数プラグインを選択して i/u/x を押すと lazy.nvim はバッチ実行するため)。
+-- r (個別 restore) は lazy.nvim 側で on_pattern 実装のため別扱いだが、状態を
+-- 変更する操作なので同様にガードする。
+do
+	-- restore (r) 用: lazy.nvim と同じ短縮 commit hash パターン (view/init.lua:202)
+	local restore_commit_pattern = "%f[%w](" .. string.rep("[a-f0-9]", 7) .. ")%f[%W]"
+
+	-- Yes/No 確認ダイアログ。Enter での誤承認を防ぐため既定は No。
+	local function confirm_yes(msg)
+		return vim.fn.confirm(msg, "&Yes\n&No", 2) == 1
+	end
+
+	-- :Lazy UI の View インスタンスを安全に取得する。未表示なら nil。
+	local function get_view()
+		local ok, view_mod = pcall(require, "lazy.view")
+		if ok and view_mod.view and view_mod.view.render then
+			return view_mod.view
+		end
+		return nil
+	end
+
+	-- 全件操作 (uppercase): normal mode のみ
+	local lazy_confirm_all = {
+		I = { cmd = "install", desc = "未 install のプラグインを全件 install" },
+		U = { cmd = "update", desc = "全プラグインを update (lockfile 書き換え)" },
+		S = { cmd = "sync", desc = "clean + install + update を一括実行" },
+		X = { cmd = "clean", desc = "spec に無いプラグインの物理ディレクトリを削除" },
+		R = { cmd = "restore", desc = "全プラグインを lockfile の commit に強制復元" },
+	}
+	-- 個別操作 (lowercase): カーソル位置 / visual 選択範囲のプラグイン
+	local lazy_confirm_plugin = {
+		i = "install",
+		u = "update",
+		x = "clean",
+	}
+
+	-- normal / visual mode 双方から呼ばれる。lazy.nvim は visual mode で選択範囲内の
+	-- プラグインを列挙し、normal mode ではカーソル行のみを対象にする (view/init.lua:340-355)。
+	-- ここでも同じ流儀を再現する。
+	local function get_target_plugins()
+		local view = get_view()
+		if not view then
+			return {}
+		end
+		local render = view.render
+		local mode = vim.api.nvim_get_mode().mode:lower()
+		if mode == "v" or mode == "V" then
+			-- 選択範囲の各行から plugin を集める
+			local f, t = vim.fn.line("."), vim.fn.line("v")
+			if f > t then
+				f, t = t, f
+			end
+			local seen, plugins = {}, {}
+			for i = f, t do
+				local plugin = render:get_plugin(i)
+				if plugin and not seen[plugin.name] then
+					seen[plugin.name] = true
+					plugins[#plugins + 1] = plugin
+				end
+			end
+			-- visual mode を抜けてからコマンドを発行する (lazy.nvim 側の挙動に合わせる)
+			local esc = vim.api.nvim_replace_termcodes("<esc>", true, true, true)
+			vim.api.nvim_feedkeys(esc, "n", false)
+			return plugins
+		end
+		local plugin = render:get_plugin()
+		return plugin and { plugin } or {}
+	end
+
+	vim.api.nvim_create_autocmd("FileType", {
+		pattern = "lazy",
+		group = vim.api.nvim_create_augroup("dotfiles_lazy_confirm", { clear = true }),
+		callback = function(ev)
+			-- lazy.nvim 本体のキーマップ設定後に上書きするため次の tick まで遅延
+			vim.schedule(function()
+				if not vim.api.nvim_buf_is_valid(ev.buf) then
+					return
+				end
+
+				for key, info in pairs(lazy_confirm_all) do
+					vim.keymap.set("n", key, function()
+						local msg = string.format(":Lazy %s を実行しますか?\n%s", info.cmd, info.desc)
+						if confirm_yes(msg) then
+							require("lazy.view.commands").cmd(info.cmd)
+						end
+					end, {
+						buffer = ev.buf,
+						nowait = true,
+						desc = "Lazy " .. info.cmd .. " (確認あり)",
+					})
+				end
+
+				for key, op in pairs(lazy_confirm_plugin) do
+					vim.keymap.set({ "n", "x" }, key, function()
+						local plugins = get_target_plugins()
+						if #plugins == 0 then
+							vim.notify("対象のプラグインがありません", vim.log.levels.WARN)
+							return
+						end
+						local label
+						if #plugins == 1 then
+							label = plugins[1].name
+						else
+							label = string.format("%d プラグイン (%s, ...)", #plugins, plugins[1].name)
+						end
+						if confirm_yes(string.format(":Lazy %s %s を実行しますか?", op, label)) then
+							require("lazy.view.commands").cmd(op, { plugins = plugins })
+						end
+					end, {
+						buffer = ev.buf,
+						nowait = true,
+						desc = "Lazy " .. op .. " (確認あり)",
+					})
+				end
+
+				-- restore (r): カーソル位置のプラグインを復元する。
+				-- カーソルが短縮 commit hash の上にあればその commit に、それ以外なら
+				-- lockfile の commit に restore する (lazy.nvim の on_pattern と同じ判定)。
+				vim.keymap.set("n", "r", function()
+					local view = get_view()
+					if not view then
+						return
+					end
+					local plugin = view.render:get_plugin()
+					if not plugin then
+						vim.notify("カーソル位置にプラグインがありません", vim.log.levels.WARN)
+						return
+					end
+					-- カーソル下に commit hash があればそれを対象にする
+					local line = vim.api.nvim_get_current_line()
+					local col = vim.api.nvim_win_get_cursor(0)[2] + 1
+					local commit, from = nil, 1
+					while from do
+						local s, e, hash = line:find(restore_commit_pattern, from)
+						if not s then
+							break
+						end
+						if col >= s and col <= e then
+							commit = hash
+							break
+						end
+						from = e + 1
+					end
+					local target = commit and ("commit " .. commit) or "lockfile の commit"
+					local msg = string.format(":Lazy restore %s を %s に戻しますか?", plugin.name, target)
+					if confirm_yes(msg) then
+						view:restore(commit and { commit = commit } or nil)
+					end
+				end, {
+					buffer = ev.buf,
+					nowait = true,
+					desc = "Lazy restore (確認あり)",
+				})
+			end)
+		end,
+		desc = "Lazy UI の状態変更キーに確認プロンプトを挟む",
+	})
+end
