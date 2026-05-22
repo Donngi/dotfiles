@@ -472,6 +472,11 @@ require("lazy").setup({
 		end,
 	},
 }, {
+	-- 起動中の設定ファイル変更検出を無効化 (意図しないリロードを避ける)
+	change_detection = {
+		enabled = false,
+		notify = false,
+	},
 	-- 自動更新チェック無効 (明示)。更新は :Lazy update を手動実行する運用
 	checker = {
 		enabled = false,
