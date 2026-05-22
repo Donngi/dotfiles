@@ -19,3 +19,7 @@ export BAT_CONFIG_PATH=$ZDOTDIR/.dotconfig/bat/bat.conf
 # volta
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
+
+# homebrew
+# ダウンロード中の HTTPS→HTTP リダイレクトを拒否（MITM 対策）
+export HOMEBREW_NO_INSECURE_REDIRECT=1
