@@ -1,4 +1,7 @@
 -- lazy.nvimでプラグインを管理
+--
+-- セキュリティ関連の opts は AGENTS.md の「Neovim プラグイン管理のセキュリティ規律」を参照。
+-- サプライチェーン攻撃の攻撃面を狭めるため、rocks / pkg を明示的に無効化している。
 require("lazy").setup({
 	-- ファイルエクスプローラー
 	{
@@ -130,19 +133,18 @@ require("lazy").setup({
 		end,
 	},
 
-	-- マルチカーソル
-	{
-		"mg979/vim-visual-multi",
-	},
-
 	-- 構文解析
 	-- nvim-treesitter は 2026-04 にアーカイブされ、main ブランチのリライトが最終形となった。
 	-- 新 API: パーサ導入は require('nvim-treesitter').install、ハイライトは
 	-- FileType autocmd で vim.treesitter.start() を呼ぶ方式（旧 ensure_installed /
 	-- auto_install / highlight オプションは廃止）。lazy-load も非対応。
+	--
+	-- リポジトリは archive 済みで main ブランチの HEAD は恒久的に下記 commit。
+	-- branch 追従ではなく spec で commit を直接固定することで、サプライチェーン経路
+	-- (フォーク乗っ取り / アーカイブ解除後の悪意ある commit など) を物理的に塞ぐ。
 	{
 		"nvim-treesitter/nvim-treesitter",
-		branch = "main",
+		commit = "4916d6592ede8c07973490d9322f187e07dfefac",
 		lazy = false,
 		build = ":TSUpdate",
 		config = function()
@@ -262,7 +264,6 @@ require("lazy").setup({
 	-- バッファライン（タブ表示）
 	{
 		"akinsho/bufferline.nvim",
-		version = "*",
 		dependencies = "nvim-tree/nvim-web-devicons",
 		opts = {
 			options = {
@@ -287,7 +288,6 @@ require("lazy").setup({
 	-- フローティングターミナル
 	{
 		"akinsho/toggleterm.nvim",
-		version = "*",
 		opts = {
 			size = 20,
 			open_mapping = [[<C-\>]],
@@ -470,5 +470,28 @@ require("lazy").setup({
 				{ "gO", desc = "LSP: ドキュメント内シンボル一覧" },
 			})
 		end,
+	},
+}, {
+	-- 自動更新チェック無効 (明示)。更新は :Lazy update を手動実行する運用
+	checker = {
+		enabled = false,
+		check_pinned = false,
+	},
+	-- luarocks 経由のパッケージソースを無効化 (攻撃面削減、現状未使用)
+	rocks = {
+		enabled = false,
+	},
+	-- 追加パッケージソース (rockspec / .lazy.lua 等) を無効化 (同上)
+	pkg = {
+		enabled = false,
+	},
+	-- 既存挙動維持: 起動時に欠落プラグインを lockfile の commit で install
+	install = {
+		missing = true,
+	},
+	-- partial clone (--filter=blob:none) を維持
+	git = {
+		filter = true,
+		timeout = 120,
 	},
 })

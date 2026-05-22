@@ -102,6 +102,43 @@ macOS / WSL / Windows 向けの dotfiles リポジトリ。
 
 主なスコープ: `zsh`, `nvim`, `ghostty`, `vscode`, `homebrew`, `git`, `setup`, `agents`, `docs`
 
+## Neovim プラグイン管理のセキュリティ規律
+
+lazy.nvim はプラグインのコードがインストール時/起動時に shell-level の権限で動くため、サプライチェーン攻撃の標的になりうる。以下の運用を守ること。
+
+### 通常運用
+
+- 設定変更だけのときは `:Lazy update` 等を実行しない。lockfile (`.dotconfig/nvim/lazy-lock.json`) の内容が信頼の源
+- 別マシンや初回起動時の同期は `:Lazy restore` で lockfile に合わせる
+- `:Lazy sync` は install/update/clean を一括で行うため使わない。install したいだけなら `:Lazy install`、update したいときは `:Lazy update` を使う
+
+### プラグインの更新フロー
+
+1. `:Lazy update` で更新候補を取得 (lockfile はまだ書き換わらない)
+2. UI で各プラグインの commit 差分を確認 (`<CR>` で diff 表示)
+3. 不審な変更がないと判断したら確定
+4. `git diff .dotconfig/nvim/lazy-lock.json` で diff を再確認
+5. 問題なければ commit
+
+`:Lazy update <plugin>` で個別更新も可能。普段は数プラグインずつ更新するのが安全。
+
+### プラグイン追加時のチェックリスト
+
+- リポジトリの star 数、最終 commit 日、メンテナの活動度を確認
+- `build` フィールドを伴うプラグインは Makefile / build script を必ず読む
+- `version = "*"` は使わない。lockfile に任せるか、メジャー固定 (`^N` / `N.*`) のみ可
+- `branch = "main"` 追従は原則禁止。archive 済みリポジトリは spec に `commit = "<sha>"` を直接書いて固定する
+
+### 既知の attack surface
+
+- `telescope-fzf-native`: `build = "make"` で Makefile を実行
+- `nvim-treesitter`: リポジトリは archive 済みで spec で `commit` を固定。`:Lazy update` でも no-op になる (spec の `commit` が `target` を上書きするため)。本当に commit を動かしたい場合は、新フォークの存在を確認した上で spec の commit hash を手動で書き換える。`build = ":TSUpdate"` は初回 install 時のみ走り、各言語の parser を GitHub から取得 + compile する点に注意
+
+### 将来検討
+
+- lazy.nvim の `minimum_release_age` 機能 ([Issue #2141](https://github.com/folke/lazy.nvim/issues/2141) / [PR #2152](https://github.com/folke/lazy.nvim/pull/2152)) がマージされたら、全プラグインに `7d` 程度の cooldown を入れる
+- `lazy-lock.json` を Renovate で自動更新 PR 化することも検討余地あり
+
 ## プラットフォーム固有の注意
 
 ### macOS
