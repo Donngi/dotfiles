@@ -15,12 +15,6 @@ brew "git-remote-codecommit"
 tap "iann0036/iamlive"
 brew "iann0036/iamlive/iamlive"
 
-tap "donngi/awsmfa"
-brew "donngi/awsmfa/awsmfa"
-
-tap "donngi/pipeline-lens"
-brew "donngi/pipeline-lens/pipeline-lens"
-
 cask "session-manager-plugin"
 
 # Git

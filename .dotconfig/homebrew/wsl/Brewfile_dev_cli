@@ -14,12 +14,6 @@ brew "ripgrep"
 brew "awscli"
 brew "git-remote-codecommit"
 
-tap "donngi/awsmfa"
-brew "donngi/awsmfa/awsmfa"
-
-tap "donngi/pipeline-lens"
-brew "donngi/pipeline-lens/pipeline-lens"
-
 # Git
 brew "git"
 brew "gh"
