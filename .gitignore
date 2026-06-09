@@ -80,6 +80,12 @@
 !/.dotconfig/nvim/lua/plugin_nvim_tree.lua
 !/.dotconfig/nvim/lua/plugin_nvim_vscode.lua
 !/.dotconfig/nvim/lua/plugin_telescope.lua
+!/.dotconfig/nvim/lua/command_palette
+!/.dotconfig/nvim/lua/command_palette/init.lua
+!/.dotconfig/nvim/lua/command_palette/entries
+!/.dotconfig/nvim/lua/command_palette/entries/keymap.lua
+!/.dotconfig/nvim/lua/command_palette/entries/builtin.lua
+!/.dotconfig/nvim/lua/command_palette/entries/plugin.lua
 !/.dotconfig/nvim/init.lua
 !/.dotconfig/nvim/README.md
 !/.dotconfig/nvim/lazy-lock.json

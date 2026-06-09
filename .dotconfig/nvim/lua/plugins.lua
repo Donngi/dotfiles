@@ -106,7 +106,13 @@ require("lazy").setup({
 			},
 			{ "<leader>fb", "<cmd>Telescope buffers<CR>", desc = "開いているバッファの一覧から選択" },
 			{ "<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "ヘルプドキュメントを検索" },
-			{ "<leader>fk", "<cmd>Telescope keymaps<CR>", desc = "キーマップ一覧を検索" },
+			{
+				"<leader>fk",
+				function()
+					require("command_palette").open()
+				end,
+				desc = "コマンドパレットを開く",
+			},
 		},
 	},
 
