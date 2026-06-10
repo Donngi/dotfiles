@@ -77,6 +77,7 @@
 !/.dotconfig/nvim/lua/keymaps.lua
 !/.dotconfig/nvim/lua/plugins.lua
 !/.dotconfig/nvim/lua/lsp.lua
+!/.dotconfig/nvim/lua/lint_toggle.lua
 !/.dotconfig/nvim/lua/plugin_nvim_tree.lua
 !/.dotconfig/nvim/lua/plugin_nvim_vscode.lua
 !/.dotconfig/nvim/lua/plugin_telescope.lua

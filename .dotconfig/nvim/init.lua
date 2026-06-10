@@ -13,4 +13,5 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("base")
+require("lint_toggle").setup()
 require("plugins")

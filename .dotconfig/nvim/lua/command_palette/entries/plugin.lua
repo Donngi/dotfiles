@@ -72,6 +72,17 @@ return {
 		kind = "cmd",
 		action = "Lazy",
 	},
+
+	-- Lint (自作: lint_toggle.lua)
+	{
+		group = "Lint",
+		name = "Toggle lint (current filetype)",
+		desc = "現バッファの filetype の lint 表示 (LSP + nvim-lint) を on/off。状態は ft ごとに永続化される。\n:LintToggle",
+		category = "Plugin",
+		kind = "cmd",
+		action = "LintToggle",
+	},
+
 	{
 		group = "LSP",
 		name = "Client info",
