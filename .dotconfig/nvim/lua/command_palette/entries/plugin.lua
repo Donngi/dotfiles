@@ -83,6 +83,19 @@ return {
 		action = "LintToggle",
 	},
 
+	-- Format (conform.nvim)
+	{
+		group = "Format",
+		name = "Format current buffer",
+		desc = "現バッファをフォーマット (conform.nvim, formatters_by_ft に未登録の filetype は LSP フォーマットへフォールバック)\nrequire('conform').format({ async = true, lsp_format = 'fallback' })",
+		category = "Plugin",
+		kind = "fn",
+		keys = "<leader>lf",
+		action = function()
+			require("conform").format({ async = true, lsp_format = "fallback" })
+		end,
+	},
+
 	{
 		group = "LSP",
 		name = "Client info",
