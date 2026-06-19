@@ -5,7 +5,6 @@ import json, os, re, shutil, subprocess, sys
 # --- Constants ---
 
 R = '\033[0m'
-DIM = '\033[2m'
 GRAY = '\033[38;2;60;60;60m'
 BRANCH_COLOR = '\033[38;2;230;218;166m'
 
@@ -49,16 +48,6 @@ def truncate_plain(s, width):
     if width == 1:
         return '…'
     return s[: width - 1] + '…'
-
-
-def fmt_tokens(n):
-    if n is None or n == 0:
-        return '0'
-    if n >= 1_000_000:
-        return f'{n / 1_000_000:.1f}M'
-    if n >= 1_000:
-        return f'{n / 1_000:.1f}k'
-    return str(n)
 
 
 def fmt_bar(label, pct, width=10):
@@ -119,8 +108,6 @@ if cwd:
 
 ctx = data.get('context_window', {})
 ctx_pct = ctx.get('used_percentage')
-in_fmt = fmt_tokens(ctx.get('total_input_tokens'))
-out_fmt = fmt_tokens(ctx.get('total_output_tokens'))
 
 rate_limits = data.get('rate_limits') or {}
 five_pct = rate_limits.get('five_hour', {}).get('used_percentage')
@@ -129,8 +116,6 @@ week_pct = rate_limits.get('seven_day', {}).get('used_percentage')
 # --- Build base segments ---
 
 ctx_bar = fmt_bar('ctx', ctx_pct if ctx_pct is not None else 0)
-tokens = f'{DIM}in:{R}{in_fmt} {DIM}out:{R}{out_fmt}'
-ctx_tokens = f'{ctx_bar} {tokens}'
 
 five_bar = fmt_bar('5h', five_pct) if five_pct is not None else ''
 week_bar = fmt_bar('7d', week_pct) if week_pct is not None else ''
@@ -146,18 +131,15 @@ def dir_branch_plain_len(dir_s):
 
 # --- Mode selection ---
 
-full_segs = [s for s in [ctx_tokens, five_bar, week_bar] if s]
-no_tok_segs = [s for s in [ctx_bar, five_bar, week_bar] if s]
+wide_segs = [s for s in [ctx_bar, five_bar, week_bar] if s]
 
 line1_plain_w = dir_branch_plain_len(dir_full) + SEP_WIDTH + len(model)
 
 # build_hr は末尾に `──` (2 文字) を付けるため、行本体より 2 文字広くなる
 HR_EXTRA = 2
 
-if row_width(full_segs) + HR_EXTRA <= COLS and line1_plain_w <= COLS:
-    mode = 'full'
-elif row_width(no_tok_segs) + HR_EXTRA <= COLS and line1_plain_w <= COLS:
-    mode = 'no_tokens'
+if row_width(wide_segs) + HR_EXTRA <= COLS and line1_plain_w <= COLS:
+    mode = 'wide'
 else:
     mode = 'fold'
 
@@ -186,8 +168,8 @@ else:
 
 # --- Output ---
 
-if mode in ('full', 'no_tokens'):
-    first_col = ctx_tokens if mode == 'full' else ctx_bar
+if mode == 'wide':
+    first_col = ctx_bar
     line3_segs = [s for s in [first_col, five_bar, week_bar] if s]
 
     col1_w = visible_len(first_col)
