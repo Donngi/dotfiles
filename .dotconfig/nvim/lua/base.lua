@@ -97,25 +97,65 @@ vim.api.nvim_create_autocmd("FileType", {
 		-- formatoptions の r は <CR> マッピングと重複して二重挿入になるため付けない
 		vim.opt_local.formatoptions:remove("r")
 
-		-- Markdownアンカーリンクへのジャンプ（目次から見出しへ移動）
-		vim.keymap.set("n", "<CR>", function()
+		-- カーソル直下の [text](target) からリンク先を取得。
+		-- カーソルがリンク外なら行内最初のリンクにフォールバックする。
+		local function link_target_under_cursor()
 			local line = vim.api.nvim_get_current_line()
-			-- 行内の最初の [text](#anchor) からアンカーを取得
-			local anchor = line:match("%[.-%]%(#(.-)%)")
-			if not anchor then
+			local col = vim.api.nvim_win_get_cursor(0)[2] + 1 -- 1-indexed
+			local init = 1
+			while true do
+				local s, e, target = line:find("%[.-%]%((.-)%)", init)
+				if not s then
+					break
+				end
+				if col >= s and col <= e then
+					return target
+				end
+				init = e + 1
+			end
+			return line:match("%[.-%]%((.-)%)")
+		end
+
+		-- <CR> でカーソル直下のリンクを follow（アンカー/URL/ファイルを種別判定）
+		vim.keymap.set("n", "<CR>", function()
+			local target = link_target_under_cursor()
+			if not target then
 				return
 			end
 
-			-- 全行を走査して一致する見出しにジャンプ
-			local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-			for i, l in ipairs(lines) do
-				local heading = l:match("^#+%s+(.*)")
-				if heading and to_anchor(heading) == anchor then
-					vim.api.nvim_win_set_cursor(0, { i, 0 })
-					return
+			-- (a) アンカー: 同一ファイル内の見出しへジャンプ
+			local anchor = target:match("^#(.*)")
+			if anchor then
+				local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+				for i, l in ipairs(lines) do
+					local heading = l:match("^#+%s+(.*)")
+					if heading and to_anchor(heading) == anchor then
+						vim.api.nvim_win_set_cursor(0, { i, 0 })
+						return
+					end
 				end
+				return
 			end
-		end, { buffer = true, desc = "Markdownアンカーリンクにジャンプ" })
+
+			-- (b) URL（スキーム付き）/ mailto: → 既定アプリで開く
+			if target:match("^%w[%w+.%-]*://") or target:match("^mailto:") then
+				vim.ui.open(target)
+				return
+			end
+
+			-- (c) ファイルパス（#fragment は除去）→ 現在ウィンドウで開く
+			local path = target:gsub("#.*$", "")
+			if path == "" then
+				return
+			end
+			local full
+			if path:match("^[/~]") then
+				full = vim.fn.fnamemodify(path, ":p")
+			else
+				full = vim.fn.fnamemodify(vim.fn.expand("%:p:h") .. "/" .. path, ":p")
+			end
+			vim.cmd.edit(vim.fn.fnameescape(full))
+		end, { buffer = true, desc = "Markdownリンクを開く（アンカー/URL/ファイル）" })
 
 		-- Tab/Shift-Tabで箇条書きのインデントレベルを変更
 		vim.keymap.set("i", "<Tab>", "<C-t>", { buffer = true, desc = "インデントを上げる" })
