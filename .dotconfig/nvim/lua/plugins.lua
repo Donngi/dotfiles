@@ -51,6 +51,7 @@ require("lazy").setup({
 			local actions = require("telescope.actions")
 			telescope.setup({
 				defaults = {
+					path_display = { "filename_first" },
 					mappings = {
 						i = {
 							["<Esc>"] = actions.close,
