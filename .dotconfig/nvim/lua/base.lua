@@ -206,6 +206,23 @@ vim.keymap.set("n", "<M-z>", function()
 	end
 end, { noremap = true, desc = "行折り返しをトグル" })
 
+-- wrap ON 時は表示行単位で移動
+vim.keymap.set({ "n", "x" }, "j", function()
+	return vim.wo.wrap and "gj" or "j"
+end, { noremap = true, expr = true, desc = "下に移動（wrap時は表示行単位）" })
+
+vim.keymap.set({ "n", "x" }, "k", function()
+	return vim.wo.wrap and "gk" or "k"
+end, { noremap = true, expr = true, desc = "上に移動（wrap時は表示行単位）" })
+
+vim.keymap.set({ "n", "x" }, "<Down>", function()
+	return vim.wo.wrap and "g<Down>" or "<Down>"
+end, { noremap = true, expr = true, desc = "下に移動（wrap時は表示行単位）" })
+
+vim.keymap.set({ "n", "x" }, "<Up>", function()
+	return vim.wo.wrap and "g<Up>" or "<Up>"
+end, { noremap = true, expr = true, desc = "上に移動（wrap時は表示行単位）" })
+
 -- 行を上下に移動（VSCode の Alt+Up/Down 相当）
 vim.keymap.set("n", "<M-Up>", ":move .-2<CR>==", { silent = true, desc = "行を上に移動" })
 vim.keymap.set("n", "<M-Down>", ":move .+1<CR>==", { silent = true, desc = "行を下に移動" })
