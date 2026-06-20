@@ -97,6 +97,9 @@ vim.api.nvim_create_autocmd("FileType", {
 		-- formatoptions の r は <CR> マッピングと重複して二重挿入になるため付けない
 		vim.opt_local.formatoptions:remove("r")
 
+		-- cmux の markdown ビューアでプレビューを開く
+		vim.keymap.set("n", "<leader>pc", "<cmd>MarkdownPreviewCmux<CR>", { buffer = true, desc = "cmux で Markdown プレビューを開く" })
+
 		-- カーソル直下の [text](target) からリンク先を取得。
 		-- カーソルがリンク外なら行内最初のリンクにフォールバックする。
 		local function link_target_under_cursor()
@@ -451,6 +454,36 @@ vim.api.nvim_create_user_command("MarkdownToc", function()
 	local last = vim.api.nvim_buf_line_count(0)
 	vim.api.nvim_win_set_cursor(0, { math.min(cursor[1], last), cursor[2] })
 end, { desc = "Markdown 目次を挿入/更新" })
+
+-- 現在の markdown ファイルを cmux の markdown ビューアで開く。
+-- cmux はファイルを監視してリアルタイム更新するため、一度開けば以降の保存に追随する。
+vim.api.nvim_create_user_command("MarkdownPreviewCmux", function()
+	if vim.bo.filetype ~= "markdown" then
+		vim.notify("markdown バッファではありません", vim.log.levels.WARN)
+		return
+	end
+	if vim.fn.executable("cmux") ~= 1 then
+		vim.notify("cmux が見つかりません", vim.log.levels.WARN)
+		return
+	end
+	local path = vim.fn.expand("%:p")
+	if path == "" then
+		vim.notify("先にファイルを保存してください", vim.log.levels.WARN)
+		return
+	end
+	-- cmux はディスク上のファイルを読むため、未保存なら保存して初回表示を最新化する。
+	if vim.bo.modified then
+		vim.cmd("write")
+	end
+	vim.system({ "cmux", "markdown", "open", path }, { text = true }, function(out)
+		if out.code ~= 0 then
+			local msg = (out.stderr ~= "" and out.stderr) or ("cmux exit code " .. out.code)
+			vim.schedule(function()
+				vim.notify("cmux markdown open に失敗: " .. msg, vim.log.levels.WARN)
+			end)
+		end
+	end)
+end, { desc = "cmux で Markdown プレビューを開く" })
 
 -- TOC が存在する markdown ファイルを保存時に自動更新。
 vim.api.nvim_create_autocmd("BufWritePre", {

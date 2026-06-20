@@ -158,4 +158,13 @@ return {
 		kind = "cmd",
 		action = "MarkdownToc",
 	},
+	{
+		group = "Markdown",
+		name = "Open external preview (cmux)",
+		desc = "cmux の markdown ビューアで別ペインにプレビュー表示 (保存に追随)\n:MarkdownPreviewCmux",
+		category = "Plugin",
+		kind = "cmd",
+		keys = "<leader>pc",
+		action = "MarkdownPreviewCmux",
+	},
 }
