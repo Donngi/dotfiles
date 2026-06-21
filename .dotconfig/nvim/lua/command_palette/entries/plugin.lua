@@ -148,6 +148,7 @@ return {
 		desc = "Markdown プレビューモード ON/OFF (render-markdown)\n:RenderMarkdown toggle",
 		category = "Plugin",
 		kind = "cmd",
+		keys = "<leader>pmm",
 		action = "RenderMarkdown toggle",
 	},
 	{
@@ -160,11 +161,20 @@ return {
 	},
 	{
 		group = "Markdown",
-		name = "Open external preview (cmux)",
-		desc = "cmux の markdown ビューアで別ペインにプレビュー表示 (保存に追随)\n:MarkdownPreviewCmux",
+		name = "Preview in same pane tab (cmux)",
+		desc = "cmux の markdown ビューアを nvim と同じ pane のタブで開く (保存に追随)\n:MarkdownPreviewCmux tab",
 		category = "Plugin",
 		kind = "cmd",
-		keys = "<leader>pc",
-		action = "MarkdownPreviewCmux",
+		keys = "<leader>pmcc",
+		action = "MarkdownPreviewCmux tab",
+	},
+	{
+		group = "Markdown",
+		name = "Preview in split pane (cmux)",
+		desc = "cmux の markdown ビューアを別ペインに split で開く (保存に追随)\n:MarkdownPreviewCmux split",
+		category = "Plugin",
+		kind = "cmd",
+		keys = "<leader>pmcs",
+		action = "MarkdownPreviewCmux split",
 	},
 }

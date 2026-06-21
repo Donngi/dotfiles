@@ -247,7 +247,7 @@ require("lazy").setup({
 			enabled = false,
 		},
 		keys = {
-			{ "<leader>pm", "<cmd>RenderMarkdown toggle<CR>", desc = "Markdownレンダリング切り替え" },
+			{ "<leader>pmm", "<cmd>RenderMarkdown toggle<CR>", desc = "Markdownレンダリング切り替え" },
 		},
 	},
 
@@ -472,6 +472,8 @@ require("lazy").setup({
 				{ "<leader>x", group = "Diagnostics" },
 				{ "<leader>b", group = "Buffer" },
 				{ "<leader>p", group = "Preview" },
+				{ "<leader>pm", group = "Markdown" },
+				{ "<leader>pmc", group = "cmux" },
 
 				-- Neovim 0.12 デフォルト LSP キー (g プレフィックス)
 				{ "gr", group = "LSP Refactor/References" },

@@ -97,8 +97,9 @@ vim.api.nvim_create_autocmd("FileType", {
 		-- formatoptions の r は <CR> マッピングと重複して二重挿入になるため付けない
 		vim.opt_local.formatoptions:remove("r")
 
-		-- cmux の markdown ビューアでプレビューを開く
-		vim.keymap.set("n", "<leader>pc", "<cmd>MarkdownPreviewCmux<CR>", { buffer = true, desc = "cmux で Markdown プレビューを開く" })
+		-- cmux の markdown ビューアでプレビューを開く（tab=同 pane のタブ / split=別ペイン）
+		vim.keymap.set("n", "<leader>pmcc", "<cmd>MarkdownPreviewCmux tab<CR>", { buffer = true, desc = "cmux プレビューを同 pane のタブで開く" })
+		vim.keymap.set("n", "<leader>pmcs", "<cmd>MarkdownPreviewCmux split<CR>", { buffer = true, desc = "cmux プレビューを別ペインに開く" })
 
 		-- カーソル直下の [text](target) からリンク先を取得。
 		-- カーソルがリンク外なら行内最初のリンクにフォールバックする。
@@ -457,7 +458,10 @@ end, { desc = "Markdown 目次を挿入/更新" })
 
 -- 現在の markdown ファイルを cmux の markdown ビューアで開く。
 -- cmux はファイルを監視してリアルタイム更新するため、一度開けば以降の保存に追随する。
-vim.api.nvim_create_user_command("MarkdownPreviewCmux", function()
+-- 引数 split (既定): focused surface から split して別ペインに開く（cmux のデフォルト挙動）。
+-- 引数 tab: viewer を nvim と同じ pane へ move-surface し、タブとして開く。
+vim.api.nvim_create_user_command("MarkdownPreviewCmux", function(cmd)
+	local mode = cmd.args ~= "" and cmd.args or "split"
 	if vim.bo.filetype ~= "markdown" then
 		vim.notify("markdown バッファではありません", vim.log.levels.WARN)
 		return
@@ -475,15 +479,62 @@ vim.api.nvim_create_user_command("MarkdownPreviewCmux", function()
 	if vim.bo.modified then
 		vim.cmd("write")
 	end
-	vim.system({ "cmux", "markdown", "open", path }, { text = true }, function(out)
+
+	-- 非同期コールバック内からの通知は vim.schedule で main loop に戻す。
+	local function warn(msg)
+		vim.schedule(function()
+			vim.notify(msg, vim.log.levels.WARN)
+		end)
+	end
+	local function err_msg(out, label)
+		return label .. "に失敗: " .. ((out.stderr ~= "" and out.stderr) or ("exit " .. out.code))
+	end
+
+	-- cmux markdown open を実行し、作られた viewer surface の ref を on_done に渡す。
+	-- 出力例: "OK surface=surface:39 pane=pane:34 path=..."
+	local function open(on_done)
+		vim.system({ "cmux", "markdown", "open", path }, { text = true }, function(out)
+			if out.code ~= 0 then
+				warn(err_msg(out, "cmux markdown open"))
+				return
+			end
+			on_done(out.stdout:match("surface=(%S+)"))
+		end)
+	end
+
+	if mode == "split" then
+		open(function() end)
+		return
+	end
+
+	-- tab: viewer を nvim と同じ pane にタブとして開く。
+	-- nvim 自身の CMUX_SURFACE_ID の隣 (--after) に置けば同 pane に入るため、pane を引く
+	-- identify は不要。さらに open と move を 1 つの shell 呼び出しに束ねることで、nvim の
+	-- イベントループを挟まず連続実行し、split が見えている時間（もたつき）を最短化する。
+	local self_surface = vim.env.CMUX_SURFACE_ID
+	if not self_surface or self_surface == "" then
+		-- cmux 配下でない場合は split にフォールバック
+		open(function() end)
+		return
+	end
+	-- 出力 "OK surface=surface:NN pane=... path=..." から surface ref を切り出して move する。
+	local script = table.concat({
+		'out=$(cmux markdown open "$1") || exit 1',
+		"s=${out#*surface=}; s=${s%% *}",
+		'exec cmux move-surface --surface "$s" --after "$2"',
+	}, "; ")
+	vim.system({ "sh", "-c", script, "sh", path, self_surface }, { text = true }, function(out)
 		if out.code ~= 0 then
-			local msg = (out.stderr ~= "" and out.stderr) or ("cmux exit code " .. out.code)
-			vim.schedule(function()
-				vim.notify("cmux markdown open に失敗: " .. msg, vim.log.levels.WARN)
-			end)
+			warn(err_msg(out, "cmux プレビュー(tab)"))
 		end
 	end)
-end, { desc = "cmux で Markdown プレビューを開く" })
+end, {
+	nargs = "?",
+	complete = function()
+		return { "split", "tab" }
+	end,
+	desc = "cmux で Markdown プレビューを開く (split|tab)",
+})
 
 -- TOC が存在する markdown ファイルを保存時に自動更新。
 vim.api.nvim_create_autocmd("BufWritePre", {
