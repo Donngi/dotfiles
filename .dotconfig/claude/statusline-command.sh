@@ -57,6 +57,12 @@ def truncate_plain(s, width):
     return s[: width - 1] + '…'
 
 
+def fmt_bar_na(label):
+    # rate_limit が無い環境（Bedrock 等）用。バー本体は描かず、
+    # ラベル + グレーの N/A を表示する（欠落 = 適用外）。
+    return f'{label.ljust(LABEL_W)} {rgb(*DIM_RGB)}N/A{R}'
+
+
 def fmt_bar(label, pct, width=10):
     label = label.ljust(LABEL_W)
     p = round(pct)
@@ -362,8 +368,8 @@ week_pct = rate_limits.get('seven_day', {}).get('used_percentage')
 
 ctx_bar = fmt_bar('ctx', ctx_pct if ctx_pct is not None else 0)
 
-five_bar = fmt_bar('5h', five_pct) if five_pct is not None else ''
-week_bar = fmt_bar('7d', week_pct) if week_pct is not None else ''
+five_bar = fmt_bar('5h', five_pct) if five_pct is not None else fmt_bar_na('5h')
+week_bar = fmt_bar('7d', week_pct) if week_pct is not None else fmt_bar_na('7d')
 
 
 def dir_branch_plain_len(dir_s):
