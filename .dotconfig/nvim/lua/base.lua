@@ -213,8 +213,12 @@ vim.api.nvim_create_autocmd("FileType", {
 -- インサートモードでmacOS標準のEmacs風キーバインドを有効化
 vim.keymap.set("i", "<C-f>", "<Right>", { noremap = true, desc = "右に移動" })
 vim.keymap.set("i", "<C-b>", "<Left>", { noremap = true, desc = "左に移動" })
-vim.keymap.set("i", "<C-p>", "<Up>", { noremap = true, desc = "上に移動" })
-vim.keymap.set("i", "<C-n>", "<Down>", { noremap = true, desc = "下に移動" })
+vim.keymap.set("i", "<C-p>", function()
+	return vim.wo.wrap and "<C-o>gk" or "<Up>"
+end, { noremap = true, expr = true, desc = "上に移動（wrap時は表示行単位）" })
+vim.keymap.set("i", "<C-n>", function()
+	return vim.wo.wrap and "<C-o>gj" or "<Down>"
+end, { noremap = true, expr = true, desc = "下に移動（wrap時は表示行単位）" })
 vim.keymap.set("i", "<C-a>", "<Home>", { noremap = true, desc = "行頭に移動" })
 vim.keymap.set("i", "<C-e>", "<End>", { noremap = true, desc = "行末に移動" })
 vim.keymap.set("i", "<C-h>", "<BS>", { noremap = true, desc = "前の文字を削除" })
@@ -265,6 +269,15 @@ end, { noremap = true, expr = true, desc = "下に移動（wrap時は表示行�
 
 vim.keymap.set({ "n", "x" }, "<Up>", function()
 	return vim.wo.wrap and "g<Up>" or "<Up>"
+end, { noremap = true, expr = true, desc = "上に移動（wrap時は表示行単位）" })
+
+-- インサートモードでも wrap ON 時は表示行単位で移動
+vim.keymap.set("i", "<Down>", function()
+	return vim.wo.wrap and "<C-o>gj" or "<Down>"
+end, { noremap = true, expr = true, desc = "下に移動（wrap時は表示行単位）" })
+
+vim.keymap.set("i", "<Up>", function()
+	return vim.wo.wrap and "<C-o>gk" or "<Up>"
 end, { noremap = true, expr = true, desc = "上に移動（wrap時は表示行単位）" })
 
 -- 行を上下に移動（VSCode の Alt+Up/Down 相当）
