@@ -2,6 +2,40 @@
 --
 -- セキュリティ関連の opts は AGENTS.md の「Neovim プラグイン管理のセキュリティ規律」を参照。
 -- サプライチェーン攻撃の攻撃面を狭めるため、rocks / pkg を明示的に無効化している。
+
+-- pyproject.toml に [tool.black] があるディレクトリを探す (conform の cwd / condition 用)。
+-- conform 組み込みの prettier が package.json の prettier キーを読むのと同じ手法。
+-- vim.fs.root は上方向探索なので、モノレポで sub package だけ black という構成にも追従する。
+local function black_root(_, ctx)
+	return vim.fs.root(ctx.dirname, function(name, path)
+		if name ~= "pyproject.toml" then
+			return false
+		end
+		local f = io.open(vim.fs.joinpath(path, name), "r")
+		if not f then
+			return false
+		end
+		local content = f:read("*a") or ""
+		f:close()
+		return content:match("%[tool%.black%]") ~= nil
+	end)
+end
+
+-- 設定ファイルが見つからなかった formatter を、対象ファイル自身のディレクトリで動かすための cwd。
+-- prettier 系は cwd の .gitignore / .prettierignore を読むため、cwd が nil のままだと conform が
+-- nvim の cwd で起動し、無関係なリポジトリの ignore に巻き込まれて黙って no-op になる。
+local function own_dir(_, ctx)
+	return ctx.dirname
+end
+
+-- prettier 系の候補リスト。prettierd (常駐デーモン) が速いので優先し、未導入なら prettier に落ちる。
+-- 末尾の *_default は設定ファイルが無いときの最後の砦。
+local prettier_formatters =
+	{ "prettierd", "prettier", "prettierd_default", "prettier_default", stop_after_first = true }
+-- biome も候補に含む ft 用 (biome.json があれば biome が勝つ)
+local web_formatters =
+	{ "biome", "prettierd", "prettier", "prettierd_default", "prettier_default", stop_after_first = true }
+
 require("lazy").setup({
 	-- ファイルエクスプローラー
 	{
@@ -376,26 +410,90 @@ require("lazy").setup({
 	},
 
 	-- フォーマッター
-	-- 保存時に filetype ごとの formatter を呼ぶ。未登録 filetype は LSP フォーマットにフォールバック。
+	-- filetype ごとに formatter の「候補リスト」を持ち、プロジェクトの設定ファイルの有無で
+	-- 実際に使うものを決める (VSCode がワークスペースの設定ファイルを見るのと同じ発想)。
+	--   * cwd         : formatter を実行するディレクトリ。prettier/biome は起動ディレクトリを
+	--                   基点に上方向へ自分の設定ファイルを探すため、conform 側で「設定ファイルの
+	--                   あるディレクトリ」を探してそこで実行する。組み込み定義に含まれている。
+	--   * require_cwd : 上記の探索が失敗したらその formatter を使わない。
+	--                   = 「設定ファイルが無い → このプロジェクトはこのツールを使っていない」の判定。
+	-- 上方向探索なのでモノレポのネストにも自動で追従する。
+	-- どの formatter が選ばれた/スキップされたかは :ConformInfo で確認できる。
 	{
 		"stevearc/conform.nvim",
 		event = { "BufWritePre" },
 		cmd = { "ConformInfo" },
 		opts = {
 			formatters_by_ft = {
-				lua = { "stylua" },
+				-- biome.json → biome / .prettierrc 系 → prettierd / どちらも無ければ既定値。
+				-- prettierd (常駐デーモン) を優先し、未導入なら prettier に落ちる。
+				javascript = web_formatters,
+				typescript = web_formatters,
+				javascriptreact = web_formatters,
+				typescriptreact = web_formatters,
+				json = web_formatters,
+				jsonc = web_formatters,
+				css = web_formatters,
+				graphql = web_formatters,
+				-- biome が扱わない ft は prettier 系のみ
+				html = prettier_formatters,
+				scss = prettier_formatters,
+				less = prettier_formatters,
+				vue = prettier_formatters,
+				yaml = prettier_formatters,
+
+				-- pyproject.toml に [tool.black] があれば isort + black、無ければ ruff。
+				-- import 整理と整形の 2 段構成なので stop_after_first は使わず、
+				-- 各 formatter 側の require_cwd / condition で排他にする。
+				python = { "isort", "black", "ruff_organize_imports", "ruff_format" },
+
+				-- ツール自身が上方向に設定を探し、無ければ既定値で動く ft。
+				-- 候補が 1 つなので require_cwd は付けない (= 常に有効)。
+				lua = { "stylua" }, -- --search-parent-directories で .stylua.toml を自力探索
 				go = { "gofumpt" },
-				python = { "ruff_organize_imports", "ruff_format" },
-				javascript = { "biome" },
-				typescript = { "biome" },
-				javascriptreact = { "biome" },
-				typescriptreact = { "biome" },
-				json = { "biome" },
-				jsonc = { "biome" },
-				css = { "biome" },
-				graphql = { "biome" },
 				sh = { "shfmt" },
 				bash = { "shfmt" },
+				zsh = { "shfmt_zsh" },
+				terraform = { "terraform_fmt" },
+				hcl = { "terraform_fmt" },
+				toml = { "taplo" },
+			},
+			formatters = {
+				-- 設定ファイルのあるプロジェクトでのみ「本来の担当」として使う
+				biome = { require_cwd = true },
+				prettierd = { require_cwd = true },
+				prettier = { require_cwd = true },
+				-- 最後の砦: 設定ファイルが無くても prettier のデフォルト設定で整形する
+				-- (VSCode の Prettier 拡張が prettier.requireConfig = false で振る舞うのと同じ)
+				prettierd_default = {
+					inherit = "prettierd",
+					require_cwd = false,
+					cwd = own_dir,
+				},
+				prettier_default = {
+					inherit = "prettier",
+					require_cwd = false,
+					cwd = own_dir,
+				},
+
+				-- Python: black 検出時のみ isort + black、そうでなければ ruff
+				black = { cwd = black_root, require_cwd = true },
+				isort = { cwd = black_root, require_cwd = true },
+				ruff_organize_imports = {
+					condition = function(_, ctx)
+						return black_root(nil, ctx) == nil
+					end,
+				},
+				ruff_format = {
+					condition = function(_, ctx)
+						return black_root(nil, ctx) == nil
+					end,
+				},
+
+				-- zsh: shfmt は zsh 非対応なので bash として解釈させる。
+				-- zsh 固有構文 (zstyle, ${(f)...} 等) を含むファイルは shfmt がパースエラーで
+				-- 停止するだけで、壊れた出力は生成されない。エラー通知は format_on_save 側で抑制する。
+				shfmt_zsh = { inherit = "shfmt", prepend_args = { "-ln", "bash" } },
 			},
 			-- ft 単位でトグル可能 (:FormatToggle / format_toggle.lua)。
 			-- nil を返すと conform は保存時フォーマットをスキップする。
@@ -403,7 +501,12 @@ require("lazy").setup({
 				if require("format_toggle").is_disabled(bufnr) then
 					return nil
 				end
-				return { timeout_ms = 1500, lsp_format = "fallback" }
+				return {
+					timeout_ms = 1500,
+					lsp_format = "fallback",
+					-- zsh は shfmt がパースできないファイルが混ざるため、失敗通知を抑制する
+					quiet = vim.bo[bufnr].filetype == "zsh",
+				}
 			end,
 		},
 	},
@@ -430,27 +533,81 @@ require("lazy").setup({
 	},
 
 	-- リンター (保存時に外部 linter を走らせて vim.diagnostic に流す)
-	-- Phase 1: 骨格のみ。linters_by_ft は Phase 3 以降で言語別に追加する。
+	-- formatter (conform) と同じ発想で、プロジェクトの設定ファイルの有無で使う linter を決める。
+	-- VSCode の実態に合わせて 2 種類に分ける:
+	--   * 設定ファイル不要 (shellcheck / yamllint / hadolint) → 常に有効
+	--   * 設定ファイル必須 (eslint / golangci-lint / tflint) → 見つかったときだけ有効
+	-- nvim-lint には conform の require_cwd / executable チェックに相当する機能が無いので、
+	-- ここで自前に候補を絞り込む。有効な linter は :LintInfo で確認できる。
 	{
 		"mfussenegger/nvim-lint",
 		event = { "BufReadPost", "BufWritePost", "InsertLeave" },
 		config = function()
-			require("lint").linters_by_ft = {
-				sh = { "shellcheck" },
-				bash = { "shellcheck" },
-				yaml = { "yamllint" },
+			local ESLINT_CONFIG = {
+				"eslint.config.js",
+				"eslint.config.mjs",
+				"eslint.config.cjs",
+				"eslint.config.ts",
+				".eslintrc",
+				".eslintrc.js",
+				".eslintrc.cjs",
+				".eslintrc.json",
+				".eslintrc.yaml",
+				".eslintrc.yml",
 			}
+			local GOLANGCI_CONFIG = { ".golangci.yml", ".golangci.yaml", ".golangci.toml", ".golangci.json" }
+
+			-- name: nvim-lint の linter 名 / cmd: 実行ファイル名 / config: nil なら設定ファイル不要
+			local eslint = { name = "eslint_d", cmd = "eslint_d", config = ESLINT_CONFIG }
+			local candidates = {
+				sh = { { name = "shellcheck", cmd = "shellcheck" } },
+				bash = { { name = "shellcheck", cmd = "shellcheck" } },
+				yaml = { { name = "yamllint", cmd = "yamllint" } },
+				dockerfile = { { name = "hadolint", cmd = "hadolint" } },
+				javascript = { eslint },
+				typescript = { eslint },
+				javascriptreact = { eslint },
+				typescriptreact = { eslint },
+				go = { { name = "golangcilint", cmd = "golangci-lint", config = GOLANGCI_CONFIG } },
+				terraform = { { name = "tflint", cmd = "tflint", config = { ".tflint.hcl" } } },
+			}
+
+			-- 有効な linter 名と、除外されたものの理由を返す
+			local function resolve(bufnr)
+				local names, skipped = {}, {}
+				for _, c in ipairs(candidates[vim.bo[bufnr].filetype] or {}) do
+					if vim.fn.executable(c.cmd) ~= 1 then
+						table.insert(skipped, c.name .. " (未導入: " .. c.cmd .. ")")
+					elseif c.config and not vim.fs.root(bufnr, c.config) then
+						table.insert(skipped, c.name .. " (設定ファイルなし)")
+					else
+						table.insert(names, c.name)
+					end
+				end
+				return names, skipped
+			end
 
 			local augroup = vim.api.nvim_create_augroup("dotfiles_nvim_lint", { clear = true })
 			vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
 				group = augroup,
 				callback = function(args)
-					local ft = vim.bo[args.buf].filetype
-					if require("lint").linters_by_ft[ft] then
-						require("lint").try_lint()
+					local names = resolve(args.buf)
+					if #names > 0 then
+						require("lint").try_lint(names)
 					end
 				end,
 			})
+
+			vim.api.nvim_create_user_command("LintInfo", function()
+				local names, skipped = resolve(0)
+				local ft = vim.bo.filetype
+				local lines = { string.format("filetype: %s", ft ~= "" and ft or "(なし)") }
+				table.insert(lines, "有効: " .. (#names > 0 and table.concat(names, ", ") or "(なし)"))
+				if #skipped > 0 then
+					table.insert(lines, "除外: " .. table.concat(skipped, ", "))
+				end
+				vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO)
+			end, { desc = "現バッファで有効な linter と、除外された linter の理由を表示" })
 		end,
 	},
 

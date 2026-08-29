@@ -82,6 +82,14 @@ return {
 		kind = "cmd",
 		action = "LintToggle",
 	},
+	{
+		group = "Lint",
+		name = "Show active linters",
+		desc = "現バッファで有効な linter と、除外された linter の理由 (未導入 / 設定ファイルなし) を表示\n:LintInfo",
+		category = "Plugin",
+		kind = "cmd",
+		action = "LintInfo",
+	},
 
 	-- Format (自作: format_toggle.lua)
 	{
@@ -104,6 +112,14 @@ return {
 		action = function()
 			require("conform").format({ async = true, lsp_format = "fallback" })
 		end,
+	},
+	{
+		group = "Format",
+		name = "Show formatter resolution",
+		desc = "現バッファでどの formatter が使われるか / なぜスキップされたか (設定ファイル未検出など) を表示\n:ConformInfo",
+		category = "Plugin",
+		kind = "cmd",
+		action = "ConformInfo",
 	},
 
 	{
