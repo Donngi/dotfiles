@@ -2,18 +2,19 @@ cask_args appdir: "/Applications"
 
 # Utility
 brew "jq"
+brew "yq"
 brew "fzf"
 brew "nmap"
 brew "tree"
 brew "bat"
 brew "ripgrep"
+brew "exiftool"
 
 # AWS
 brew "awscli"
 brew "git-remote-codecommit"
-
-tap "iann0036/iamlive"
-brew "iann0036/iamlive/iamlive"
+brew "cfn-lint"
+brew "rain"
 
 cask "session-manager-plugin"
 
@@ -36,6 +37,7 @@ cask "docker-desktop"
 brew "tfenv"
 brew "pipenv"
 brew "pyenv"
+brew "uv"
 brew "rbenv"
 
 # terraform
@@ -47,9 +49,14 @@ brew "gradle"
 
 # Swift
 brew "swiftlint"
+brew "xcodegen"
 
 # Go
 brew "go"
+
+# Node
+brew "bun"
+brew "pnpm"
 
 # Vim
 brew "neovim"
@@ -70,10 +77,23 @@ brew "biome"
 brew "stylua"
 brew "gofumpt"
 brew "shfmt"
+# プロジェクト外のファイル用のフォールバック。プロジェクト内では conform が
+# node_modules/.bin/prettier (公式推奨のローカルインストール) を優先する。
+brew "prettier"
+# prettier の常駐デーモン版。conform 側で prettier より優先させれば高速化できる。
+brew "prettierd"
+brew "taplo"
+# pyproject.toml に [tool.black] があるプロジェクトでのみ使う (無ければ ruff が担当)
+brew "black"
+brew "isort"
 
 # Linters
 brew "shellcheck"
 brew "yamllint"
+# 以下はプロジェクトに設定ファイルがあるときだけ有効になる (nvim-lint 側で判定)
+brew "eslint_d"
+brew "golangci-lint"
+brew "hadolint"
 
 # Prompt
 brew "pure"
