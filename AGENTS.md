@@ -149,6 +149,51 @@ lazy.nvim はプラグインのコードがインストール時/起動時に sh
 - lazy.nvim の `minimum_release_age` 機能 ([Issue #2141](https://github.com/folke/lazy.nvim/issues/2141) / [PR #2152](https://github.com/folke/lazy.nvim/pull/2152)) がマージされたら、全プラグインに `7d` 程度の cooldown を入れる
 - `lazy-lock.json` を Renovate で自動更新 PR 化することも検討余地あり
 
+## Neovim の formatter / linter 解決ルール
+
+VSCode がワークスペースの設定ファイルを見て formatter/linter を決めるのと同じ挙動を、
+conform.nvim / nvim-lint の設定 (`.dotconfig/nvim/lua/plugins.lua`) で再現している。
+ft ごとに「候補リスト」を持ち、**プロジェクトの設定ファイルの有無**で実際に使うものを決める。
+探索はいずれもバッファのディレクトリからの上方向探索なので、モノレポのネストに自動で追従する。
+
+### formatter (conform.nvim)
+
+- `stop_after_first = true` で候補を上から試し、使えた 1 つで止める
+- `require_cwd = true` を付けた formatter は、自分の設定ファイルが見つからなければ候補から脱落する
+  (`cwd` は「その formatter を実行するディレクトリ」で、組み込み定義に含まれている)
+- 候補の末尾には `require_cwd` なしの無条件フォールバックを置く (例: `prettier_default`)。
+  設定ファイルが 1 つも無いプロジェクトでも整形されるようにするため (VSCode の Prettier 拡張と同じ)
+- 候補が 1 つしか無い ft (lua / go / sh / terraform / toml) には `require_cwd` を付けない。
+  付けると設定ファイルの無い場所で整形が効かなくなり、VSCode より劣化する
+- Python は `pyproject.toml` の `[tool.black]` を検出したときだけ isort + black、それ以外は ruff。
+  この判定は `plugins.lua` 冒頭の `black_root` が担当する
+- zsh は `shfmt` に `-ln bash` を渡して流用する (shfmt は zsh 非対応)。zsh 固有構文を含むファイルは
+  shfmt がパースエラーで停止するだけで壊れた出力は出ないため、`format_on_save` の `quiet` で通知だけ抑制している
+- 解決結果は `:ConformInfo` で確認できる
+
+prettier 固有の注意:
+
+- prettier 本体は cwd の `.gitignore` / `.prettierignore` を読み、対象が ignore されていると
+  **エラーを出さずに何もしない**。このリポジトリの `.gitignore` はホワイトリスト方式なので、
+  ホワイトリストに未登録のファイルは prettier で整形されない (登録すれば整形される)
+- インストールは公式推奨どおり**プロジェクトごとのローカル**が基本。conform の prettier 定義は
+  `util.from_node_modules` を使っており、親ディレクトリの `node_modules/.bin/prettier` を自動で優先する。
+  Homebrew で入れているグローバル版は、どのプロジェクトにも属さないファイル用のフォールバック
+
+### linter (nvim-lint)
+
+nvim-lint には `require_cwd` も executable チェックも無いため、`config` 内の `resolve()` で自前に絞り込む。
+
+- 設定ファイル不要のもの (shellcheck / yamllint / hadolint) は常に有効
+- 設定ファイル必須のもの (eslint / golangci-lint / tflint) は、設定ファイルが見つかったときだけ有効
+- いずれも `vim.fn.executable()` で未導入のものを除外する (未導入ツールを候補に置いてもエラーが出ない)
+- 解決結果と除外理由は `:LintInfo` で確認できる
+
+### 候補を追加するとき
+
+`formatters_by_ft` / `candidates` に足すだけでよい。ツールが未導入でも conform / nvim-lint が
+自動でスキップするため、`setup/` 側のインストールスクリプトの変更は必須ではない。
+
 ## プラットフォーム固有の注意
 
 ### macOS
