@@ -83,6 +83,16 @@ return {
 		action = "LintToggle",
 	},
 
+	-- Format (自作: format_toggle.lua)
+	{
+		group = "Format",
+		name = "Toggle format on save (current filetype)",
+		desc = "現バッファの filetype の保存時フォーマット (conform.nvim) を on/off。状態は ft ごとに永続化される。手動フォーマット (<leader>lf) は影響を受けない。\n:FormatToggle",
+		category = "Plugin",
+		kind = "cmd",
+		action = "FormatToggle",
+	},
+
 	-- Format (conform.nvim)
 	{
 		group = "Format",

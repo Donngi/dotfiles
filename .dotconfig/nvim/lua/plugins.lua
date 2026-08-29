@@ -397,10 +397,14 @@ require("lazy").setup({
 				sh = { "shfmt" },
 				bash = { "shfmt" },
 			},
-			format_on_save = {
-				timeout_ms = 1500,
-				lsp_format = "fallback",
-			},
+			-- ft 単位でトグル可能 (:FormatToggle / format_toggle.lua)。
+			-- nil を返すと conform は保存時フォーマットをスキップする。
+			format_on_save = function(bufnr)
+				if require("format_toggle").is_disabled(bufnr) then
+					return nil
+				end
+				return { timeout_ms = 1500, lsp_format = "fallback" }
+			end,
 		},
 	},
 
