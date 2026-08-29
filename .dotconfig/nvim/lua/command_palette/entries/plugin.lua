@@ -91,6 +91,24 @@ return {
 		action = "LintInfo",
 	},
 
+	-- DiagLog (自作: diaglog.lua)
+	{
+		group = "DiagLog",
+		name = "Show error log",
+		desc = "記録済みのエラー / 警告を新しいタブで表示。発生時のバッファ / 直近のキー入力 / 直近の ex コマンドが一緒に残る。\n:DotfilesLog",
+		category = "Plugin",
+		kind = "cmd",
+		action = "DotfilesLog",
+	},
+	{
+		group = "DiagLog",
+		name = "Clear error log",
+		desc = "エラー / 警告のログファイルを削除する\n:DotfilesLogClear",
+		category = "Plugin",
+		kind = "cmd",
+		action = "DotfilesLogClear",
+	},
+
 	-- Format (自作: format_toggle.lua)
 	{
 		group = "Format",

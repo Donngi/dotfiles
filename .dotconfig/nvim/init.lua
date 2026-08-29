@@ -12,6 +12,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- diaglog は他モジュールより先に初期化する (起動中の警告を取りこぼさないため)
+require("diaglog").setup()
 require("base")
 require("lint_toggle").setup()
 require("format_toggle").setup()
