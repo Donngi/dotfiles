@@ -210,12 +210,16 @@ require("lazy").setup({
 				"bash",
 				"yaml",
 				"json",
-				"jsonc",
 				"css",
 				"terraform",
 				"hcl",
 			}
 			require("nvim-treesitter").install(parsers)
+
+			-- main 版の nvim-treesitter には jsonc パーサが無い (旧 master にはあった)。
+			-- jsonc は json パーサで解析できるため filetype をマップしておく。
+			-- これが無いと jsonc バッファで treesitter ハイライトが効かない。
+			vim.treesitter.language.register("json", "jsonc")
 
 			vim.api.nvim_create_autocmd("FileType", {
 				group = vim.api.nvim_create_augroup("dotfiles_treesitter", { clear = true }),
