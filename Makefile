@@ -24,6 +24,9 @@ mac-os-deploy-claude:
 mac-os-deploy-ghostty:
 	bash ./setup/mac_os/deploy/deploy_ghostty.sh
 
+mac-os-deploy-cmux:
+	bash ./setup/mac_os/deploy/deploy_cmux.sh
+
 mac-os-deploy-npm:
 	bash ./setup/mac_os/deploy/deploy_npm.sh
 
