@@ -5,8 +5,15 @@
 		"clientKind": "git",
 		"useIgnoreFile": true
 	},
+	// アプリが自動生成・自動書き換えするファイルは整形対象から除外する。
+	// biome で整形すると次回のアプリ側の書き換えで差分ノイズになるため。
 	"files": {
-		"ignoreUnknown": true
+		"ignoreUnknown": true,
+		"includes": [
+			"**",
+			"!.dotconfig/nvim/lazy-lock.json",
+			"!.dotconfig/cmux/cmux.json"
+		]
 	},
 	"formatter": {
 		"enabled": true,
