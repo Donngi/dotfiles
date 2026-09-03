@@ -20,8 +20,8 @@ end
 local function on_attach(client, bufnr)
 	local opts = { buffer = bufnr, silent = true }
 
-	-- 0.12 デフォルト (K, grn, gra, grr, gri, grt, gO, <C-S>, grx) はそのまま使う
-	-- ここでは 0.12 デフォルトに含まれない・補完したいキーのみ追加する
+	-- 0.12 デフォルト (K, grn, gra, gri, grt, gO, <C-S>, grx) はそのまま使う
+	-- ここでは 0.12 デフォルトに含まれない・補完したいキー、および grr の差し替えを行う
 	vim.keymap.set(
 		"n",
 		"gd",
@@ -34,6 +34,11 @@ local function on_attach(client, bufnr)
 		vim.lsp.buf.declaration,
 		vim.tbl_extend("force", opts, { desc = "LSP: 宣言にジャンプ" })
 	)
+
+	-- grr はデフォルトだと quickfix に出るだけなので、コードプレビュー付きの Telescope に差し替える
+	vim.keymap.set("n", "grr", function()
+		require("telescope.builtin").lsp_references()
+	end, vim.tbl_extend("force", opts, { desc = "LSP: 参照一覧 (Telescope)" }))
 
 	vim.keymap.set("n", "<leader>lf", function()
 		require("conform").format({ async = true, lsp_format = "fallback" })

@@ -644,7 +644,7 @@ require("lazy").setup({
 				{ "gr", group = "LSP Refactor/References" },
 				{ "grn", desc = "LSP: シンボル名変更 (rename)" },
 				{ "gra", desc = "LSP: コードアクション" },
-				{ "grr", desc = "LSP: 参照一覧" },
+				{ "grr", desc = "LSP: 参照一覧 (Telescope)" },
 				{ "gri", desc = "LSP: 実装にジャンプ" },
 				{ "grt", desc = "LSP: 型定義にジャンプ" },
 				{ "gO", desc = "LSP: ドキュメント内シンボル一覧" },
