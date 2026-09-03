@@ -231,7 +231,7 @@ Neovim 0.12 標準の LSP キー:
 | `K`           | ホバードキュメント表示                 |
 | `grn`         | リネーム                               |
 | `gra`         | コードアクション                       |
-| `grr`         | 参照検索                               |
+| `grr`         | 参照検索（Telescope・プレビュー付き）  |
 | `gri`         | 実装にジャンプ                         |
 | `grt`         | 型定義にジャンプ                       |
 | `gO`          | ドキュメントシンボル一覧               |
@@ -389,7 +389,7 @@ iTerm2、Alacritty、WezTermなどの最新ターミナルでは対応してい�
 
 ### Neovimのバージョンが古い
 
-この設定は Neovim 0.12.0 以上を想定しています（`vim.lsp.config`/`vim.lsp.enable` と `grn`/`gra`/`grr` 等のデフォルト LSP キーを使用）。バージョンを確認：
+この設定は Neovim 0.12.0 以上を想定しています（`vim.lsp.config`/`vim.lsp.enable` と `grn`/`gra`/`gri` 等のデフォルト LSP キーを使用。`grr` のみ Telescope に差し替え）。バージョンを確認：
 
 ```bash
 nvim --version
