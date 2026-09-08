@@ -8,13 +8,45 @@
   // cmux creates this template on launch when ~/.config/cmux/cmux.json is missing.
   // Legacy settings.json files are read only as fallback for keys not present here.
 
+  // --- 埋め込みビューワー / ブラウザで開く対象の方針 ---
+  // ローカルの成果物 (ファイル / Markdown) と localhost だけを cmux 内で開き、
+  // それ以外の web page は既定のシステムブラウザに逃がす。
+  "app": {
+    // Cmd+クリックしたローカルファイルは cmux 内のプレビューで開く
+    "openSupportedFilesInCmux": true,
+    // Markdown はレンダリング済みの cmux viewer で開く
+    "openMarkdownInCmuxViewer": true
+  },
+
+  "sidebar": {
+    // ポートリンク (localhost の dev server) は埋め込みブラウザで開く
+    "openPortLinksInCmuxBrowser": true,
+    // Pull Request は外部の web page なのでシステムブラウザで開く
+    "openPullRequestLinksInCmuxBrowser": false
+  },
+
+  "browser": {
+    // ターミナル中のリンククリックは既定でシステムブラウザに送る
+    "openTerminalLinksInCmuxBrowser": false,
+    // `open https://...` も横取りしない
+    "interceptTerminalOpenCommandInCmuxBrowser": false,
+    // 例外として localhost 系のホストだけは埋め込みブラウザに留める
+    "hostsToOpenInEmbeddedBrowser": [
+      "localhost",
+      "*.localhost",
+      "127.0.0.1",
+      "::1",
+      "0.0.0.0",
+      "*.localtest.me"
+    ]
+  }
+
   //   "app" : {
   //     "commandPaletteSearchesAllSurfaces" : false,
   //     "sendAnonymousTelemetry" : true,
   //     "appIcon" : "automatic",
   //     "reorderOnNotification" : true,
   //     "confirmQuit" : "always",
-  //     "openMarkdownInCmuxViewer" : true,
   //     "forkConversationDefaultDestination" : "right",
   //     "minimalMode" : false,
   //     "preferredEditor" : "",
@@ -27,7 +59,6 @@
   //     "iMessageMode" : false,
   //     "appearance" : "system",
   //     "windowTitleTemplate" : "",
-  //     "openSupportedFilesInCmux" : true,
   //     "warnBeforeClosingTab" : true,
   //     "hideTabCloseButton" : false,
   //     "renameSelectsExistingName" : true,
@@ -130,7 +161,6 @@
   //     "showWorkspaceDescription" : true,
   //     "hideAllDetails" : false,
   //     "showNotificationMessage" : true,
-  //     "openPortLinksInCmuxBrowser" : true,
   //     "wrapWorkspaceTitles" : false,
   //     "showPullRequests" : true,
   //     "pathLastSegmentOnly" : false,
@@ -140,7 +170,6 @@
   //     "showLog" : true,
   //     "notificationMessageLineLimit" : 12,
   //     "stackBranchDirectory" : false,
-  //     "openPullRequestLinksInCmuxBrowser" : true,
   //     "showSSH" : true,
   //     "showCustomMetadata" : true,
   //     "showBranchDirectory" : true,
@@ -197,7 +226,6 @@
   //   },
 
   //   "browser" : {
-  //     "openTerminalLinksInCmuxBrowser" : true,
   //     "customSearchEngineURLTemplate" : "https:\/\/www.google.com\/search?q={query}",
   //     "showSearchSuggestions" : true,
   //     "theme" : "system",
@@ -206,11 +234,7 @@
   //     "defaultSearchEngine" : "google",
   //     "customSearchEngineName" : "",
   //     "discardHiddenWebViews" : true,
-  //     "interceptTerminalOpenCommandInCmuxBrowser" : true,
   //     "reactGrabVersion" : "0.1.29",
-  //     "hostsToOpenInEmbeddedBrowser" : [
-  // 
-  //     ],
   //     "urlsToAlwaysOpenExternally" : [
   // 
   //     ],
