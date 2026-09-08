@@ -179,7 +179,8 @@ dotfiles/
 │   │       ├── init_homebrew.sh
 │   │       ├── init_macOS.sh
 │   │       ├── init_custom_pure.sh
-│   │       └── init_node.sh
+│   │       ├── init_node.sh
+│   │       └── manual_settings.md  # GUI で手動設定する項目
 │   ├── wsl/
 │   │   ├── deploy/          # WSL 設定配置スクリプト
 │   │   │   ├── deploy_home.sh
@@ -383,6 +384,8 @@ mac-os-deploy-<app_name>:
 ## 手動セットアップが必要なもの
 
 一部のアプリケーションはスクリプトだけでは完全にセットアップできません。
+
+macOS のシステム設定のうち GUI で手動設定が必要な項目は [setup/mac_os/init/manual_settings.md](setup/mac_os/init/manual_settings.md) にまとめています。
 
 ### iTerm2
 

@@ -148,6 +148,7 @@
 !/setup/mac_os/init/init_macOS.sh
 !/setup/mac_os/init/init_node.sh
 !/setup/mac_os/init/lima_docker_limit.plist
+!/setup/mac_os/init/manual_settings.md
 
 !/setup/windows
 
