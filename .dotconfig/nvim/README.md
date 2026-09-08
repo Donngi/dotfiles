@@ -13,6 +13,7 @@
 - ✅ Markdownの箇条書き自動挿入
 - ✅ クリップボード連携
 - ✅ Git統合（nvim-tree）
+- ✅ 右端のスクロールバーに git 変更・診断・検索位置を表示（satellite.nvim）
 - ✅ macOS標準のEmacs風キーバインド（インサートモード）
 - ✅ アウトライン表示（aerial.nvim）
 - ✅ LSP（Language Server Protocol）による補完・定義ジャンプ・ホバー・診断
@@ -35,6 +36,12 @@
 
 ### カラースキーム
 - **vscode.nvim**: Visual Studio Code風のダークテーマ
+
+### Git 連携
+- **gitsigns.nvim**: 変更箇所を行番号横の sign column に表示
+- **satellite.nvim**: 右端に概要ルーラー付きスクロールバーを表示
+  - git の変更箇所、LSP の診断、検索ヒットの位置を色帯で重ねる
+  - VSCode のスクロールバー右端の色帯と同じ用途で、本文の表示幅は奪わない
 
 ### 構文解析・アウトライン
 - **nvim-treesitter**: 高度な構文解析

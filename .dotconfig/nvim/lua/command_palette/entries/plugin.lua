@@ -185,6 +185,24 @@ return {
 		action = "Gitsigns preview_hunk",
 	},
 
+	-- Satellite (右端の概要ルーラー付きスクロールバー)
+	{
+		group = "Satellite",
+		name = "Enable scrollbar",
+		desc = "右端のスクロールバーを表示する\n:SatelliteEnable",
+		category = "Plugin",
+		kind = "cmd",
+		action = "SatelliteEnable",
+	},
+	{
+		group = "Satellite",
+		name = "Disable scrollbar",
+		desc = "右端のスクロールバーを非表示にする\n:SatelliteDisable",
+		category = "Plugin",
+		kind = "cmd",
+		action = "SatelliteDisable",
+	},
+
 	-- Markdown 系 (render-markdown プラグイン + 自作 :MarkdownToc)
 	{
 		group = "Markdown",
