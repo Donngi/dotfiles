@@ -299,6 +299,9 @@ require("lazy").setup({
 	},
 
 	-- Git変更表示
+	-- keys フィールドは付けない。付けると lazy.nvim が遅延ロードに切り替わり、
+	-- 起動直後に satellite.nvim の gitsigns ハンドラが差分を取得できなくなる。
+	-- キーマップは gitsigns 公式の on_attach でバッファローカルに張る。
 	{
 		"lewis6991/gitsigns.nvim",
 		opts = {
@@ -309,6 +312,22 @@ require("lazy").setup({
 				topdelete = { text = "‾" },
 				changedelete = { text = "~" },
 			},
+			-- 変更箇所の移動とプレビューのみ。stage / reset はリポジトリを書き換えるため割り当てない。
+			on_attach = function(bufnr)
+				local gs = require("gitsigns")
+				local function map(lhs, rhs, desc)
+					vim.keymap.set("n", lhs, rhs, { buffer = bufnr, desc = desc, silent = true })
+				end
+
+				-- ]c / [c は treesitter-context の親コンテキスト移動に割り当て済みのため h (hunk) を使う
+				map("]h", function()
+					gs.nav_hunk("next")
+				end, "次の変更箇所にジャンプ")
+				map("[h", function()
+					gs.nav_hunk("prev")
+				end, "前の変更箇所にジャンプ")
+				map("<leader>gp", gs.preview_hunk, "変更箇所の diff をプレビュー")
+			end,
 		},
 	},
 
@@ -672,6 +691,7 @@ require("lazy").setup({
 			wk.add({
 				-- leader 配下のグループ名
 				{ "<leader>f", group = "Find" },
+				{ "<leader>g", group = "Git" },
 				{ "<leader>l", group = "LSP" },
 				{ "<leader>x", group = "Diagnostics" },
 				{ "<leader>b", group = "Buffer" },

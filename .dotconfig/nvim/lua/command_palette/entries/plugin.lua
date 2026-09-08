@@ -179,10 +179,29 @@ return {
 	{
 		group = "Gitsigns",
 		name = "Preview hunk",
-		desc = "ハンク diff プレビュー\n:Gitsigns preview_hunk",
+		desc = "カーソル位置の変更箇所の diff をプレビュー\n:Gitsigns preview_hunk",
 		category = "Plugin",
 		kind = "cmd",
+		keys = "<leader>gp",
 		action = "Gitsigns preview_hunk",
+	},
+	{
+		group = "Gitsigns",
+		name = "Next hunk",
+		desc = "次の変更箇所にジャンプ\n:Gitsigns nav_hunk next",
+		category = "Plugin",
+		kind = "cmd",
+		keys = "]h",
+		action = "Gitsigns nav_hunk next",
+	},
+	{
+		group = "Gitsigns",
+		name = "Previous hunk",
+		desc = "前の変更箇所にジャンプ\n:Gitsigns nav_hunk prev",
+		category = "Plugin",
+		kind = "cmd",
+		keys = "[h",
+		action = "Gitsigns nav_hunk prev",
 	},
 
 	-- Satellite (右端の概要ルーラー付きスクロールバー)
