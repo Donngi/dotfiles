@@ -312,6 +312,45 @@ require("lazy").setup({
 		},
 	},
 
+	-- 右端の概要ルーラー付きスクロールバー (VSCode 相当)
+	-- 本文の表示幅を奪わないよう、ミニマップではなく右端のフローティングバーに情報を重ねる。
+	-- タグを打っていないリポジトリなので version / commit は書かず、lazy-lock.json を信頼の源とする。
+	-- build フィールドを持たないため install 時に任意スクリプトが走る攻撃面はない。
+	{
+		"lewis6991/satellite.nvim",
+		dependencies = { "lewis6991/gitsigns.nvim" },
+		event = { "BufReadPost", "BufNewFile" },
+		opts = {
+			-- 上流 README には width があるが現在のソースに実装がなく、バーの幅は 1 桁固定
+			winblend = 50,
+			-- UI 用バッファではスクロールバーを描かない (二重表示を避ける)
+			excluded_filetypes = {
+				"NvimTree",
+				"aerial",
+				"toggleterm",
+				"trouble",
+				"lazy",
+				"TelescopePrompt",
+				"help",
+			},
+			handlers = {
+				cursor = { enable = true },
+				search = { enable = true },
+				diagnostic = { enable = true },
+				-- overlap = true でバー本体に重ねる。既定の false は
+				-- バーの右隣に専用カラムを作る挙動で、バーが画面最右端にあると描画されない。
+				-- 記号は上の gitsigns.signs と見た目を揃える
+				gitsigns = {
+					enable = true,
+					overlap = true,
+					signs = { add = "│", change = "│", delete = "-" },
+				},
+				marks = { enable = false },
+				quickfix = { enable = false },
+			},
+		},
+	},
+
 	-- バッファライン（タブ表示）
 	{
 		"akinsho/bufferline.nvim",
