@@ -83,12 +83,78 @@ require("lazy").setup({
 		config = function()
 			local telescope = require("telescope")
 			local actions = require("telescope.actions")
+			local action_state = require("telescope.actions.state")
+
+			-- entry からファイルパスと位置を取り出す
+			-- find_files は path、live_grep は filename + lnum/col、buffers は filename を持つ
+			-- help_tags のようにファイルを指さないピッカーでは nil を返す
+			local function entry_location(entry)
+				if not entry then
+					return nil
+				end
+				local path = entry.path or entry.filename
+				if type(path) ~= "string" or path == "" then
+					return nil
+				end
+				return path, entry.lnum, entry.col
+			end
+
+			-- 指定ウィンドウでファイルを開く。行番号があればカーソルも合わせる
+			local function edit_in(win_id, entry)
+				local path, lnum, col = entry_location(entry)
+				if not path then
+					return false
+				end
+				if not (win_id and vim.api.nvim_win_is_valid(win_id)) then
+					win_id = vim.api.nvim_get_current_win()
+				end
+				vim.api.nvim_win_call(win_id, function()
+					vim.cmd("edit " .. vim.fn.fnameescape(path))
+					if lnum then
+						local last = vim.api.nvim_buf_line_count(0)
+						pcall(vim.api.nvim_win_set_cursor, 0, { math.min(lnum, last), math.max((col or 1) - 1, 0) })
+					end
+				end)
+				return true
+			end
+
+			-- <S-CR>: ピッカーを閉じずにファイルを開き、選択を次の行へ進める
+			local function open_and_stay(bufnr)
+				local picker = action_state.get_current_picker(bufnr)
+				edit_in(picker and picker.original_win_id, action_state.get_selected_entry())
+				actions.move_selection_next(bufnr)
+			end
+
+			-- <CR>: <Tab> で複数選択していれば全部開く。未選択なら従来どおり 1 件開く
+			local function open_selected(bufnr)
+				local picker = action_state.get_current_picker(bufnr)
+				local multi = picker and picker:get_multi_selection() or {}
+				if #multi == 0 then
+					return actions.select_default(bufnr)
+				end
+				local win_id = picker.original_win_id
+				actions.close(bufnr)
+				local opened = false
+				for _, entry in ipairs(multi) do
+					opened = edit_in(win_id, entry) or opened
+				end
+				if not opened then
+					vim.notify("Telescope: 開けるファイルが選択されていません", vim.log.levels.WARN)
+				end
+			end
+
 			telescope.setup({
 				defaults = {
 					path_display = { "filename_first" },
 					mappings = {
 						i = {
 							["<Esc>"] = actions.close,
+							["<CR>"] = open_selected,
+							["<S-CR>"] = open_and_stay,
+						},
+						n = {
+							["<CR>"] = open_selected,
+							["<S-CR>"] = open_and_stay,
 						},
 					},
 					file_ignore_patterns = {
