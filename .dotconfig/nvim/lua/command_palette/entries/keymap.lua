@@ -13,6 +13,15 @@ return {
 	},
 	{
 		group = "Find",
+		name = "Open multiple files",
+		desc = "複数ファイルをまとめて開く (Telescope 内での操作)\n<Tab> で選択をトグル、<CR> で選択分をすべて開く。<S-CR> はピッカーを開いたまま次々開く",
+		category = "Keymap",
+		kind = "cmd",
+		action = "Telescope find_files",
+		keys = "<leader>ff → <Tab> / <S-CR> / <CR>",
+	},
+	{
+		group = "Find",
 		name = "Live grep",
 		desc = "grep 検索 (カレントディレクトリ以下)\n:Telescope live_grep",
 		category = "Keymap",
