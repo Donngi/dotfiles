@@ -143,6 +143,18 @@ require("lazy").setup({
 				end
 			end
 
+			-- macOS の Ctrl-K 相当: カーソル以降を削除する
+			local function kill_line(bufnr)
+				local picker = action_state.get_current_picker(bufnr)
+				if not picker then
+					return
+				end
+				local line = action_state.get_current_line()
+				local col = vim.api.nvim_win_get_cursor(0)[2]
+				local offset = #picker.prompt_prefix
+				picker:set_prompt(line:sub(1, math.max(col - offset, 0)))
+			end
+
 			telescope.setup({
 				defaults = {
 					path_display = { "filename_first" },
@@ -151,6 +163,21 @@ require("lazy").setup({
 							["<Esc>"] = actions.close,
 							["<CR>"] = open_selected,
 							["<S-CR>"] = open_and_stay,
+
+							-- macOS 標準の Emacs 風キーを入力欄でも使えるようにする
+							["<C-a>"] = { "<Home>", type = "command" },
+							["<C-e>"] = { "<End>", type = "command" },
+							["<C-b>"] = { "<Left>", type = "command" },
+							["<C-f>"] = { "<Right>", type = "command" },
+							["<C-h>"] = { "<BS>", type = "command" },
+							["<C-d>"] = { "<Del>", type = "command" },
+							["<C-k>"] = kill_line,
+
+							-- 上記に奪われたプレビュー操作の退避先
+							["<M-h>"] = actions.preview_scrolling_left,
+							["<M-l>"] = actions.preview_scrolling_right,
+							["<M-u>"] = actions.preview_scrolling_up,
+							["<M-d>"] = actions.preview_scrolling_down,
 						},
 						n = {
 							["<CR>"] = open_selected,
