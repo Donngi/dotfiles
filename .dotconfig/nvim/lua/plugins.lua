@@ -488,6 +488,13 @@ require("lazy").setup({
 	},
 
 	-- フローティングターミナル
+	--
+	-- <C-\> を初めて押したタイミングでシェルが起動するため、シェルの起動が
+	-- 遅い端末では最初の 1 回だけ待たされる。これを避けるため、起動直後に
+	-- VeryLazy でウィンドウを開かずにターミナルジョブだけ先に作っておく
+	-- (Terminal:spawn() はバッファを作って termopen するだけでウィンドウは開かない)。
+	-- id = 1 で作っておくと、カウント無しの <C-\> (smart_toggle → get_toggled_id)
+	-- がこのターミナルを拾うので、以降は既存バッファを表示するだけになる。
 	{
 		"akinsho/toggleterm.nvim",
 		opts = {
@@ -499,6 +506,29 @@ require("lazy").setup({
 				border = "curved",
 			},
 		},
+		config = function(_, opts)
+			require("toggleterm").setup(opts)
+
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "VeryLazy",
+				once = true,
+				desc = "toggleterm のターミナルをバックグラウンドで先行起動する",
+				callback = function()
+					vim.schedule(function()
+						local terms = require("toggleterm.terminal")
+						if terms.get(1, true) then
+							return
+						end
+						local ok, err = pcall(function()
+							terms.Terminal:new({ id = 1, direction = opts.direction }):spawn()
+						end)
+						if not ok then
+							vim.notify("toggleterm の先行起動に失敗: " .. tostring(err), vim.log.levels.DEBUG)
+						end
+					end)
+				end,
+			})
+		end,
 	},
 
 	-- 補完エンジン
