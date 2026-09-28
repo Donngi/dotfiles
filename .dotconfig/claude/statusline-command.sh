@@ -103,8 +103,9 @@ AIDLC_STAGE_DISPLAY = {
     'rough-mockups': 'Rough Mockups', 'approval-handoff': 'Approval & Handoff',
     'reverse-engineering': 'Reverse Engineering', 'practices-discovery': 'Practices Discovery',
     'requirements-analysis': 'Requirements Analysis', 'user-stories': 'User Stories',
-    'refined-mockups': 'Refined Mockups', 'application-design': 'Application Design',
-    'units-generation': 'Units Generation', 'delivery-planning': 'Delivery Planning',
+    'refined-mockups': 'Refined Mockups', 'domain-design': 'Domain Design',
+    'units-generation': 'Units Generation', 'contract-design': 'Contract Design',
+    'delivery-planning': 'Delivery Planning',
     'functional-design': 'Functional Design', 'nfr-requirements': 'NFR Requirements',
     'nfr-design': 'NFR Design', 'infrastructure-design': 'Infrastructure Design',
     'code-generation': 'Code Generation', 'build-and-test': 'Build and Test',
@@ -213,11 +214,44 @@ def aidlc_strip_agent(name):
     return name[:-6] if name.endswith(' Agent') else name
 
 
+def _read_line(path):
+    try:
+        return open(path, encoding='utf-8').read().strip()
+    except OSError:
+        return ''
+
+
+def aidlc_state_path(project_dir):
+    """aidlc-state.md の場所を解決する。
+
+    現行レイアウト (space / intent 対応):
+        aidlc/active-space                                   -> space 名
+        aidlc/spaces/<space>/intents/active-intent           -> intent 名
+        aidlc/spaces/<space>/intents/<intent>/aidlc-state.md
+    旧レイアウト (fallback):
+        aidlc-docs/aidlc-state.md
+    """
+    root = os.path.join(project_dir, 'aidlc')
+    if os.path.isdir(root):
+        space = _read_line(os.path.join(root, 'active-space')) or 'default'
+        intents = os.path.join(root, 'spaces', space, 'intents')
+        intent = _read_line(os.path.join(intents, 'active-intent'))
+        if intent:
+            p = os.path.join(intents, intent, 'aidlc-state.md')
+            if os.path.isfile(p):
+                return p
+        # active-intent が無い/壊れている場合は intents 配下から探す
+        for p in sorted(glob.glob(os.path.join(intents, '*', 'aidlc-state.md'))):
+            return p
+    legacy = os.path.join(project_dir, 'aidlc-docs', 'aidlc-state.md')
+    return legacy if os.path.isfile(legacy) else None
+
+
 def load_aidlc(project_dir):
     if not project_dir:
         return None
-    state_path = os.path.join(project_dir, 'aidlc-docs', 'aidlc-state.md')
-    if not os.path.isfile(state_path):
+    state_path = aidlc_state_path(project_dir)
+    if not state_path:
         return None
     try:
         text = open(state_path, encoding='utf-8').read()
