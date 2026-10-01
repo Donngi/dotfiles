@@ -19,6 +19,9 @@ require("lint_toggle").setup()
 require("format_toggle").setup()
 require("plugins")
 
+-- 右端のスクロールルーラー。gitsigns / 診断を参照するため plugins の後に呼ぶ。
+require("scroll_ruler").setup()
+
 -- 巨大テキスト貼り付け時の pty デッドロック対策。
 -- vim.paste を包むため、他が包む可能性のある plugins より後に呼ぶ。
 require("paste_guard").setup()

@@ -204,22 +204,30 @@ return {
 		action = "Gitsigns nav_hunk prev",
 	},
 
-	-- Satellite (右端の概要ルーラー付きスクロールバー)
+	-- ScrollRuler (右端の概要ルーラー付きスクロールバー / scroll_ruler.lua の自作コマンド)
 	{
-		group = "Satellite",
-		name = "Enable scrollbar",
-		desc = "右端のスクロールバーを表示する\n:SatelliteEnable",
+		group = "ScrollRuler",
+		name = "Toggle scrollbar",
+		desc = "右端のスクロールバーの表示を on/off\n:ScrollRulerToggle",
 		category = "Plugin",
 		kind = "cmd",
-		action = "SatelliteEnable",
+		action = "ScrollRulerToggle",
 	},
 	{
-		group = "Satellite",
-		name = "Disable scrollbar",
-		desc = "右端のスクロールバーを非表示にする\n:SatelliteDisable",
+		group = "ScrollRuler",
+		name = "Show scrollbar",
+		desc = "右端のスクロールバーを表示する\n:ScrollRulerShow",
 		category = "Plugin",
 		kind = "cmd",
-		action = "SatelliteDisable",
+		action = "ScrollRulerShow",
+	},
+	{
+		group = "ScrollRuler",
+		name = "Hide scrollbar",
+		desc = "右端のスクロールバーを非表示にする\n:ScrollRulerHide",
+		category = "Plugin",
+		kind = "cmd",
+		action = "ScrollRulerHide",
 	},
 
 	-- Markdown 系 (render-markdown プラグイン + 自作 :MarkdownToc)
