@@ -247,6 +247,39 @@ def aidlc_state_path(project_dir):
     return legacy if os.path.isfile(legacy) else None
 
 
+def aidlc_phase_stages(text, phase):
+    # Phase セクションのチェックリストからスキップ以外のステージ slug を順に返す
+    token = phase.split()[0].upper() if phase.split() else ''
+    in_phase = False
+    stages = []
+    for line in text.splitlines():
+        if line.startswith('### '):
+            in_phase = f'{token} PHASE' in line.upper()
+            continue
+        if not in_phase or not line.startswith('- ['):
+            continue
+        if 'SKIP' in line or '[S]' in line:
+            continue
+        m = re.match(r'^- \[.\]\s*(\S+)', line)
+        if m:
+            stages.append(m.group(1))
+    return stages
+
+
+def aidlc_directive(state_path):
+    """エンジンの active-directive.json から実際の stage / unit を読む。
+
+    Construction の unit-major 進行中は aidlc-state.md の Current Stage が Unit 完了まで
+    据え置かれ、実際に走っているステージは directive にしか現れない。
+    """
+    p = os.path.join(os.path.dirname(state_path), '.aidlc-engine', 'active-directive.json')
+    try:
+        d = json.load(open(p, encoding='utf-8'))
+    except (OSError, ValueError):
+        return '', ''
+    return d.get('stage') or '', d.get('unit') or ''
+
+
 def load_aidlc(project_dir):
     if not project_dir:
         return None
@@ -269,6 +302,15 @@ def load_aidlc(project_dir):
         'complete': status in ('Completed', 'Complete'),
     }
     a['done'], a['total'] = aidlc_phase_progress(text, phase)
+    d_stage, d_unit = aidlc_directive(state_path)
+    stages = aidlc_phase_stages(text, phase)
+    if d_stage in stages and d_stage != a['stage']:
+        # directive が state より先のステージを指している (unit-major)
+        i = stages.index(d_stage)
+        a['stage'] = d_stage
+        a['next'] = stages[i + 1] if i + 1 < len(stages) else ''
+        a['done'] = max(a['done'], i)
+    a['unit'] = d_unit if d_stage in stages else ''
     a['lead'], a['support'], a['reviewer'] = aidlc_stage_roster(project_dir, a['stage'])
     a['amap'] = aidlc_agent_map(project_dir)
     return a
@@ -289,6 +331,8 @@ def aidlc_line_stage(a):
     # 2 行目: Stage: <現> - Next: <次>
     disp = AIDLC_STAGE_DISPLAY.get(a['stage'], a['stage'])
     out = f"{aidlc_color('Stage:', TEAL_RGB)} {disp}"
+    if a.get('unit'):
+        out += f" {aidlc_color('(' + a['unit'] + ')', DIM_RGB)}"
     nxt = a.get('next')
     if nxt:
         nxt_disp = AIDLC_STAGE_DISPLAY.get(nxt, nxt)
