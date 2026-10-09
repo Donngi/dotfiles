@@ -22,16 +22,17 @@ function memo() {
     local today=$(date +%Y%m%d)
 
     case "$1" in
-        help|-h|--help)
+        ""|help|-h|--help)
             cat <<'HELP'
-Usage: memo [<subcommand>|<title>]
+Usage: memo <subcommand>
 
 1 memo = 1 ディレクトリ = 1 git リポジトリ。
 memo を開くとその memo のディレクトリに cd する。
 
 Subcommands:
-  (none)          今日の日付でメモを開く (YYYYMMDD/YYYYMMDD.md)
-  <title>         今日の日付+タイトルでメモを開く (YYYYMMDD-<title>/YYYYMMDD-<title>.md)
+  create          今日の日付でメモを開く (YYYYMMDD/YYYYMMDD.md)
+  create <title>  今日の日付+タイトルでメモを開く (YYYYMMDD-<title>/YYYYMMDD-<title>.md)
+                  タイトル中の空白は _ に置換する (memo create foo bar -> foo_bar)
   ls              fzf でメモを一覧・選択して開く
   grep <keyword>  メモ内をキーワード検索し、選択して開く
   vi              MEMO_DIR を nvim で開く
@@ -80,11 +81,21 @@ HELP
         migrate)
             _memo_migrate "$2"
             ;;
-        "")
-            _memo_open "$today" "$today"
+        create)
+            shift
+            # 複数引数・引数内の空白はいずれも _ でつなぎ、1 つのタイトルにする。
+            setopt local_options extended_glob
+            local title="${(j:_:)@}"
+            title="${title//[[:space:]]##/_}"
+            if [[ -z "$title" ]]; then
+                _memo_open "$today" "$today"
+            else
+                _memo_open "${today}-${title}" "$today" "$title"
+            fi
             ;;
         *)
-            _memo_open "${today}-${1}" "$today" "$1"
+            echo "Error: unknown subcommand: $1 (see memo --help)" >&2
+            return 1
             ;;
     esac
 }
@@ -284,3 +295,34 @@ function _memo_migrate() {
 NOTE
     fi
 }
+
+# サブコマンドの補完。compinit は completion.zsh で済んでいる前提。
+function _memo() {
+    local -a subcommands
+    subcommands=(
+        'create:今日の日付 (+タイトル) でメモを開く'
+        'ls:fzf でメモを一覧・選択して開く'
+        'grep:メモ内をキーワード検索し、選択して開く'
+        'vi:MEMO_DIR を nvim で開く'
+        'migrate:フラットな *.md を 1 memo = 1 ディレクトリ構造へ移行する'
+        'help:ヘルプを表示する'
+    )
+
+    if (( CURRENT == 2 )); then
+        _describe -t subcommands 'memo subcommand' subcommands
+        return
+    fi
+
+    case "$words[2]" in
+        create)
+            _message 'title (空白は _ に置換される)'
+            ;;
+        grep)
+            (( CURRENT == 3 )) && _message 'keyword'
+            ;;
+        migrate)
+            (( CURRENT == 3 )) && _values 'option' '--dry-run[移行プランの表示のみ]'
+            ;;
+    esac
+}
+compdef _memo memo
