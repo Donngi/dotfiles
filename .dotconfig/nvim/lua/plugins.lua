@@ -60,6 +60,11 @@ require("lazy").setup({
 			git = {
 				enable = true,
 				ignore = false,
+				-- デフォルト 400ms だと、コールドキャッシュや他の git プロセス (gitsigns /
+				-- lazygit / エージェント等) と競合した際に git status が超過しやすい。
+				-- タイムアウト回数はセッション中リセットされず、累計 5 回で git 連携が
+				-- 無効化されてサイドバーの git 表示が止まるため、余裕を持たせる。
+				timeout = 3000,
 			},
 			filesystem_watchers = {
 				enable = true,
