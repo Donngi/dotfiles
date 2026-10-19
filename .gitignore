@@ -91,7 +91,7 @@
 !/.dotconfig/nvim/lua/command_palette
 !/.dotconfig/nvim/lua/command_palette/init.lua
 !/.dotconfig/nvim/lua/command_palette/entries
-!/.dotconfig/nvim/lua/command_palette/entries/keymap.lua
+!/.dotconfig/nvim/lua/command_palette/entries/mapping.lua
 !/.dotconfig/nvim/lua/command_palette/entries/builtin.lua
 !/.dotconfig/nvim/lua/command_palette/entries/plugin.lua
 !/.dotconfig/nvim/init.lua

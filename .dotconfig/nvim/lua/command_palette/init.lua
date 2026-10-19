@@ -6,7 +6,7 @@ local M = {}
 
 -- ───────────────────────────── 定数 ─────────────────────────────
 
-local CATEGORIES = { "keymap", "builtin", "plugin" }
+local CATEGORIES = { "mapping", "builtin", "plugin" }
 
 -- ウィンドウ/レイアウト
 local LAYOUT = {
